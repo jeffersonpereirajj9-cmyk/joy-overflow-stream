@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Send, Zap, ShieldCheck, Sparkles } from "lucide-react";
+import { BookOpen, Send, Zap, ShieldCheck, Sparkles, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
