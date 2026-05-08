@@ -7,6 +7,7 @@ import { WhatYouGet } from "@/components/landing/WhatYouGet";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { OfferSection } from "@/components/landing/OfferSection";
 import { FAQ } from "@/components/landing/FAQ";
+import { StickyCTA } from "@/components/landing/StickyCTA";
 
 export const Route = createFileRoute("/")({
   component: Index,
