@@ -30,7 +30,7 @@ export const StickyCTA = () => {
         >
           <div className="glass p-2 rounded-2xl border-primary/20 glow-wine shadow-2xl">
             <Button onClick={scrollToOffer} variant="hero" size="lg" className="w-full h-14 text-base bg-primary hover:bg-primary/90 border-none">
-              LIBERAR MEU BOT VIP - R$37
+              LIBERAR MEU BOT VIP - R$19,90
               <ShoppingCart className="ml-2 w-5 h-5" />
             </Button>
           </div>
