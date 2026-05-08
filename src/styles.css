@@ -46,6 +46,9 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-ring-offset-background: var(--background);
+  --color-gold: var(--gold);
+  --color-neon-blue: var(--neon-blue);
+  --color-neon-purple: var(--neon-purple);
 }
 
 :root {
