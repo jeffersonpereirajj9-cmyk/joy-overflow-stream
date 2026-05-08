@@ -155,7 +155,7 @@ export const Hero = () => {
                     className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[90%] border border-primary/20"
                   >
                     <div className="flex gap-3 mb-3 bg-black/30 p-2 rounded-xl border border-white/5">
-                      <img src="https://i.postimg.cc/8PzZ0G9h/hvtyndyh.jpg" alt="Verity" className="w-10 h-14 object-cover rounded shadow-sm shrink-0" />
+                      <img src="https://m.media-amazon.com/images/I/9171o6AmnCL._UF1000,1000_QL80_.jpg" alt="Verity" className="w-10 h-14 object-cover rounded shadow-sm shrink-0" />
                       <div className="flex-1 text-[10px]">
                         <div className="font-bold text-white">Verity</div>
                         <div className="text-white/60">Colleen Hoover</div>
