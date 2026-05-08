@@ -130,7 +130,7 @@ export const Hero = () => {
                     className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[90%] border border-accent/20"
                   >
                     <div className="flex gap-3 mb-3 bg-black/30 p-2 rounded-xl border border-white/5">
-                      <div className="w-10 h-14 bg-[url('https://m.media-amazon.com/images/I/71u9B4S7ZKL.jpg')] bg-cover bg-center rounded shadow-sm shrink-0" />
+                      <div className="w-10 h-14 bg-[url('https://i.postimg.cc/8P6S9M6m/dw-wdnfjg.jpg')] bg-cover bg-center rounded shadow-sm shrink-0" />
                       <div className="flex-1 text-[10px]">
                         <div className="font-bold text-white">A Hipótese do Amor</div>
                         <div className="text-white/60">Ali Hazelwood</div>
