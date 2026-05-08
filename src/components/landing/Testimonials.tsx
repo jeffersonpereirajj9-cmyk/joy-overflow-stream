@@ -1,62 +1,62 @@
 import { motion } from "framer-motion";
-import { Star, MessageCircle } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 
 const reviews = [
   {
-    name: "Ricardo Silva",
-    handle: "@ricardos_livros",
-    content: "Surreal! Consegui configurar em 3 minutos e já baixei 5 livros que eu tava querendo muito. Economizei no mínimo 200 reais hoje.",
-    avatar: "RS"
+    name: "Beatriz M.",
+    role: "Membro VIP",
+    content: "Eu confesso que estava com receio de ser difícil usar, mas é absurdo! Você só digita o nome e o livro aparece. Economizei horas de busca no Google.",
+    avatar: "BM"
   },
   {
-    name: "Ana Beatriz",
-    handle: "@anabea_leitora",
-    content: "A praticidade de ter tudo no Telegram é o diferencial. Não preciso de app extra, só pesquiso e mando pro meu Kindle.",
-    avatar: "AB"
+    name: "Juliana Costa",
+    role: "Leitora Ávida",
+    content: "O bot é a melhor parte do Clube! Ter a biblioteca na palma da mão 24h por dia mudou minha rotina de leitura. É muito prático mandar direto pro Kindle.",
+    avatar: "JC"
   },
   {
-    name: "Marcos Oliveira",
-    handle: "@marcos_dev",
-    content: "Sistema muito inteligente. O bot responde na hora. Pra quem gosta de estudar por PDFs técnicos, isso aqui é ouro.",
-    avatar: "MO"
+    name: "Carla Silveira",
+    role: "Estudante",
+    content: "Gente, a velocidade disso é surreal. Achei livros raros que eu não encontrava em lugar nenhum. Vale cada centavo do upgrade!",
+    avatar: "CS"
   }
 ];
 
 export const Testimonials = () => {
   return (
-    <section className="py-24 px-4 overflow-hidden">
+    <section className="py-24 px-4 bg-black/40 overflow-hidden">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Quem Já Usa, <span className="text-primary">Recomenda</span></h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">O Que Nossas <span className="text-primary text-glow-wine">Leitoras VIP</span> Dizem</h2>
           <div className="flex items-center justify-center gap-1 mb-2">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-5 h-5 fill-gold text-gold" />
             ))}
           </div>
-          <p className="text-muted-foreground italic">"Simplesmente a melhor forma de ler hoje em dia"</p>
+          <p className="text-muted-foreground italic">Milhares de leitoras já automatizaram suas bibliotecas.</p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
           {reviews.map((review, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="p-8 rounded-[2rem] glass border-white/5 flex flex-col h-full"
+              className="p-8 rounded-[2rem] glass border-white/5 flex flex-col h-full relative group hover:border-primary/30 transition-all duration-500"
             >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center font-bold text-primary">
+              <Quote className="absolute top-6 right-8 w-10 h-10 text-primary/10 group-hover:text-primary/20 transition-colors" />
+              <div className="flex items-center gap-4 mb-6 relative z-10">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/40 to-accent/40 flex items-center justify-center font-bold text-white border border-white/10">
                   {review.avatar}
                 </div>
                 <div>
-                  <div className="font-bold">{review.name}</div>
-                  <div className="text-xs text-muted-foreground">{review.handle}</div>
+                  <div className="font-bold text-white group-hover:text-gold transition-colors">{review.name}</div>
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">{review.role}</div>
                 </div>
-                <MessageCircle className="ml-auto w-5 h-5 text-primary/40" />
               </div>
-              <p className="text-muted-foreground flex-1 italic leading-relaxed">
+              <p className="text-muted-foreground flex-1 italic leading-relaxed relative z-10">
                 "{review.content}"
               </p>
             </motion.div>
