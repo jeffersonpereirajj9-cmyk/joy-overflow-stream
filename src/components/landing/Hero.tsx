@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Send, Zap, ShieldCheck, Sparkles } from "lucide-react";
+import { BookOpen, Send, Zap, ShieldCheck, Sparkles, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
@@ -67,38 +67,111 @@ export const Hero = () => {
           {/* Mockup Container */}
           <div className="relative w-full max-w-[300px] aspect-[9/19] rounded-[3rem] border-8 border-white/10 glass glow-wine overflow-hidden shadow-2xl">
             {/* Telegram App Interface Simulation */}
-            <div className="h-full flex flex-col bg-[#17212b]">
-              <div className="h-14 bg-[#242f3d] flex items-center px-4 gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary/30 flex items-center justify-center text-primary font-bold text-xs border border-primary/50">C</div>
-                <div>
-                  <div className="text-white text-sm font-semibold">Bot Clube das Leitoras</div>
-                  <div className="text-primary text-[10px]">online (VIP)</div>
+            <div className="h-full flex flex-col bg-[#17212b] font-sans">
+              <div className="h-14 bg-[#242f3d] flex items-center px-4 gap-3 shrink-0">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm border border-white/20">C</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-white text-[13px] font-semibold flex items-center gap-1">
+                    Bot Clube das Leitoras 
+                    <div className="bg-gold text-[8px] px-1 rounded text-black font-black leading-none py-0.5">VIP</div>
+                  </div>
+                  <div className="text-primary text-[10px] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                    online
+                  </div>
                 </div>
               </div>
-              <div className="flex-1 p-4 flex flex-col gap-4">
-                <div className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-xs max-w-[80%]">
+
+              <div className="flex-1 p-3 flex flex-col gap-4 overflow-y-auto scrollbar-hide">
+                <div className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[85%] shadow-sm border border-white/5">
                   Olá Leitora VIP! Qual livro você deseja ler agora? ✨
                 </div>
-                <div className="self-end bg-primary text-white p-3 rounded-2xl rounded-br-none text-xs">
-                  Os Sete Maridos de Evelyn Hugo
-                </div>
-                <motion.div 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 1.5 }}
-                  className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-xs max-w-[80%] border border-primary/30 glow-wine"
-                >
-                  <div className="font-bold mb-1 text-gold">Livro Encontrado! 💎</div>
-                  <div className="flex items-center gap-2 mb-2 p-2 bg-black/20 rounded-lg">
-                    <BookOpen className="w-4 h-4 text-accent" />
-                    <span>Evelyn_Hugo.epub</span>
+
+                {/* Busca 1 */}
+                <div className="flex flex-col gap-2">
+                  <div className="self-end bg-primary/90 text-white p-2.5 rounded-2xl rounded-br-none text-[11px] border border-white/10">
+                    🔎 É Assim Que Acaba
                   </div>
-                  <button className="w-full py-1.5 bg-primary rounded-md font-bold text-[10px] mt-1 shadow-inner shadow-white/20">LER AGORA</button>
-                </motion.div>
+                  <motion.div 
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[90%] border border-primary/20 glow-wine"
+                  >
+                    <div className="font-bold mb-2 text-gold flex items-center gap-1">
+                      <Zap className="w-3 h-3" /> Resultado Encontrado!
+                    </div>
+                    <div className="flex gap-3 mb-3 bg-black/30 p-2 rounded-xl border border-white/5">
+                      <div className="w-10 h-14 bg-[url('https://m.media-amazon.com/images/I/81S7H6qXjUL.jpg')] bg-cover bg-center rounded shadow-sm shrink-0" />
+                      <div className="flex-1 text-[10px]">
+                        <div className="font-bold text-white">É Assim Que Acaba</div>
+                        <div className="text-white/60">Colleen Hoover</div>
+                        <div className="flex gap-2 mt-1">
+                          <span className="text-green-400">✅ PDF</span>
+                          <span className="text-green-400">✅ EPUB</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
+                      <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
+                    </button>
+                  </motion.div>
+                </div>
+
+                {/* Busca 2 */}
+                <div className="flex flex-col gap-2">
+                  <div className="self-end bg-primary/90 text-white p-2.5 rounded-2xl rounded-br-none text-[11px] border border-white/10">
+                    🔎 A Hipótese do Amor
+                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.2 }}
+                    className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[90%] border border-accent/20"
+                  >
+                    <div className="flex gap-3 mb-3 bg-black/30 p-2 rounded-xl border border-white/5">
+                      <div className="w-10 h-14 bg-[url('https://m.media-amazon.com/images/I/71u9B4S7ZKL.jpg')] bg-cover bg-center rounded shadow-sm shrink-0" />
+                      <div className="flex-1 text-[10px]">
+                        <div className="font-bold text-white">A Hipótese do Amor</div>
+                        <div className="text-white/60">Ali Hazelwood</div>
+                        <div className="text-green-400 mt-1">✅ Arquivos Disponíveis</div>
+                      </div>
+                    </div>
+                    <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
+                      <ShoppingCart className="w-3 h-3" /> ENVIAR ARQUIVO
+                    </button>
+                  </motion.div>
+                </div>
+
+                {/* Busca 3 */}
+                <div className="flex flex-col gap-2">
+                  <div className="self-end bg-primary/90 text-white p-2.5 rounded-2xl rounded-br-none text-[11px] border border-white/10">
+                    🔎 Verity
+                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1.8 }}
+                    className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[90%] border border-primary/20"
+                  >
+                    <div className="flex gap-3 mb-3 bg-black/30 p-2 rounded-xl border border-white/5">
+                      <div className="w-10 h-14 bg-[url('https://m.media-amazon.com/images/I/71X8X8wJ9FL.jpg')] bg-cover bg-center rounded shadow-sm shrink-0" />
+                      <div className="flex-1 text-[10px]">
+                        <div className="font-bold text-white">Verity</div>
+                        <div className="text-white/60">Colleen Hoover</div>
+                        <div className="text-green-400 mt-1">✅ Pronto para Envio</div>
+                      </div>
+                    </div>
+                    <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-primary transition-colors">
+                      <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
+                    </button>
+                  </motion.div>
+                </div>
               </div>
-              <div className="h-14 bg-[#242f3d] flex items-center px-4">
-                <div className="flex-1 bg-black/20 h-9 rounded-full px-4 flex items-center text-white/40 text-xs italic">
-                  O que você quer ler hoje?...
+
+              <div className="h-14 bg-[#242f3d] flex items-center px-4 shrink-0">
+                <div className="flex-1 bg-black/20 h-9 rounded-full px-4 flex items-center text-white/40 text-[10px] italic border border-white/5">
+                  Digite o nome do livro...
                 </div>
               </div>
             </div>
