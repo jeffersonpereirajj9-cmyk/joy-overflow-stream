@@ -66,9 +66,9 @@ export const OfferSection = () => {
           </div>
 
           <div className="flex flex-col gap-6 items-center">
-            <Button size="xl" variant="hero" className="w-full max-w-md group h-16 sm:h-20 text-lg md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-lg shadow-primary/20">
-              LIBERAR MEU BOT VIP AGORA
-              <ShoppingCart className="ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
+            <Button size="xl" variant="hero" className="w-full max-w-md group h-16 sm:h-20 text-base sm:text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-lg shadow-primary/20 px-2 sm:px-6">
+              <span className="truncate">LIBERAR MEU BOT VIP AGORA</span>
+              <ShoppingCart className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:scale-110 transition-transform" />
             </Button>
             
             <button className="text-muted-foreground hover:text-white transition-colors text-sm underline underline-offset-4 decoration-white/10">
