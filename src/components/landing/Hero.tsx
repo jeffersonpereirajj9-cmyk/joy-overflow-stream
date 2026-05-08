@@ -39,11 +39,27 @@ export const Hero = () => {
             Pesquise livros automaticamente em segundos direto no Telegram sem perder tempo procurando links ou arquivos manualmente.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20 w-full sm:w-auto text-base sm:text-lg h-14 sm:h-16">
-              LIBERAR MEU BOT VIP AGORA
-              <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </Button>
+          <div className="flex flex-col sm:flex-row gap-4 mb-4">
+            <a 
+              href="https://pay.cakto.com.br/y32stdm_878339"
+              className="w-full sm:w-auto"
+            >
+              <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20 w-full text-base sm:text-lg h-14 sm:h-16 animate-pulse">
+                LIBERAR MEU BOT VIP AGORA
+                <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              </Button>
+            </a>
+          </div>
+
+          <div className="flex items-center gap-2 mb-8">
+            <div className="flex text-gold">
+              {"★★★★★".split("").map((star, i) => (
+                <span key={i} className="text-lg">★</span>
+              ))}
+            </div>
+            <span className="text-sm text-muted-foreground font-medium">
+              Utilizado por mais de 4.721 leitoras VIPs
+            </span>
           </div>
 
           <div className="flex items-center gap-6 text-sm text-muted-foreground">
@@ -75,8 +91,8 @@ export const Hero = () => {
                     Bot Clube das Leitoras 
                     <div className="bg-gold text-[8px] px-1 rounded text-black font-black leading-none py-0.5">VIP</div>
                   </div>
-                  <div className="text-green-400 text-[10px] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                  <div className="text-green-400 text-[9px] flex items-center gap-1">
+                    <span className="w-1 h-1 bg-green-500 rounded-full animate-ping" />
                     online
                   </div>
                 </div>
@@ -112,9 +128,11 @@ export const Hero = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
-                      <Download className="w-3 h-3" /> BAIXAR AGORA
-                    </button>
+                    <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full">
+                      <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
+                        <Download className="w-3 h-3" /> BAIXAR AGORA
+                      </button>
+                    </a>
                   </motion.div>
                 </div>
 
@@ -137,9 +155,11 @@ export const Hero = () => {
                         <div className="text-green-400 mt-1">✅ Arquivos Disponíveis</div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
-                      <Download className="w-3 h-3" /> ENVIAR ARQUIVO
-                    </button>
+                    <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full">
+                      <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
+                        <Download className="w-3 h-3" /> ENVIAR ARQUIVO
+                      </button>
+                    </a>
                   </motion.div>
                 </div>
 
@@ -162,9 +182,11 @@ export const Hero = () => {
                         <div className="text-green-400 mt-1">✅ Pronto para Envio</div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-primary transition-colors">
-                      <Download className="w-3 h-3" /> BAIXAR AGORA
-                    </button>
+                    <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full">
+                      <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-primary transition-colors">
+                        <Download className="w-3 h-3" /> BAIXAR AGORA
+                      </button>
+                    </a>
                   </motion.div>
                 </div>
               </div>
