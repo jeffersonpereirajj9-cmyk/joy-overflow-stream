@@ -15,7 +15,7 @@ const problems = [
   {
     icon: MousePointer2,
     title: "Praticidade Zero",
-    description: "Não precisa converter arquivos ou lidar com links que expiram e param de funcionar.",
+    description: "Dificuldade para converter arquivos ou enviar para o seu Kindle de forma rápida.",
   },
   {
     icon: Ban,

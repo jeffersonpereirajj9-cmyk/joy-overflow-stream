@@ -20,7 +20,7 @@ const steps = [
   {
     icon: Zap,
     title: "Receba em Segundos",
-    description: "O arquivo (PDF ou EPUB) é enviado para você no mesmo instante. Simples assim.",
+    description: "O arquivo (PDF ou EPUB) é enviado na hora. Pronto para ler ou enviar ao seu Kindle.",
   },
 ];
 
