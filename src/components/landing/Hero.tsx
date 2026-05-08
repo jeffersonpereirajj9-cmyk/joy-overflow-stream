@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { BookOpen, Send, Zap, ShieldCheck, Sparkles, ShoppingCart } from "lucide-react";
+import { BookOpen, Send, Zap, ShieldCheck, Sparkles, ShoppingCart, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
@@ -113,7 +113,7 @@ export const Hero = () => {
                       </div>
                     </div>
                     <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
-                      <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
+                      <Download className="w-3 h-3" /> BAIXAR AGORA
                     </button>
                   </motion.div>
                 </div>
@@ -138,7 +138,7 @@ export const Hero = () => {
                       </div>
                     </div>
                     <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
-                      <ShoppingCart className="w-3 h-3" /> ENVIAR ARQUIVO
+                      <Download className="w-3 h-3" /> ENVIAR ARQUIVO
                     </button>
                   </motion.div>
                 </div>
@@ -163,7 +163,7 @@ export const Hero = () => {
                       </div>
                     </div>
                     <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-primary transition-colors">
-                      <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
+                      <Download className="w-3 h-3" /> BAIXAR AGORA
                     </button>
                   </motion.div>
                 </div>
