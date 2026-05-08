@@ -75,8 +75,8 @@ export const Hero = () => {
                     Bot Clube das Leitoras 
                     <div className="bg-gold text-[8px] px-1 rounded text-black font-black leading-none py-0.5">VIP</div>
                   </div>
-                  <div className="text-primary text-[10px] flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
+                  <div className="text-green-400 text-[10px] flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
                     online
                   </div>
                 </div>
