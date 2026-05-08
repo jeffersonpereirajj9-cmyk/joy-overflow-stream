@@ -28,7 +28,7 @@ export const OfferSection = () => {
           className="relative rounded-[3rem] p-8 md:p-16 glass border-primary/30 glow-wine overflow-hidden text-center"
         >
           {/* VIP Badge */}
-          <div className="absolute top-8 right-8 bg-gold text-background font-black px-6 py-2 rounded-xl -rotate-6 shadow-xl animate-pulse">
+          <div className="absolute top-4 right-4 sm:top-8 sm:right-8 bg-gold text-background font-black px-4 sm:px-6 py-1.5 sm:py-2 rounded-xl -rotate-6 shadow-xl animate-pulse z-20 text-xs sm:text-base">
             OFERTA VIP
           </div>
 
