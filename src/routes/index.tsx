@@ -12,11 +12,11 @@ import { StickyCTA } from "@/components/landing/StickyCTA";
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
-    title: "Biblioteca Digital no Telegram - Acesse Milhares de Livros",
+    title: "UPSELL: Bot Inteligente do Clube das Leitoras 📚",
     meta: [
-      { name: "description", content: "Tenha sua própria biblioteca digital ilimitada direto no Telegram. Encontre qualquer livro em segundos." },
-      { property: "og:title", content: "Biblioteca Digital no Telegram" },
-      { property: "og:description", content: "O hack definitivo para leitores inteligentes." },
+      { name: "description", content: "Desbloqueie o bot automático de livros do Clube das Leitoras e tenha acesso instantâneo a milhares de títulos." },
+      { property: "og:title", content: "Bot Inteligente - Clube das Leitoras" },
+      { property: "og:description", content: "O upgrade indispensável para sua experiência literária." },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -31,8 +31,8 @@ function Footer() {
           <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
           <a href="#" className="hover:text-primary transition-colors">Suporte</a>
         </div>
-        <p>© 2026 Biblioteca Digital no Telegram. Todos os direitos reservados.</p>
-        <p className="mt-2 opacity-50">Este site não é afiliado ao Telegram.</p>
+        <p>© 2026 Clube das Leitoras. Todos os direitos reservados.</p>
+        <p className="mt-2 opacity-50">Oferta exclusiva para membros.</p>
       </div>
     </footer>
   );
