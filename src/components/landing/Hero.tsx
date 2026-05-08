@@ -177,22 +177,6 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Floating elements */}
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-10 -right-4 md:right-0 p-4 glass rounded-2xl border-gold/30 glow-gold z-20"
-          >
-            <div className="text-gold font-bold text-sm">BUSCA INSTANTÂNEA ⚡</div>
-          </motion.div>
-
-          <motion.div
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute bottom-20 -left-10 p-4 glass rounded-2xl border-primary/30 glow-wine z-20"
-          >
-            <div className="text-primary font-bold text-sm">CONFORTO TOTAL 💎</div>
-          </motion.div>
         </motion.div>
       </div>
     </section>
