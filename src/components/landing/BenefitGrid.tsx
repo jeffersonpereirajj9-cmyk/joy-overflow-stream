@@ -8,7 +8,7 @@ const benefits = [
   { icon: HardDrive, text: "PDFs e EPUBs inclusos" },
   { icon: Shield, text: "Funciona 24h por dia" },
   { icon: Smartphone, text: "Acesso total pelo celular" },
-  { icon: Star, text: "Experiência VIP completa" },
+  { icon: Star, text: "Compatível com Kindle e E-readers" },
 ];
 
 export const BenefitGrid = () => {

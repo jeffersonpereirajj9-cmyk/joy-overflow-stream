@@ -20,7 +20,7 @@ const faqs = [
   },
   {
     q: "Funciona em qualquer aparelho?",
-    a: "Sim, basta ter o aplicativo do Telegram instalado no seu celular (Android ou iPhone), tablet ou computador."
+    a: "Sim, basta ter o aplicativo do Telegram instalado no seu celular (Android ou iPhone), tablet ou computador. Os arquivos baixados podem ser enviados diretamente para o seu Kindle via e-mail ou cabo."
   },
   {
     q: "E se eu não gostar?",

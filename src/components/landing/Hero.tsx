@@ -53,7 +53,7 @@ export const Hero = () => {
             </div>
             <div className="flex items-center gap-2">
               <BookOpen className="w-5 h-5 text-gold" />
-              <span>Netflix dos Livros</span>
+              <span>Netflix dos Livros (Kindle Ready)</span>
             </div>
           </div>
         </motion.div>
