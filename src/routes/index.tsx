@@ -50,6 +50,7 @@ function Index() {
       <OfferSection />
       <FAQ />
       <Footer />
+      <StickyCTA />
     </main>
   );
 }
