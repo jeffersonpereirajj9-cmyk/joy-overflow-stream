@@ -155,9 +155,11 @@ export const Hero = () => {
                         <div className="text-green-400 mt-1">✅ Arquivos Disponíveis</div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
-                      <Download className="w-3 h-3" /> ENVIAR ARQUIVO
-                    </button>
+                    <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full">
+                      <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
+                        <Download className="w-3 h-3" /> ENVIAR ARQUIVO
+                      </button>
+                    </a>
                   </motion.div>
                 </div>
 
