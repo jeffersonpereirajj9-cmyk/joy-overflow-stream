@@ -34,7 +34,7 @@ export const BenefitGrid = () => {
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-all">
                     <benefit.icon className="w-5 h-5 text-primary" />
                   </div>
-                  <span className="font-semibold text-lg">{benefit.text}</span>
+                  <span className="font-semibold text-base sm:text-lg">{benefit.text}</span>
                 </motion.div>
               ))}
             </div>
