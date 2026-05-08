@@ -31,18 +31,18 @@ export const Hero = () => {
             <span>AGORA DESBLOQUEIE O RECURSO MAIS DESEJADO PELAS LEITORAS VIP…</span>
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-[1.2] sm:leading-[1.1]">
             Tenha Seu Acesso ao <span className="text-glow-wine text-primary">Bot Inteligente</span> Privado do Clube das Leitoras 📚✨
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-xl leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed">
             Pesquise livros automaticamente em segundos direto no Telegram sem perder tempo procurando links ou arquivos manualmente.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20">
+            <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20 w-full sm:w-auto text-base sm:text-lg h-14 sm:h-16">
               LIBERAR MEU BOT VIP AGORA
-              <Send className="ml-2 w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </Button>
           </div>
 

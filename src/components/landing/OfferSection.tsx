@@ -48,7 +48,7 @@ export const OfferSection = () => {
                 <div className="text-sm text-gold font-bold uppercase tracking-widest mb-1">Por apenas</div>
                 <div className="flex items-baseline gap-2">
                     <span className="text-xl md:text-2xl font-bold text-primary">R$</span>
-                    <span className="text-6xl md:text-8xl font-black text-white text-glow-wine">37</span>
+                    <span className="text-5xl md:text-8xl font-black text-white text-glow-wine">37</span>
                     <span className="text-xl md:text-2xl font-bold text-primary">,00</span>
                 </div>
             </div>
@@ -66,9 +66,9 @@ export const OfferSection = () => {
           </div>
 
           <div className="flex flex-col gap-6 items-center">
-            <Button size="xl" variant="hero" className="w-full max-w-md group h-20 text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-lg shadow-primary/20">
+            <Button size="xl" variant="hero" className="w-full max-w-md group h-16 sm:h-20 text-lg md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-lg shadow-primary/20">
               LIBERAR MEU BOT VIP AGORA
-              <ShoppingCart className="ml-3 w-6 h-6 group-hover:scale-110 transition-transform" />
+              <ShoppingCart className="ml-3 w-5 h-5 sm:w-6 sm:h-6 group-hover:scale-110 transition-transform" />
             </Button>
             
             <button className="text-muted-foreground hover:text-white transition-colors text-sm underline underline-offset-4 decoration-white/10">
