@@ -112,7 +112,7 @@ export const Hero = () => {
                         </div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2">
+                    <button className="w-full py-2 bg-primary rounded-lg font-bold text-[10px] shadow-lg shadow-primary/20 flex items-center justify-center gap-2 cursor-pointer hover:bg-primary/90 transition-colors">
                       <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
                     </button>
                   </motion.div>
@@ -137,7 +137,7 @@ export const Hero = () => {
                         <div className="text-green-400 mt-1">✅ Arquivos Disponíveis</div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                    <button className="w-full py-2 bg-accent/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-accent transition-colors">
                       <ShoppingCart className="w-3 h-3" /> ENVIAR ARQUIVO
                     </button>
                   </motion.div>
@@ -162,7 +162,7 @@ export const Hero = () => {
                         <div className="text-green-400 mt-1">✅ Pronto para Envio</div>
                       </div>
                     </div>
-                    <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2">
+                    <button className="w-full py-2 bg-primary/80 rounded-lg font-bold text-[10px] flex items-center justify-center gap-2 cursor-pointer hover:bg-primary transition-colors">
                       <ShoppingCart className="w-3 h-3" /> BAIXAR AGORA
                     </button>
                   </motion.div>
