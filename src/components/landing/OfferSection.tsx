@@ -42,17 +42,41 @@ export const OfferSection = () => {
             O preço subirá para <span className="text-white">R$ 67,00</span> assim que o cronômetro zerar. Garanta sua vaga no BookBot VIP pelo valor promocional de lançamento.
           </p>
 
-          <div className="flex flex-col items-center mb-12">
-            <div className="text-muted-foreground line-through text-2xl mb-2 opacity-50">De R$ 67,00</div>
-            <div className="flex flex-col items-center">
-                <div className="text-sm text-gold font-bold uppercase tracking-widest mb-1">Por apenas</div>
-                <div className="flex items-baseline gap-2">
-                    <span className="text-xl md:text-2xl font-bold text-primary">R$</span>
-                    <span className="text-5xl md:text-8xl font-black text-white text-glow-wine">27</span>
-                    <span className="text-xl md:text-2xl font-bold text-primary">,90</span>
-                </div>
+          <div className="flex flex-col items-center mb-12 relative">
+            <div className="absolute -top-6 bg-red-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter animate-bounce z-10 shadow-lg border border-white/20">
+              Economia de 60% hoje
             </div>
-            <div className="text-gold font-bold mt-4 uppercase tracking-[0.2em] text-xs">Pagamento Único • Acesso Vitalício</div>
+            <div className="bg-black/40 rounded-3xl p-8 sm:p-12 border border-primary/20 backdrop-blur-xl relative overflow-hidden group w-full max-w-sm">
+              {/* Decorative elements */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/20 rounded-full blur-3xl group-hover:bg-primary/30 transition-colors" />
+              
+              <div className="text-muted-foreground line-through text-xl mb-2 opacity-50 font-medium">De R$ 67,00</div>
+              
+              <div className="flex flex-col items-center relative z-10">
+                  <div className="text-xs text-gold font-black uppercase tracking-[0.3em] mb-3 bg-gold/10 px-4 py-1 rounded-full border border-gold/20">
+                    POR APENAS
+                  </div>
+                  <div className="flex items-start gap-1">
+                      <span className="text-2xl md:text-3xl font-black text-primary mt-2">R$</span>
+                      <span className="text-7xl md:text-9xl font-black text-white text-glow-wine leading-none tracking-tighter">27</span>
+                      <div className="flex flex-col items-start mt-2">
+                        <span className="text-2xl md:text-3xl font-black text-primary">,90</span>
+                        <span className="text-[10px] text-white/40 font-bold uppercase tracking-tighter">no pix</span>
+                      </div>
+                  </div>
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-white/5 flex flex-col gap-2">
+                <div className="text-gold font-black uppercase tracking-[0.15em] text-[10px] flex items-center justify-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
+                  Pagamento Único
+                  <div className="w-1.5 h-1.5 bg-gold rounded-full animate-pulse" />
+                </div>
+                <div className="text-white font-black uppercase tracking-[0.15em] text-[10px]">
+                  Acesso Vitalício Liberado
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="bg-black/40 rounded-2xl p-6 mb-12 inline-block border border-white/10 group hover:border-primary/30 transition-all">
