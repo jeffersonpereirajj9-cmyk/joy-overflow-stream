@@ -40,6 +40,7 @@ export const OfferSection = () => {
           <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter uppercase">ÚLTIMA CHANCE</h2>
           <p className="text-muted-foreground mb-12 max-w-lg mx-auto italic font-bold text-lg">
             O preço subirá para <span className="text-white">R$ 67,00</span> assim que o cronômetro zerar. Garanta sua vaga no BookBot VIP pelo valor promocional de lançamento.
+          </p>
 
           <div className="flex flex-col items-center mb-12">
             <div className="text-muted-foreground line-through text-2xl mb-2 opacity-50">De R$ 67,00</div>
