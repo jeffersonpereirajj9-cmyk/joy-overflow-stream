@@ -5,7 +5,7 @@ const steps = [
   {
     icon: Key,
     title: "Acesso Imediato",
-    description: "Assim que garantir o seu upgrade, você recebe os dados de acesso instantaneamente.",
+    description: "Assim que garantir o seu acesso, você recebe os dados instantaneamente.",
   },
   {
     icon: Send,

@@ -49,14 +49,14 @@ export const BenefitGrid = () => {
             >
               <div className="absolute top-0 right-0 p-4">
                 <div className="bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-full animate-bounce">
-                  OFERTA UPSELL
+                  OFERTA ESPECIAL
                 </div>
               </div>
               <div className="text-center">
                 <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-primary/30">
                   <Star className="w-10 h-10 text-primary" />
                 </div>
-                <h3 className="text-2xl font-bold mb-4">Upgrade Essencial</h3>
+                <h3 className="text-2xl font-bold mb-4">Acesso Exclusivo</h3>
                 <p className="text-muted-foreground mb-8">
                   Diferente de qualquer busca manual, o Bot Inteligente faz o trabalho duro por você enquanto você relaxa.
                 </p>

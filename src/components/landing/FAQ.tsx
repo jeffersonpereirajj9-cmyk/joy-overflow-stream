@@ -7,16 +7,16 @@ import {
 
 const faqs = [
   {
-    q: "Por que devo adquirir o Bot se já estou no Clube?",
-    a: "O Clube dá acesso aos grupos e à comunidade. O Bot Inteligente é uma ferramenta de automação que poupa seu tempo, permitindo que você encontre qualquer livro em segundos sem precisar garimpar manualmente nos grupos."
+    q: "Como o BookBot VIP funciona?",
+    a: "O BookBot VIP é uma ferramenta de automação inteligente que permite encontrar qualquer livro em segundos direto no seu Telegram, sem precisar garimpar manualmente na internet."
   },
   {
     q: "O acesso é vitalício?",
-    a: "Sim! Ao adquirir o upgrade hoje, você garante acesso permanente ao Bot VIP sem nenhuma mensalidade futura."
+    a: "Sim! Ao garantir seu acesso hoje, você terá uso permanente do BookBot VIP sem nenhuma mensalidade futura."
   },
   {
     q: "Como recebo o acesso?",
-    a: "Imediatamente após a confirmação do upgrade, você receberá um link exclusivo no seu e-mail para ativar o seu Bot VIP no Telegram."
+    a: "Imediatamente após a confirmação do pagamento, você receberá um link exclusivo no seu e-mail para ativar o seu BookBot VIP no Telegram."
   },
   {
     q: "Funciona em qualquer aparelho?",
@@ -34,7 +34,7 @@ export const FAQ = () => {
       <div className="container max-w-3xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-6">Dúvidas Frequentes</h2>
-          <p className="text-muted-foreground italic">Tirando suas últimas dúvidas sobre o upgrade VIP.</p>
+          <p className="text-muted-foreground italic">Tirando suas últimas dúvidas sobre o seu novo Bot VIP.</p>
         </div>
 
         <Accordion type="single" collapsible className="w-full space-y-4">
