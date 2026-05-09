@@ -31,12 +31,12 @@ export const Hero = () => {
             <span>DESBLOQUEIE AGORA O RECURSO MAIS DESEJADO PARA LEITURA VIP…</span>
           </div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-[1.2] sm:leading-[1.1]">
-            Tenha Seu Acesso ao <span className="text-glow-wine text-primary">BookBot VIP</span> - O Bot Privado de Livros 📚✨
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 sm:mb-6 leading-[1.1]">
+            PARE DE <span className="text-glow-wine text-primary">GARIMPAR</span> LIVROS MANUALMENTE 📚✨
           </h1>
           
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed">
-            Pesquise livros automaticamente em segundos direto no Telegram sem perder tempo procurando links ou arquivos manualmente.
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed font-medium">
+            Desbloqueie agora o <span className="text-white">BookBot VIP</span> e tenha qualquer título do mundo enviado direto para o seu Telegram em menos de 5 segundos. <span className="text-primary italic">Acesso vitalício por tempo limitado.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-4">
@@ -44,8 +44,8 @@ export const Hero = () => {
               href="https://pay.cakto.com.br/y32stdm_878339"
               className="w-full sm:w-auto"
             >
-              <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20 w-full text-base sm:text-lg h-14 sm:h-16 animate-pulse">
-                LIBERAR MEU BOT VIP AGORA
+              <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-2xl shadow-primary/40 w-full text-base sm:text-lg h-14 sm:h-16 animate-pulse uppercase tracking-tighter font-black">
+                QUERO MEU ACESSO VIP AGORA - R$19,90
                 <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
               </Button>
             </a>

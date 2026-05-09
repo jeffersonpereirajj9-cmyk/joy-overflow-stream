@@ -30,8 +30,8 @@ export const StickyCTA = () => {
         >
           <div className="glass p-2 rounded-2xl border-primary/20 glow-wine shadow-2xl">
             <a href="https://pay.cakto.com.br/y32stdm_878339">
-              <Button variant="hero" size="lg" className="w-full h-14 text-base bg-primary hover:bg-primary/90 border-none">
-                LIBERAR MEU BOT VIP - R$19,90
+              <Button variant="hero" size="lg" className="w-full h-14 text-base bg-primary hover:bg-primary/90 border-none font-black uppercase tracking-tighter">
+                GARANTIR MEU ACESSO VIP - R$19,90
                 <ShoppingCart className="ml-2 w-5 h-5" />
               </Button>
             </a>
