@@ -39,18 +39,6 @@ export const Hero = () => {
             Desbloqueie agora o <span className="text-white">BookBot VIP</span> e tenha qualquer título do mundo enviado direto para o seu Telegram em menos de 5 segundos. <span className="text-primary italic">Acesso vitalício por tempo limitado.</span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full max-w-[320px] sm:max-w-md lg:max-w-none">
-            <a 
-              href="https://pay.cakto.com.br/y32stdm_878339"
-              className="w-full sm:w-auto"
-            >
-              <Button size="xl" variant="hero" className="group bg-primary hover:bg-primary/90 text-white border-none shadow-2xl shadow-primary/40 w-full text-base sm:text-lg h-14 sm:h-16 animate-pulse uppercase tracking-tighter font-black">
-                QUERO MEU ACESSO VIP AGORA - R$19,90
-                <Send className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Button>
-            </a>
-          </div>
-
           <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mb-8">
             <div className="flex text-gold">
               {"★★★★★".split("").map((star, i) => (
