@@ -37,9 +37,9 @@ export const OfferSection = () => {
             <span>OFERTA EXCLUSIVA DE LANÇAMENTO DO BOOKBOT VIP</span>
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Comece Sua Experiência VIP Hoje</h2>
-          <p className="text-muted-foreground mb-12 max-w-lg mx-auto italic">
-            Esta oferta é única e não será exibida novamente. Aproveite o desconto especial de lançamento enquanto o cronômetro está ativo.
+          <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter uppercase">ÚLTIMA CHANCE</h2>
+          <p className="text-muted-foreground mb-12 max-w-lg mx-auto italic font-bold text-lg">
+            O preço subirá para <span className="text-white">R$ 67,00</span> assim que o cronômetro zerar. Garanta sua vaga no BookBot VIP pelo valor promocional de lançamento.
           </p>
 
           <div className="flex flex-col items-center mb-12">
@@ -67,8 +67,8 @@ export const OfferSection = () => {
 
           <div className="flex flex-col gap-6 items-center">
             <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full max-w-md">
-              <Button size="xl" variant="hero" className="w-full group h-16 sm:h-20 text-base sm:text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-lg shadow-primary/20 px-2 sm:px-6">
-                <span className="truncate">LIBERAR MEU BOT VIP AGORA</span>
+              <Button size="xl" variant="hero" className="w-full group h-16 sm:h-20 text-base sm:text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-2xl shadow-primary/40 px-2 sm:px-6 uppercase font-black tracking-tighter">
+                <span className="truncate">SIM! QUERO O BOOKBOT VIP AGORA</span>
                 <ShoppingCart className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:scale-110 transition-transform" />
               </Button>
             </a>
