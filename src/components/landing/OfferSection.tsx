@@ -37,9 +37,9 @@ export const OfferSection = () => {
             <span>OFERTA EXCLUSIVA DE LANÇAMENTO DO BOOKBOT VIP</span>
           </div>
 
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">A Complete sua Experiência VIP Hoje</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Comece Sua Experiência VIP Hoje</h2>
           <p className="text-muted-foreground mb-12 max-w-lg mx-auto italic">
-            Esta oferta é única e não será exibida novamente. Aproveite o desconto especial de membro enquanto o cronômetro está ativo.
+            Esta oferta é única e não será exibida novamente. Aproveite o desconto especial de lançamento enquanto o cronômetro está ativo.
           </p>
 
           <div className="flex flex-col items-center mb-12">
@@ -103,9 +103,9 @@ export const OfferSection = () => {
             </div>
             <div>
               <h4 className="font-bold text-xl mb-2">Sua Satisfação é Nossa Prioridade</h4>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Você tem 7 dias inteiros para testar o Bot Inteligente. Se não achar que ele é a ferramenta mais prática que você já usou para ler, devolvemos seu dinheiro imediatamente. Sem perguntas.
-              </p>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Você tem 7 dias inteiros para testar o BookBot VIP. Se não achar que ele é a ferramenta mais prática que você já usou para ler, devolvemos seu dinheiro imediatamente. Sem perguntas.
+                </p>
             </div>
           </div>
         </motion.div>
