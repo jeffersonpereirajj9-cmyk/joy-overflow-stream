@@ -28,7 +28,7 @@ export const Hero = () => {
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-primary/20 text-accent text-xs font-semibold mb-6">
             <Zap className="w-3 h-3 fill-accent" />
-            <span>AGORA DESBLOQUEIE O RECURSO MAIS DESEJADO PELAS LEITORAS VIP…</span>
+            <span>DESBLOQUEIE AGORA O RECURSO MAIS DESEJADO PARA LEITURA VIP…</span>
           </div>
           
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-[1.2] sm:leading-[1.1]">
@@ -58,7 +58,7 @@ export const Hero = () => {
               ))}
             </div>
             <span className="text-sm text-muted-foreground font-medium">
-              Utilizado por mais de 4.721 leitoras VIPs
+              Utilizado por mais de 4.721 membros VIPs
             </span>
           </div>
 
@@ -100,7 +100,7 @@ export const Hero = () => {
 
               <div className="flex-1 p-3 flex flex-col gap-4 overflow-y-auto scrollbar-hide">
                 <div className="self-start bg-[#242f3d] text-white p-3 rounded-2xl rounded-tl-none text-[11px] max-w-[85%] shadow-sm border border-white/5">
-                  Olá Leitora VIP! Qual livro você deseja ler agora? ✨
+                  Olá! Seja VIP! Qual livro você deseja ler agora? ✨
                 </div>
 
                 {/* Busca 1 */}
