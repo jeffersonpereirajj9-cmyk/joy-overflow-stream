@@ -4,17 +4,17 @@ import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-32 pb-16 px-4">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-16 px-4 md:pt-32">
       {/* Background Glows */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-accent/20 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="container max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="container max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 md:gap-12 items-center relative z-10">
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-left"
+          className="text-center lg:text-left flex flex-col items-center lg:items-start"
         >
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
@@ -31,15 +31,15 @@ export const Hero = () => {
             <span>DESBLOQUEIE AGORA O RECURSO MAIS DESEJADO PARA LEITURA VIP…</span>
           </div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 sm:mb-6 leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 sm:mb-6 leading-[1.05] sm:leading-[1.1]">
             PARE DE <span className="text-glow-wine text-primary">GARIMPAR</span> LIVROS MANUALMENTE 📚✨
           </h1>
           
-          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed font-medium">
+          <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed font-medium px-4 lg:px-0">
             Desbloqueie agora o <span className="text-white">BookBot VIP</span> e tenha qualquer título do mundo enviado direto para o seu Telegram em menos de 5 segundos. <span className="text-primary italic">Acesso vitalício por tempo limitado.</span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full max-w-md lg:max-w-none">
             <a 
               href="https://pay.cakto.com.br/y32stdm_878339"
               className="w-full sm:w-auto"
@@ -51,7 +51,7 @@ export const Hero = () => {
             </a>
           </div>
 
-          <div className="flex items-center gap-2 mb-8">
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-3 mb-8">
             <div className="flex text-gold">
               {"★★★★★".split("").map((star, i) => (
                 <span key={i} className="text-lg">★</span>
@@ -62,7 +62,7 @@ export const Hero = () => {
             </span>
           </div>
 
-          <div className="flex items-center gap-6 text-sm text-muted-foreground">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-gold" />
               <span>Experiência VIP</span>
@@ -75,13 +75,13 @@ export const Hero = () => {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-          className="relative lg:h-[600px] flex items-center justify-center"
+          initial={{ opacity: 0, scale: 0.8, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
+          className="relative lg:h-[600px] flex items-center justify-center w-full max-w-[280px] sm:max-w-[320px] mx-auto lg:mx-0"
         >
-          {/* Mockup Container */}
-          <div className="relative w-full max-w-[300px] aspect-[9/19] rounded-[3rem] border-8 border-white/10 glass glow-wine overflow-hidden shadow-2xl">
+          {/* Mockup Container with enhanced glass and shadow */}
+          <div className="relative w-full aspect-[9/19] rounded-[2.5rem] sm:rounded-[3rem] border-[6px] sm:border-8 border-white/10 glass glow-wine overflow-hidden shadow-[0_0_50px_-12px_rgba(155,35,53,0.5)]">
             {/* Telegram App Interface Simulation */}
             <div className="h-full flex flex-col bg-[#17212b] font-sans">
               <div className="h-14 bg-[#242f3d] flex items-center px-4 gap-3 shrink-0">
