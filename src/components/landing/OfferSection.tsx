@@ -79,15 +79,19 @@ export const OfferSection = () => {
             </div>
           </div>
 
-          <div className="bg-black/40 rounded-2xl p-6 mb-12 inline-block border border-white/10 group hover:border-primary/30 transition-all">
-            <div className="flex items-center justify-center gap-2 text-xs uppercase tracking-widest text-muted-foreground mb-2">
-                <Clock className="w-4 h-4 text-primary" />
-                Esta oferta expira em:
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-red-950/20 rounded-2xl p-6 mb-12 inline-block border border-red-500/20 group hover:border-red-500/40 transition-all backdrop-blur-sm"
+          >
+            <div className="flex items-center justify-center gap-2 text-[10px] uppercase font-black tracking-[0.2em] text-red-400 mb-2">
+                <div className="w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                OFERTA EXPIRA EM:
             </div>
-            <div className="text-3xl sm:text-4xl font-mono font-bold text-primary tracking-tighter">
+            <div className="text-4xl sm:text-5xl font-mono font-black text-white tracking-tighter tabular-nums drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">
               {formatTime(timeLeft)}
             </div>
-          </div>
+          </motion.div>
 
           <div className="flex flex-col gap-8 items-center">
             <div className="w-full max-w-md relative group">
