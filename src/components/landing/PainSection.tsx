@@ -33,7 +33,7 @@ export const PainSection = () => {
             Sua Leitura Merece <span className="text-glow-wine text-primary">Praticidade</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Agora que você está no Clube, não faz sentido continuar perdendo tempo procurando livros manualmente.
+            Não faz sentido continuar perdendo tempo procurando livros manualmente na internet.
           </p>
         </div>
 

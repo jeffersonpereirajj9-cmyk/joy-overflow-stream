@@ -43,7 +43,7 @@ export const WhatYouGet = () => {
               <Coffee className="w-8 h-8 text-gold" />
             </div>
             <h3 className="text-xl font-bold mb-4">Descoberta Constante</h3>
-            <p className="text-muted-foreground text-sm">Descubra novos títulos navegando pelas sugestões automáticas do bot VIP.</p>
+            <p className="text-muted-foreground text-sm">Descubra novos títulos navegando pelas sugestões automáticas do BookBot VIP.</p>
           </motion.div>
 
           <motion.div 
@@ -70,7 +70,7 @@ export const WhatYouGet = () => {
           <div className="relative p-12 md:p-20 text-center md:text-left flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1">
               <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white leading-tight">Você merece a melhor experiência literária possível.</h3>
-              <p className="text-white/80 text-lg mb-8 italic">"Entrar no Clube das Leitoras foi o seu primeiro passo. O Bot VIP é o que torna tudo verdadeiramente mágico e prático."</p>
+              <p className="text-white/80 text-lg mb-8 italic">"O BookBot VIP é o que torna sua leitura verdadeiramente mágica, rápida e prática."</p>
               <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                 <div className="flex items-center gap-2 px-4 py-2 bg-black/20 rounded-full border border-white/10 text-white text-sm">
                   <Moon className="w-4 h-4" />

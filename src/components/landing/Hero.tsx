@@ -23,7 +23,7 @@ export const Hero = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/10 border border-green-500/20 text-green-400 text-xs font-bold mb-8"
           >
             <Sparkles className="w-3 h-3 fill-green-400" />
-            <span>PARABÉNS! SUA ENTRADA NO CLUBE DAS LEITORAS FOI CONFIRMADA 🎉</span>
+            <span>PARABÉNS! SEU ACESSO AO BOOKBOT VIP ESTÁ QUASE PRONTO 🎉</span>
           </motion.div>
           
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass border-primary/20 text-accent text-xs font-semibold mb-6">
@@ -32,7 +32,7 @@ export const Hero = () => {
           </div>
           
           <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4 sm:mb-6 leading-[1.2] sm:leading-[1.1]">
-            Tenha Seu Acesso ao <span className="text-glow-wine text-primary">Bot Inteligente</span> Privado do Clube das Leitoras 📚✨
+            Tenha Seu Acesso ao <span className="text-glow-wine text-primary">BookBot VIP</span> - O Bot Privado de Livros 📚✨
           </h1>
           
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 sm:mb-10 max-w-xl leading-relaxed">
@@ -88,8 +88,8 @@ export const Hero = () => {
                 <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm border border-white/20">C</div>
                 <div className="flex-1 min-w-0">
                   <div className="text-white text-[13px] font-semibold flex items-center gap-1">
-                    Bot Clube das Leitoras 
-                    <div className="bg-gold text-[8px] px-1 rounded text-black font-black leading-none py-0.5">VIP</div>
+                    BookBot VIP
+                    <div className="bg-gold text-[8px] px-1 rounded text-black font-black leading-none py-0.5">OFICIAL</div>
                   </div>
                   <div className="text-green-400 text-[9px] flex items-center gap-1">
                     <span className="w-1 h-1 bg-green-500 rounded-full animate-ping" />

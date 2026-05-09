@@ -12,10 +12,10 @@ import { StickyCTA } from "@/components/landing/StickyCTA";
 export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
-    title: "UPSELL: Bot Inteligente do Clube das Leitoras 📚",
+    title: "BookBot VIP: O Bot Privado de Livros no Telegram 📚",
     meta: [
-      { name: "description", content: "Desbloqueie o bot automático de livros do Clube das Leitoras e tenha acesso instantâneo a milhares de títulos." },
-      { property: "og:title", content: "Bot Inteligente - Clube das Leitoras" },
+      { name: "description", content: "Desbloqueie o BookBot VIP e tenha acesso instantâneo a milhares de títulos direto no seu Telegram." },
+      { property: "og:title", content: "BookBot VIP - O Bot Privado de Livros" },
       { property: "og:description", content: "O upgrade indispensável para sua experiência literária." },
       { property: "og:type", content: "website" },
     ],
@@ -31,7 +31,7 @@ function Footer() {
           <a href="#" className="hover:text-primary transition-colors">Privacidade</a>
           <a href="#" className="hover:text-primary transition-colors">Suporte</a>
         </div>
-        <p>© 2026 Clube das Leitoras. Todos os direitos reservados.</p>
+        <p>© 2026 BookBot VIP. Todos os direitos reservados.</p>
         <p className="mt-2 opacity-50">Oferta exclusiva para membros.</p>
       </div>
     </footer>

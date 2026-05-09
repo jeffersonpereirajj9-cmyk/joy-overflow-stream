@@ -34,7 +34,7 @@ export const OfferSection = () => {
 
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold mb-8">
             <Award className="w-4 h-4" />
-            <span>OFERTA EXCLUSIVA PARA NOVAS MEMBROS DO CLUBE DAS LEITORAS</span>
+            <span>OFERTA EXCLUSIVA DE LANÇAMENTO DO BOOKBOT VIP</span>
           </div>
 
           <h2 className="text-3xl md:text-5xl font-bold mb-6">A Complete sua Experiência VIP Hoje</h2>
