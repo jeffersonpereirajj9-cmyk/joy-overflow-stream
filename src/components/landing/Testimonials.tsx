@@ -10,8 +10,8 @@ const reviews = [
   },
   {
     name: "Juliana Costa",
-    role: "Leitora Ávida",
-    content: "O bot é a melhor parte do Clube! Ter a biblioteca na palma da mão 24h por dia mudou minha rotina de leitura. É muito prático mandar direto pro Kindle.",
+    role: "Membro Premium",
+    content: "O BookBot VIP é surreal! Ter a biblioteca na palma da mão 24h por dia mudou minha rotina de leitura. É muito prático mandar direto pro Kindle.",
     avatar: "JC"
   },
   {
@@ -27,7 +27,7 @@ export const Testimonials = () => {
     <section className="py-24 px-4 bg-black/40 overflow-hidden">
       <div className="container max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">O Que Nossas <span className="text-primary text-glow-wine">Leitoras VIP</span> Dizem</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">O Que Nossos <span className="text-primary text-glow-wine">Membros VIP</span> Dizem</h2>
           <div className="flex items-center justify-center gap-1 mb-2">
             {[...Array(5)].map((_, i) => (
               <Star key={i} className="w-5 h-5 fill-gold text-gold" />
