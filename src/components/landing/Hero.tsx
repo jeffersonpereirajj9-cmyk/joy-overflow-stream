@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20 pb-16 px-4 md:pt-32">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-12 pb-16 px-4 md:pt-32">
       {/* Background Glows */}
       <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-accent/20 rounded-full blur-[120px] pointer-events-none" />
@@ -31,7 +31,7 @@ export const Hero = () => {
             <span>DESBLOQUEIE AGORA O RECURSO MAIS DESEJADO PARA LEITURA VIP…</span>
           </div>
           
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 sm:mb-6 leading-[1.05] sm:leading-[1.1]">
+          <h1 className="text-[2.6rem] sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tighter mb-4 sm:mb-6 leading-[1.05] sm:leading-[1.1] w-full">
             PARE DE <span className="text-glow-wine text-primary">GARIMPAR</span> LIVROS MANUALMENTE 📚✨
           </h1>
           
@@ -39,7 +39,7 @@ export const Hero = () => {
             Desbloqueie agora o <span className="text-white">BookBot VIP</span> e tenha qualquer título do mundo enviado direto para o seu Telegram em menos de 5 segundos. <span className="text-primary italic">Acesso vitalício por tempo limitado.</span>
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full max-w-md lg:max-w-none">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6 w-full max-w-[320px] sm:max-w-md lg:max-w-none">
             <a 
               href="https://pay.cakto.com.br/y32stdm_878339"
               className="w-full sm:w-auto"
@@ -78,7 +78,7 @@ export const Hero = () => {
           initial={{ opacity: 0, scale: 0.8, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-          className="relative lg:h-[600px] flex items-center justify-center w-full max-w-[280px] sm:max-w-[320px] mx-auto lg:mx-0"
+          className="relative lg:h-[600px] flex items-center justify-center w-full max-w-[260px] sm:max-w-[320px] mx-auto lg:mx-0 mt-4 lg:mt-0"
         >
           {/* Mockup Container with enhanced glass and shadow */}
           <div className="relative w-full aspect-[9/19] rounded-[2.5rem] sm:rounded-[3rem] border-[6px] sm:border-8 border-white/10 glass glow-wine overflow-hidden shadow-[0_0_50px_-12px_rgba(155,35,53,0.5)]">
