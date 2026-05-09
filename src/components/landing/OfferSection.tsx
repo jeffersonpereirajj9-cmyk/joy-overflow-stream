@@ -89,13 +89,23 @@ export const OfferSection = () => {
             </div>
           </div>
 
-          <div className="flex flex-col gap-6 items-center">
-            <a href="https://pay.cakto.com.br/y32stdm_878339" className="w-full max-w-md">
-              <Button size="xl" variant="hero" className="w-full group h-14 sm:h-16 md:h-20 text-base sm:text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-2xl shadow-primary/40 px-2 sm:px-6 uppercase font-black tracking-tighter">
-                <span className="truncate">SIM! QUERO O BOOKBOT VIP AGORA</span>
-                <ShoppingCart className="ml-2 sm:ml-3 w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:scale-110 transition-transform" />
-              </Button>
-            </a>
+          <div className="flex flex-col gap-8 items-center">
+            <div className="w-full max-w-md relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-gradient-x"></div>
+              <a href="https://pay.cakto.com.br/y32stdm_878339" className="relative block">
+                <Button size="xl" variant="hero" className="w-full group h-16 sm:h-20 md:h-24 text-base sm:text-xl md:text-2xl bg-primary hover:bg-primary/90 border-none shadow-2xl px-2 sm:px-6 uppercase font-black tracking-tighter rounded-2xl">
+                  <div className="flex flex-col items-center">
+                    <span className="flex items-center gap-2">
+                      QUERO O BOOKBOT VIP AGORA
+                      <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 shrink-0 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <span className="text-[10px] sm:text-xs opacity-70 font-bold tracking-widest mt-1">
+                      ACESSO IMEDIATO APÓS O PAGAMENTO
+                    </span>
+                  </div>
+                </Button>
+              </a>
+            </div>
             
             <button 
               onClick={() => window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })}
