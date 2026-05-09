@@ -5,11 +5,17 @@ import { Button } from "@/components/ui/button";
 
 export const StickyCTA = () => {
   const [visible, setVisible] = useState(false);
+  const [atBottom, setAtBottom] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       // Show after scrolling down 600px
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const totalHeight = document.documentElement.scrollHeight;
+      
       setVisible(window.scrollY > 600);
+      // Hide if near the bottom (where the main offer button is)
+      setAtBottom(scrollPosition > totalHeight - 600);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -21,7 +27,7 @@ export const StickyCTA = () => {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !atBottom && (
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
