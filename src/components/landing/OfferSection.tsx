@@ -48,7 +48,7 @@ export const OfferSection = () => {
                 <div className="text-sm text-gold font-bold uppercase tracking-widest mb-1">Por apenas</div>
                 <div className="flex items-baseline gap-2">
                     <span className="text-xl md:text-2xl font-bold text-primary">R$</span>
-                    <span className="text-5xl md:text-8xl font-black text-white text-glow-wine">19</span>
+                    <span className="text-5xl md:text-8xl font-black text-white text-glow-wine">27</span>
                     <span className="text-xl md:text-2xl font-bold text-primary">,90</span>
                 </div>
             </div>
