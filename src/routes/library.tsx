@@ -28,6 +28,7 @@ const OFF_CAMPUS: Book[] = [
       "Hannah Wells nunca imaginou fechar um acordo com Garrett Graham, o astro do hóquei — aulas em troca de ciúmes calculados.",
     tags: ["new"],
     cover: coverFor("9") ?? "",
+    accent: "rose",
   },
   {
     id: "off-campus-2",
@@ -39,6 +40,7 @@ const OFF_CAMPUS: Book[] = [
       "John Logan está prestes a se formar quando comete o pior erro possível: se apaixonar pela namorada do melhor amigo.",
     tags: ["new"],
     cover: coverFor("10") ?? "",
+    accent: "rose",
   },
   {
     id: "off-campus-3",
@@ -50,6 +52,7 @@ const OFF_CAMPUS: Book[] = [
       "Allie Hayes precisa de distração depois do término — Dean Di Laurentis é o tipo errado de cara, mas o jogo já começou.",
     tags: ["trending"],
     cover: coverFor("11") ?? "",
+    accent: "rose",
   },
   {
     id: "off-campus-4",
@@ -61,6 +64,7 @@ const OFF_CAMPUS: Book[] = [
       "Sabrina James não tem tempo para romance — até que Tucker, o tranquilão do time de hóquei, decide conquistá-la.",
     tags: ["top"],
     cover: coverFor("12") ?? "",
+    accent: "rose",
   },
 ];
 
