@@ -106,11 +106,31 @@ ${list}
 
 Retorne JSON com a chave "books" preservando exatamente os mesmos ids.`;
 
-    const { output } = await generateText({
-      model: gateway("google/gemini-3-flash-preview"),
-      output: Output.object({ schema: EnrichSchema }),
-      prompt,
-    });
-
-    return { books: output.books };
+    try {
+      const { output } = await generateText({
+        model: gateway("google/gemini-3-flash-preview"),
+        output: Output.object({ schema: EnrichSchema }),
+        prompt,
+      });
+      return { books: output.books };
+    } catch (err) {
+      const status = (err as { statusCode?: number; status?: number })?.statusCode
+        ?? (err as { status?: number })?.status;
+      console.error("[enrichDriveBooks] AI gateway error", status, err);
+      // Graceful fallback: return minimal entries derived from the filename
+      // so the UI keeps working even when credits/rate limits hit.
+      return {
+        books: data.books.map((b) => {
+          const base = b.name.replace(/\.mobi$/i, "");
+          const [titlePart, authorPart] = base.split(/\s+-\s+/);
+          return {
+            id: b.id,
+            title: (titlePart || base).trim(),
+            author: (authorPart || "Desconhecido").trim(),
+            category: "romance" as const,
+            synopsis: "",
+          };
+        }),
+      };
+    }
   });
