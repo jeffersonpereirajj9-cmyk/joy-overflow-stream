@@ -105,6 +105,41 @@ export const books: Book[] = [
     synopsis: "Ele é o vilão da história dela. E ela está prestes a descobrir que adora ser destruída.",
     tags: ["top"],
   },
+  {
+    id: "13", title: "A Babá", author: "Lana Ferguson", category: "romance",
+    rating: 4.7, cover: "from-rose-400 via-pink-600 to-rose-900", accent: "rose",
+    synopsis: "Quando Cassie aceita o emprego dos sonhos como babá em uma mansão de luxo, ela não imagina que o pai solteiro encantador será também sua maior tentação — e seu maior segredo.",
+    tags: ["new", "trending"],
+    epubUrl: aBabaEpub.url,
+  },
+  {
+    id: "14", title: "A Autobiografia da Minha Mãe", author: "Jamaica Kincaid", category: "romance",
+    rating: 4.5, cover: "from-pink-300 via-rose-500 to-pink-800", accent: "pink",
+    synopsis: "A história intensa e poética de Xuela Claudette Richardson, uma mulher caribenha que reconstrói a própria identidade a partir das ausências, dos desejos e das paixões que moldaram sua vida.",
+    tags: ["favorites"],
+    epubUrl: autobiografiaEpub.url,
+  },
+  {
+    id: "15", title: "A Amiga Genial", author: "Elena Ferrante", category: "romance",
+    rating: 4.9, cover: "from-rose-500 via-pink-700 to-rose-950", accent: "rose",
+    synopsis: "Em uma Nápoles do pós-guerra, Lila e Elena constroem uma amizade que atravessa décadas — uma história sobre amor, rivalidade e a força inexplicável que une duas mulheres para sempre.",
+    tags: ["top", "favorites"],
+    epubUrl: amigaGenialEpub.url,
+  },
+  {
+    id: "16", title: "100 Dias Depois do Fim", author: "V.O. Allyn", category: "romance",
+    rating: 4.6, cover: "from-pink-400 via-rose-600 to-pink-900", accent: "rose",
+    synopsis: "Cem dias depois do fim do mundo como ela conhecia, Liv descobre que sobreviver é só o começo — e que o amor pode florescer mesmo entre as ruínas.",
+    tags: ["new"],
+    epubUrl: cemDiasEpub.url,
+  },
+  {
+    id: "17", title: "98% de Compatibilidade", author: "Lyla Mars", category: "romance",
+    rating: 4.8, cover: "from-rose-300 via-pink-500 to-rose-800", accent: "pink",
+    synopsis: "Um algoritmo promete encontrar o par perfeito com 98% de compatibilidade. Mas e se o destino tiver outros planos — e o homem certo for justamente quem o sistema rejeitou?",
+    tags: ["trending", "favorites"],
+    epubUrl: compatibilidadeEpub.url,
+  },
 ];
 
 export const sampleChapter = `Capítulo 1 — O Encontro
