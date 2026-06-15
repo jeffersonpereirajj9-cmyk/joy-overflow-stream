@@ -27,7 +27,14 @@ function CategoriesPage() {
               params={{ slug: c.slug }}
               className={`relative flex items-center justify-between overflow-hidden rounded-2xl bg-gradient-to-r ${c.gradient} p-5 shadow-lg shadow-black/30 active:scale-[0.99] transition`}
             >
-              <div className="absolute inset-0 bg-black/30" />
+              {c.image && (
+                <img
+                  src={c.image}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
               <div className="relative">
                 <div className="font-serif text-lg leading-tight text-white">{c.name}</div>
                 <div className="text-xs text-white/70">{c.description} · {count} livros</div>
