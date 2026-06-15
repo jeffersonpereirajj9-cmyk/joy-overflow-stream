@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReadIdRouteImport } from './routes/read.$id'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as BookIdRouteImport } from './routes/book.$id'
+import { Route as ApiDriveIdRouteImport } from './routes/api/drive.$id'
 
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
@@ -52,6 +53,11 @@ const BookIdRoute = BookIdRouteImport.update({
   path: '/book/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDriveIdRoute = ApiDriveIdRouteImport.update({
+  id: '/api/drive/$id',
+  path: '/api/drive/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -61,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/drive/$id': typeof ApiDriveIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -70,6 +77,7 @@ export interface FileRoutesByTo {
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/drive/$id': typeof ApiDriveIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -80,6 +88,7 @@ export interface FileRoutesById {
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
+  '/api/drive/$id': typeof ApiDriveIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -91,6 +100,7 @@ export interface FileRouteTypes {
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
+    | '/api/drive/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -100,6 +110,7 @@ export interface FileRouteTypes {
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
+    | '/api/drive/$id'
   id:
     | '__root__'
     | '/'
@@ -109,6 +120,7 @@ export interface FileRouteTypes {
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
+    | '/api/drive/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -119,6 +131,7 @@ export interface RootRouteChildren {
   BookIdRoute: typeof BookIdRoute
   CategorySlugRoute: typeof CategorySlugRoute
   ReadIdRoute: typeof ReadIdRoute
+  ApiDriveIdRoute: typeof ApiDriveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -172,6 +185,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/drive/$id': {
+      id: '/api/drive/$id'
+      path: '/api/drive/$id'
+      fullPath: '/api/drive/$id'
+      preLoaderRoute: typeof ApiDriveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -183,6 +203,7 @@ const rootRouteChildren: RootRouteChildren = {
   BookIdRoute: BookIdRoute,
   CategorySlugRoute: CategorySlugRoute,
   ReadIdRoute: ReadIdRoute,
+  ApiDriveIdRoute: ApiDriveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
