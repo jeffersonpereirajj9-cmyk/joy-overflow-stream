@@ -13,7 +13,8 @@ import {
 } from "@/data/curated";
 import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
-import { downloadEpub, downloadFileFromUrl } from "@/lib/epub";
+import { downloadFileFromUrl } from "@/lib/epub";
+import { getBookDownloadOption } from "@/lib/book-downloads";
 
 const findBook = (id: string) =>
   books.find((b) => b.id === id) ??
@@ -47,35 +48,41 @@ function BookPage() {
   const [downloading, setDownloading] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
-  const downloadFormat = "EPUB";
+  const downloadOption = getBookDownloadOption(book);
+  const downloadFormat = downloadOption?.formatLabel ?? "Livro";
 
   const handleDownload = async () => {
     if (downloading) return;
     setDownloading(true);
     try {
-      const url = book.mobiUrl?.startsWith("/api/drive/")
-        ? book.mobiUrl.replace(/^\/api\/drive\/([^/?]+)/, "/api/drive/$1/epub")
-        : book.epubUrl || book.mobiUrl;
-      if (!url) {
-        const file = await downloadEpub(book);
-        setDownloadedFile(file ?? null);
+      if (!downloadOption) {
+        window.alert("Arquivo completo não encontrado no Drive para este título.");
+        setDownloadedFile(null);
         setDownloadedUrl(null);
         return;
       }
-      const safeTitle = book.title.replace(/[/\\?%*:|"<>]/g, "-");
-      const ext = url.includes("/epub") || book.epubUrl ? "epub" : "mobi";
-      const mime = ext === "epub" ? "application/epub+zip" : "application/x-mobipocket-ebook";
-      const filename = `${safeTitle}.${ext}`;
       try {
-        const file = await downloadFileFromUrl(url, filename, mime);
+        const file = await downloadFileFromUrl(
+          downloadOption.primaryUrl,
+          downloadOption.primaryFilename,
+          downloadOption.primaryMime,
+        );
         setDownloadedFile(file);
-        setDownloadedUrl(url);
+        setDownloadedUrl(downloadOption.primaryUrl);
       } catch (err) {
-        console.error("[download] fetch falhou, usando fallback", err);
-        const file = await downloadEpub(book);
-        setDownloadedFile(file ?? new File([], filename, { type: mime }));
-        setDownloadedUrl(url);
+        if (!downloadOption.fallbackUrl || !downloadOption.fallbackFilename || !downloadOption.fallbackMime) {
+          throw err;
+        }
+        const file = await downloadFileFromUrl(
+          downloadOption.fallbackUrl,
+          downloadOption.fallbackFilename,
+          downloadOption.fallbackMime,
+        );
+        setDownloadedFile(file);
+        setDownloadedUrl(downloadOption.fallbackUrl);
       }
+    } catch (err) {
+      window.alert(`Falha ao baixar arquivo completo: ${(err as Error).message}`);
     } finally {
       setDownloading(false);
     }
