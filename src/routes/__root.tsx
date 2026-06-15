@@ -75,6 +75,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "theme-color", content: "#0d0810" },
       { title: "Bookfy — Sua biblioteca de romances" },
       { name: "description", content: "Milhares de histórias para se apaixonar. Romance, dark romance, máfia, bilionários e fantasia." },
+      { property: "og:title", content: "Bookfy — Sua biblioteca de romances" },
+      { name: "twitter:title", content: "Bookfy — Sua biblioteca de romances" },
+      { property: "og:description", content: "Milhares de histórias para se apaixonar. Romance, dark romance, máfia, bilionários e fantasia." },
+      { name: "twitter:description", content: "Milhares de histórias para se apaixonar. Romance, dark romance, máfia, bilionários e fantasia." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/30ab3f57-a5a9-4480-bd03-e8bb50303f26/id-preview-c561e58d--a3614237-5580-44ac-bdc0-bacf20bd8e7c.lovable.app-1781555169006.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/30ab3f57-a5a9-4480-bd03-e8bb50303f26/id-preview-c561e58d--a3614237-5580-44ac-bdc0-bacf20bd8e7c.lovable.app-1781555169006.png" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:type", content: "website" },
     ],
     links: [
       {
