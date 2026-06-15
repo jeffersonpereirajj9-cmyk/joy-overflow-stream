@@ -1,5 +1,23 @@
 const memCache = new Map<string, string | null>();
 const STORAGE_PREFIX = "bookcover:v2:";
+const inFlight = new Map<string, Promise<string | null>>();
+
+// Concurrency limiter so we don't fire hundreds of requests at once.
+const MAX_CONCURRENT = 4;
+let active = 0;
+const queue: (() => void)[] = [];
+function acquire(): Promise<void> {
+  if (active < MAX_CONCURRENT) {
+    active++;
+    return Promise.resolve();
+  }
+  return new Promise((res) => queue.push(() => { active++; res(); }));
+}
+function release() {
+  active--;
+  const next = queue.shift();
+  if (next) next();
+}
 
 function readStored(key: string): string | null | undefined {
   if (typeof localStorage === "undefined") return undefined;
@@ -74,17 +92,27 @@ export async function fetchBookCover(
     memCache.set(key, stored);
     return stored;
   }
+  const existing = inFlight.get(key);
+  if (existing) return existing;
 
-  const cleanT = cleanTitle(title);
-  const firstAuthor = author.split(/[,&]| e /i)[0].trim();
-
-  const url =
-    (await tryGoogle(`intitle:"${cleanT}"${firstAuthor ? ` inauthor:"${firstAuthor}"` : ""}`)) ||
-    (await tryGoogle(`intitle:${cleanT}`)) ||
-    (await tryGoogle(`${cleanT} ${firstAuthor}`.trim())) ||
-    (await tryOpenLibrary(cleanT, firstAuthor));
-
-  memCache.set(key, url);
-  writeStored(key, url);
-  return url;
+  const promise = (async () => {
+    await acquire();
+    try {
+      const cleanT = cleanTitle(title);
+      const firstAuthor = author.split(/[,&]| e /i)[0].trim();
+      const url =
+        (await tryGoogle(`intitle:"${cleanT}"${firstAuthor ? ` inauthor:"${firstAuthor}"` : ""}`)) ||
+        (await tryGoogle(`intitle:${cleanT}`)) ||
+        (await tryGoogle(`${cleanT} ${firstAuthor}`.trim())) ||
+        (await tryOpenLibrary(cleanT, firstAuthor));
+      memCache.set(key, url);
+      writeStored(key, url);
+      return url;
+    } finally {
+      release();
+      inFlight.delete(key);
+    }
+  })();
+  inFlight.set(key, promise);
+  return promise;
 }
