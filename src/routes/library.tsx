@@ -26,8 +26,8 @@ const OFF_CAMPUS: Book[] = [
     rating: 4.7,
     synopsis:
       "Hannah Wells nunca imaginou fechar um acordo com Garrett Graham, o astro do hóquei — aulas em troca de ciúmes calculados.",
-    tags: ["Off-Campus #1", "Sports Romance"],
-    cover: coverFor("9"),
+    tags: ["new"],
+    cover: coverFor("9") ?? "",
   },
   {
     id: "off-campus-2",
@@ -37,8 +37,8 @@ const OFF_CAMPUS: Book[] = [
     rating: 4.6,
     synopsis:
       "John Logan está prestes a se formar quando comete o pior erro possível: se apaixonar pela namorada do melhor amigo.",
-    tags: ["Off-Campus #2", "Sports Romance"],
-    cover: coverFor("10"),
+    tags: ["new"],
+    cover: coverFor("10") ?? "",
   },
   {
     id: "off-campus-3",
@@ -48,8 +48,8 @@ const OFF_CAMPUS: Book[] = [
     rating: 4.7,
     synopsis:
       "Allie Hayes precisa de distração depois do término — Dean Di Laurentis é o tipo errado de cara, mas o jogo já começou.",
-    tags: ["Off-Campus #3", "Sports Romance"],
-    cover: coverFor("11"),
+    tags: ["trending"],
+    cover: coverFor("11") ?? "",
   },
   {
     id: "off-campus-4",
@@ -59,8 +59,8 @@ const OFF_CAMPUS: Book[] = [
     rating: 4.8,
     synopsis:
       "Sabrina James não tem tempo para romance — até que Tucker, o tranquilão do time de hóquei, decide conquistá-la.",
-    tags: ["Off-Campus #4", "Sports Romance"],
-    cover: coverFor("12"),
+    tags: ["top"],
+    cover: coverFor("12") ?? "",
   },
 ];
 
