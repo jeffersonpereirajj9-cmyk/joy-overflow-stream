@@ -1,19 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
-import { BookCard } from "@/components/bookfy/BookCard";
 import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
 import { CategoryChip } from "@/components/bookfy/CategoryChip";
-import { books, categories } from "@/data/books";
+import { DriveCard } from "@/components/bookfy/DriveCard";
+import { categories } from "@/data/books";
 import { COLLECTIONS } from "@/data/collections";
-import {
-  mostWantedCurated,
-  mostReadCurated,
-  newestCurated,
-  trendingCurated,
-  favoritesCurated,
-} from "@/data/curated";
-import { ChevronRight, Search, Sparkles } from "lucide-react";
+import { useDriveLibrary } from "@/hooks/useDriveLibrary";
+import { CATEGORIES } from "@/lib/drive.functions";
+import { ChevronRight, Loader2, Search, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -25,30 +19,10 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-function BookRow({ title, books: list }: { title: string; books: typeof books }) {
-  return (
-    <HorizontalScroller title={title}>
-      {list.map((b) => <BookCard key={b.id} book={b} />)}
-    </HorizontalScroller>
-  );
-}
-
 function Home() {
-  const { mostWanted, mostRead, newest, trending, readerFavs } = useMemo(() => {
-    const fromTags = (tag: "top" | "new" | "trending" | "favorites") =>
-      books.filter((b) => b.tags?.includes(tag));
-    const dedupe = (list: typeof books) => {
-      const seen = new Set<string>();
-      return list.filter((b) => (seen.has(b.id) ? false : (seen.add(b.id), true)));
-    };
-    const mostWanted = dedupe(mostWantedCurated).slice(0, 10);
-    const mostRead = dedupe(mostReadCurated).slice(0, 10);
-    const newest = dedupe(newestCurated).slice(0, 10);
-    const trending = dedupe(trendingCurated).slice(0, 10);
-    const readerFavs = dedupe(favoritesCurated).slice(0, 10);
-    void fromTags;
-    return { mostWanted, mostRead, newest, trending, readerFavs };
-  }, []);
+  const { items, grouped, loading, error } = useDriveLibrary("");
+  const catName = (slug: string) =>
+    categories.find((c) => c.slug === slug)?.name ?? slug;
 
   return (
     <AppShell>
@@ -143,11 +117,52 @@ function Home() {
         </section>
       ))}
 
-      <BookRow title="Mais Desejados" books={mostWanted} />
-      <BookRow title="Mais Lidos" books={mostRead} />
-      <BookRow title="Novidades" books={newest} />
-      <BookRow title="Em Alta" books={trending} />
-      <BookRow title="Favoritos das Leitoras" books={readerFavs} />
+      {loading && items.length === 0 && (
+        <div className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" /> Carregando biblioteca…
+        </div>
+      )}
+      {error && (
+        <p className="mt-6 px-4 text-center text-sm text-destructive">{error}</p>
+      )}
+      {items.length > 0 && (
+        <div className="mt-7 px-4 text-xs uppercase tracking-[0.25em] text-accent">
+          {items.length} livros disponíveis
+        </div>
+      )}
+      {CATEGORIES.map((slug) => {
+        const list = grouped.get(slug);
+        if (!list || list.length === 0) return null;
+        return (
+          <HorizontalScroller
+            key={slug}
+            title={catName(slug)}
+            action={
+              <Link to="/library" className="text-xs text-muted-foreground">
+                Ver todos ({list.length})
+              </Link>
+            }
+          >
+            {list.map((it, i) => (
+              <DriveCard key={it.id} item={it} priority={i < 3} />
+            ))}
+          </HorizontalScroller>
+        );
+      })}
+      {grouped.get("_unsorted")?.length ? (
+        <HorizontalScroller
+          title="Classificando…"
+          action={
+            <span className="text-xs text-muted-foreground">
+              {grouped.get("_unsorted")?.length}
+            </span>
+          }
+        >
+          {grouped.get("_unsorted")!.map((it) => (
+            <DriveCard key={it.id} item={it} />
+          ))}
+        </HorizontalScroller>
+      ) : null}
     </AppShell>
   );
 }
