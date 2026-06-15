@@ -1,3 +1,9 @@
+import aBabaEpub from "@/assets/epubs/a-baba.epub.asset.json";
+import autobiografiaEpub from "@/assets/epubs/autobiografia.epub.asset.json";
+import amigaGenialEpub from "@/assets/epubs/amiga-genial.epub.asset.json";
+import cemDiasEpub from "@/assets/epubs/100-dias.epub.asset.json";
+import compatibilidadeEpub from "@/assets/epubs/988-compatibilidade.epub.asset.json";
+
 export type Category = {
   slug: string;
   name: string;
