@@ -1,7 +1,23 @@
+import { useEffect, useState } from "react";
 import { coverFor, type Book } from "@/data/books";
+import { fetchBookCover } from "@/lib/book-covers";
 
 export function BookCover({ book, className = "" }: { book: Book; className?: string }) {
-  const image = coverFor(book.id);
+  const staticImage = coverFor(book.id);
+  const [remote, setRemote] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (staticImage) return;
+    let cancelled = false;
+    fetchBookCover(book.title, book.author).then((url) => {
+      if (!cancelled && url) setRemote(url);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [staticImage, book.title, book.author]);
+
+  const image = staticImage ?? remote;
 
   if (image) {
     return (
