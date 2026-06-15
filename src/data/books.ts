@@ -4,6 +4,33 @@ import amigaGenialEpub from "@/assets/epubs/amiga-genial.epub.asset.json";
 import cemDiasEpub from "@/assets/epubs/100-dias.epub.asset.json";
 import compatibilidadeEpub from "@/assets/epubs/988-compatibilidade.epub.asset.json";
 
+import cover1 from "@/assets/covers/1.jpg";
+import cover2 from "@/assets/covers/2.jpg";
+import cover3 from "@/assets/covers/3.jpg";
+import cover4 from "@/assets/covers/4.jpg";
+import cover5 from "@/assets/covers/5.jpg";
+import cover6 from "@/assets/covers/6.jpg";
+import cover7 from "@/assets/covers/7.jpg";
+import cover8 from "@/assets/covers/8.jpg";
+import cover9 from "@/assets/covers/9.jpg";
+import cover10 from "@/assets/covers/10.jpg";
+import cover11 from "@/assets/covers/11.jpg";
+import cover12 from "@/assets/covers/12.jpg";
+import cover13 from "@/assets/covers/13.jpg";
+import cover14 from "@/assets/covers/14.jpg";
+import cover15 from "@/assets/covers/15.jpg";
+import cover16 from "@/assets/covers/16.jpg";
+import cover17 from "@/assets/covers/17.jpg";
+
+const COVERS: Record<string, string> = {
+  "1": cover1, "2": cover2, "3": cover3, "4": cover4, "5": cover5,
+  "6": cover6, "7": cover7, "8": cover8, "9": cover9, "10": cover10,
+  "11": cover11, "12": cover12, "13": cover13, "14": cover14, "15": cover15,
+  "16": cover16, "17": cover17,
+};
+
+export const coverFor = (id: string): string | undefined => COVERS[id];
+
 export type Category = {
   slug: string;
   name: string;
