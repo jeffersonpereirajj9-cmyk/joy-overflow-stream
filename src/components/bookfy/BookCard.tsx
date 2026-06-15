@@ -17,7 +17,15 @@ const HEIGHTS: Record<Size, string> = {
   lg: "h-60",
 };
 
-export function BookCard({ book, size = "md" }: { book: Book; size?: Size }) {
+export function BookCard({
+  book,
+  size = "md",
+  priority = false,
+}: {
+  book: Book;
+  size?: Size;
+  priority?: boolean;
+}) {
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
 
@@ -25,7 +33,11 @@ export function BookCard({ book, size = "md" }: { book: Book; size?: Size }) {
     <div className={`${WIDTHS[size]} shrink-0`}>
       <Link to="/book/$id" params={{ id: book.id }} className="block group">
         <div className="relative">
-          <BookCover book={book} className={`${HEIGHTS[size]} transition-transform group-active:scale-95`} />
+          <BookCover
+            book={book}
+            priority={priority}
+            className={`${HEIGHTS[size]} transition-transform group-active:scale-95`}
+          />
           <button
             type="button"
             aria-label={fav ? "Remover dos favoritos" : "Adicionar aos favoritos"}

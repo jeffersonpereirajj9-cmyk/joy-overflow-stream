@@ -6,7 +6,15 @@ const CATEGORY_IMAGE: Record<string, string | undefined> = Object.fromEntries(
   categories.map((c) => [c.slug, c.image]),
 );
 
-export function BookCover({ book, className = "" }: { book: Book; className?: string }) {
+export function BookCover({
+  book,
+  className = "",
+  priority = false,
+}: {
+  book: Book;
+  className?: string;
+  priority?: boolean;
+}) {
   const staticImage = coverFor(book.id);
   const [remote, setRemote] = useState<string | null>(null);
   const [remoteTried, setRemoteTried] = useState(false);
@@ -24,7 +32,7 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
         setRemoteTried(true);
       });
     };
-    if (typeof IntersectionObserver === "undefined") {
+    if (priority || typeof IntersectionObserver === "undefined") {
       load();
       return;
     }
@@ -45,7 +53,7 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
       cancelled = true;
       io.disconnect();
     };
-  }, [staticImage, book.title, book.author]);
+  }, [staticImage, book.title, book.author, priority]);
 
   const image = staticImage ?? remote;
   const categoryImage = CATEGORY_IMAGE[book.category];
@@ -59,8 +67,9 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
         <img
           src={image}
           alt={`Capa de ${book.title}`}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
+          fetchPriority={priority ? "high" : "auto"}
           width={512}
           height={768}
           className="h-full w-full object-cover"

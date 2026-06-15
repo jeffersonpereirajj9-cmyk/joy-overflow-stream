@@ -2,14 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import type { Book } from "@/data/books";
 import { BookCard } from "./BookCard";
 
-const PAGE = 24;
+const INITIAL = 8;
+const PAGE = 16;
 
 export function BookGrid({ books }: { books: Book[] }) {
-  const [count, setCount] = useState(() => Math.min(PAGE, books.length));
+  const [count, setCount] = useState(() => Math.min(INITIAL, books.length));
   const sentinel = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    setCount(Math.min(PAGE, books.length));
+    setCount(Math.min(INITIAL, books.length));
   }, [books]);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ export function BookGrid({ books }: { books: Book[] }) {
           setCount((c) => Math.min(c + PAGE, books.length));
         }
       },
-      { rootMargin: "600px" },
+          { rootMargin: "300px" },
     );
     io.observe(el);
     return () => io.disconnect();
@@ -33,8 +34,8 @@ export function BookGrid({ books }: { books: Book[] }) {
   return (
     <>
       <div className="grid grid-cols-2 gap-4 px-4 pt-6">
-        {visible.map((b) => (
-          <BookCard key={b.id} book={b} size="lg" />
+        {visible.map((b, i) => (
+          <BookCard key={b.id} book={b} size="lg" priority={i < 2} />
         ))}
       </div>
       {count < books.length && (
