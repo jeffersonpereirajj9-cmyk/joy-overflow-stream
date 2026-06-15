@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/bookfy/AppShell";
-import { BookCard } from "@/components/bookfy/BookCard";
+import { BookGrid } from "@/components/bookfy/BookGrid";
+import { PageHeader } from "@/components/bookfy/PageHeader";
 import { books } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Heart } from "lucide-react";
@@ -16,13 +17,11 @@ function FavoritesPage() {
 
   return (
     <AppShell>
-      <header className="px-4 pt-6">
-        <div className="text-[10px] uppercase tracking-[0.3em] text-accent">Sua estante</div>
-        <h1 className="font-serif text-2xl text-foreground">Favoritos</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          Os livros que conquistaram seu coração.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Sua estante"
+        title="Favoritos"
+        description="Os livros que conquistaram seu coração."
+      />
 
       {list.length === 0 ? (
         <div className="mx-4 mt-16 rounded-3xl border border-dashed border-border p-8 text-center">
@@ -41,11 +40,7 @@ function FavoritesPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-2 gap-4 px-4 pt-6">
-          {list.map((b) => (
-            <BookCard key={b.id} book={b} size="lg" />
-          ))}
-        </div>
+        <BookGrid books={list} />
       )}
     </AppShell>
   );
