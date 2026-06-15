@@ -136,7 +136,7 @@ export const categories: Category[] = [
   { slug: "fantasia-romantica", name: "Fantasia Romântica", description: "Reinos, magia e amor", gradient: "from-purple-700 via-pink-700 to-rose-900", image: fantasiaRomanticaImage.url },
 ];
 
-export const books: Book[] = [
+const allBooks: Book[] = [
   {
     id: "1", title: "Coração de Veludo", author: "Helena Costa", category: "romance",
     rating: 4.8, cover: "from-pink-400 via-rose-500 to-pink-700", accent: "rose",
@@ -371,6 +371,16 @@ export const books: Book[] = [
   },
   ...driveBooks,
 ];
+
+// Deduplicate by (title + author), keeping the first occurrence
+// (manually curated entries take precedence over drive-imported ones).
+const seenKeys = new Set<string>();
+export const books: Book[] = allBooks.filter((b) => {
+  const key = `${b.title.trim().toLowerCase()}|${b.author.trim().toLowerCase()}`;
+  if (seenKeys.has(key)) return false;
+  seenKeys.add(key);
+  return true;
+});
 
 export const sampleChapter = `Capítulo 1 — O Encontro
 
