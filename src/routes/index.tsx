@@ -29,6 +29,7 @@ function Section({ title, books: list }: { title: string; books: typeof books })
 }
 
 function Home() {
+  const mostWanted = [...books].sort((a, b) => b.rating - a.rating).slice(0, 12);
   const mostRead = books.filter((b) => b.tags?.includes("top"));
   const newest = books.filter((b) => b.tags?.includes("new"));
   const trending = books.filter((b) => b.tags?.includes("trending"));
@@ -94,6 +95,7 @@ function Home() {
         </div>
       </section>
 
+      <Section title="Mais Desejados" books={mostWanted} />
       <Section title="Mais Lidos" books={mostRead} />
       <Section title="Novidades" books={newest} />
       <Section title="Em Alta" books={trending} />
