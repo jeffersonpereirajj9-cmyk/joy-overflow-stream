@@ -20,6 +20,7 @@ export type Book = {
 
 export const categories: Category[] = [
   { slug: "romance", name: "Romance", description: "Histórias para se apaixonar", gradient: "from-pink-500 via-rose-500 to-pink-700" },
+  { slug: "romance", name: "Romance", description: "Histórias para se apaixonar", gradient: "from-pink-500 via-rose-500 to-pink-700" },
   { slug: "dark-romance", name: "Dark Romance", description: "Paixões intensas e proibidas", gradient: "from-rose-900 via-black to-pink-900" },
   { slug: "mafia-romance", name: "Máfia Romance", description: "Poder, perigo e desejo", gradient: "from-zinc-900 via-red-950 to-black" },
   { slug: "bilionarios", name: "Bilionários", description: "Luxo e romance", gradient: "from-amber-700 via-yellow-600 to-rose-700" },
