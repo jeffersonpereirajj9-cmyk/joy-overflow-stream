@@ -1,5 +1,5 @@
 const memCache = new Map<string, string | null>();
-const STORAGE_PREFIX = "bookcover:v2:";
+const STORAGE_PREFIX = "bookcover:v3:";
 const inFlight = new Map<string, Promise<string | null>>();
 
 // Concurrency limiter so we don't fire hundreds of requests at once.
@@ -81,6 +81,36 @@ async function tryOpenLibrary(title: string, author: string): Promise<string | n
   }
 }
 
+async function tryItunes(title: string, author: string): Promise<string | null> {
+  try {
+    const term = `${title} ${author}`.trim();
+    const res = await fetch(
+      `https://itunes.apple.com/search?media=ebook&limit=3&term=${encodeURIComponent(term)}`,
+    );
+    if (!res.ok) return null;
+    const data = (await res.json()) as { results?: { artworkUrl100?: string }[] };
+    const art = data.results?.[0]?.artworkUrl100;
+    if (!art) return null;
+    // Upscale Apple thumbnails from 100x100 to 600x600
+    return art.replace(/\/\d+x\d+(bb)?\.(jpg|png)/i, "/600x600bb.$2");
+  } catch {
+    return null;
+  }
+}
+
+async function tryOpenLibraryDirect(title: string, author: string): Promise<string | null> {
+  // Direct cover endpoint by title + author (no JSON fetch needed)
+  if (!title) return null;
+  const url = `https://covers.openlibrary.org/b/title/${encodeURIComponent(title)}-L.jpg?default=false`;
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    if (res.ok && res.headers.get("content-length") !== "0") return url;
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchBookCover(
   title: string,
   author: string,
@@ -104,7 +134,9 @@ export async function fetchBookCover(
         (await tryGoogle(`intitle:"${cleanT}"${firstAuthor ? ` inauthor:"${firstAuthor}"` : ""}`)) ||
         (await tryGoogle(`intitle:${cleanT}`)) ||
         (await tryGoogle(`${cleanT} ${firstAuthor}`.trim())) ||
-        (await tryOpenLibrary(cleanT, firstAuthor));
+        (await tryItunes(cleanT, firstAuthor)) ||
+        (await tryOpenLibrary(cleanT, firstAuthor)) ||
+        (await tryOpenLibraryDirect(cleanT, firstAuthor));
       memCache.set(key, url);
       writeStored(key, url);
       return url;
