@@ -1,8 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
-import { listDriveBooks, type DriveBook } from "@/lib/drive.functions";
-import { Download, Loader2, Search, BookOpen } from "lucide-react";
+import { categories } from "@/data/books";
+import {
+  listDriveBooks,
+  enrichDriveBooks,
+  CATEGORIES,
+  type DriveCategory,
+} from "@/lib/drive.functions";
+import { Download, Loader2, Search, BookOpen, Sparkles } from "lucide-react";
+
+type Item = {
+  id: string;
+  name: string;
+  size: number;
+  title?: string;
+  author?: string;
+  category?: DriveCategory;
+  synopsis?: string;
+  enriching?: boolean;
+};
 
 export const Route = createFileRoute("/library")({
   component: LibraryPage,
@@ -18,7 +35,7 @@ function formatSize(bytes: number) {
 function LibraryPage() {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
-  const [items, setItems] = useState<DriveBook[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [nextToken, setNextToken] = useState<string | undefined>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,6 +45,38 @@ function LibraryPage() {
     return () => clearTimeout(id);
   }, [search]);
 
+  const enrichBatch = async (batch: Item[]) => {
+    if (batch.length === 0) return;
+    const ids = new Set(batch.map((b) => b.id));
+    setItems((prev) =>
+      prev.map((it) => (ids.has(it.id) ? { ...it, enriching: true } : it)),
+    );
+    try {
+      const r = await enrichDriveBooks({
+        data: { books: batch.map((b) => ({ id: b.id, name: b.name })) },
+      });
+      const byId = new Map(r.books.map((b) => [b.id, b]));
+      setItems((prev) =>
+        prev.map((it) => {
+          const e = byId.get(it.id);
+          if (!e) return { ...it, enriching: false };
+          return {
+            ...it,
+            enriching: false,
+            title: e.title,
+            author: e.author,
+            category: e.category,
+            synopsis: e.synopsis,
+          };
+        }),
+      );
+    } catch {
+      setItems((prev) =>
+        prev.map((it) => (ids.has(it.id) ? { ...it, enriching: false } : it)),
+      );
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
     setItems([]);
@@ -35,13 +84,19 @@ function LibraryPage() {
     setLoading(true);
     setError(null);
     listDriveBooks({ data: { search: query } })
-      .then((r) => {
+      .then(async (r) => {
         if (cancelled) return;
         setItems(r.files);
         setNextToken(r.nextPageToken);
+        setLoading(false);
+        await enrichBatch(r.files);
       })
-      .catch((e) => !cancelled && setError(e?.message ?? "Falha ao carregar"))
-      .finally(() => !cancelled && setLoading(false));
+      .catch((e) => {
+        if (!cancelled) {
+          setError(e?.message ?? "Falha ao carregar");
+          setLoading(false);
+        }
+      });
     return () => {
       cancelled = true;
     };
@@ -54,12 +109,27 @@ function LibraryPage() {
       const r = await listDriveBooks({ data: { search: query, pageToken: nextToken } });
       setItems((prev) => [...prev, ...r.files]);
       setNextToken(r.nextPageToken);
+      setLoading(false);
+      await enrichBatch(r.files);
     } catch (e) {
       setError((e as Error).message);
-    } finally {
       setLoading(false);
     }
   };
+
+  const grouped = useMemo(() => {
+    const map = new Map<DriveCategory | "_unsorted", Item[]>();
+    for (const it of items) {
+      const k = (it.category ?? "_unsorted") as DriveCategory | "_unsorted";
+      const arr = map.get(k) ?? [];
+      arr.push(it);
+      map.set(k, arr);
+    }
+    return map;
+  }, [items]);
+
+  const catName = (slug: DriveCategory) =>
+    categories.find((c) => c.slug === slug)?.name ?? slug;
 
   return (
     <AppShell>
@@ -83,54 +153,81 @@ function LibraryPage() {
         </div>
       </div>
 
-      <ul className="px-4 pb-8">
-        {items.map((b) => {
-          const pretty = b.name.replace(/\.mobi$/i, "");
-          const dl = `/api/drive/${b.id}?name=${encodeURIComponent(b.name)}`;
+      <div className="px-4 pb-8">
+        {[...CATEGORIES, "_unsorted" as const].map((slug) => {
+          const list = grouped.get(slug);
+          if (!list || list.length === 0) return null;
+          const isUnsorted = slug === "_unsorted";
           return (
-            <li
-              key={b.id}
-              className="flex items-center gap-3 border-b border-border/60 py-3"
-            >
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/40 to-accent/30">
-                <BookOpen className="h-5 w-5 text-foreground" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-foreground">{pretty}</p>
-                <p className="text-xs text-muted-foreground">{formatSize(b.size)} • MOBI</p>
-              </div>
-              <a
-                href={dl}
-                className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30 active:scale-95"
-                aria-label="Baixar"
-              >
-                <Download className="h-4 w-4" />
-              </a>
-            </li>
+            <section key={slug} className="mt-6">
+              <h2 className="mb-2 flex items-center gap-2 font-serif text-lg text-foreground">
+                {isUnsorted ? (
+                  <>
+                    <Sparkles className="h-4 w-4 animate-pulse text-accent" /> Classificando…
+                  </>
+                ) : (
+                  catName(slug as DriveCategory)
+                )}
+                <span className="text-xs text-muted-foreground">({list.length})</span>
+              </h2>
+              <ul>
+                {list.map((b) => {
+                  const fallback = b.name.replace(/\.mobi$/i, "");
+                  const dl = `/api/drive/${b.id}?name=${encodeURIComponent(b.name)}`;
+                  return (
+                    <li key={b.id} className="flex gap-3 border-b border-border/60 py-3">
+                      <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/40 to-accent/30">
+                        <BookOpen className="h-5 w-5 text-foreground" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-medium text-foreground">
+                          {b.title ?? fallback}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {b.author ?? "—"} • {formatSize(b.size)}
+                        </p>
+                        {b.synopsis ? (
+                          <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
+                            {b.synopsis}
+                          </p>
+                        ) : b.enriching ? (
+                          <p className="mt-1 text-xs italic text-muted-foreground">
+                            Gerando sinopse…
+                          </p>
+                        ) : null}
+                      </div>
+                      <a
+                        href={dl}
+                        className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30 active:scale-95"
+                        aria-label="Baixar"
+                      >
+                        <Download className="h-4 w-4" />
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
           );
         })}
         {!loading && items.length === 0 && !error && (
-          <li className="py-12 text-center text-sm text-muted-foreground">Nada encontrado.</li>
+          <p className="py-12 text-center text-sm text-muted-foreground">Nada encontrado.</p>
         )}
-        {error && (
-          <li className="py-6 text-center text-sm text-destructive">{error}</li>
-        )}
+        {error && <p className="py-6 text-center text-sm text-destructive">{error}</p>}
         {loading && (
-          <li className="flex items-center justify-center py-6 text-muted-foreground">
+          <div className="flex items-center justify-center py-6 text-muted-foreground">
             <Loader2 className="h-5 w-5 animate-spin" />
-          </li>
+          </div>
         )}
         {nextToken && !loading && (
-          <li className="pt-4">
-            <button
-              onClick={loadMore}
-              className="w-full rounded-full border border-border bg-card py-3 text-sm font-medium text-foreground active:scale-95"
-            >
-              Carregar mais
-            </button>
-          </li>
+          <button
+            onClick={loadMore}
+            className="mt-6 w-full rounded-full border border-border bg-card py-3 text-sm font-medium text-foreground active:scale-95"
+          >
+            Carregar mais
+          </button>
         )}
-      </ul>
+      </div>
     </AppShell>
   );
 }
