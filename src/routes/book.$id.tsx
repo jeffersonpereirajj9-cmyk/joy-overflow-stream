@@ -30,7 +30,7 @@ function BookPage() {
   const [sharing, setSharing] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
-  const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
+  const downloadFormat = book.mobiUrl ? "EPUB" : "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
   const canShareFiles =
     typeof navigator !== "undefined" &&
@@ -40,7 +40,9 @@ function BookPage() {
     if (downloading) return;
     setDownloading(true);
     try {
-      const url = book.mobiUrl || book.epubUrl;
+      const url = book.mobiUrl?.startsWith("/api/drive/")
+        ? book.mobiUrl.replace(/^\/api\/drive\/([^/?]+)/, "/api/drive/$1/epub")
+        : book.epubUrl || book.mobiUrl;
       if (!url) {
         const file = await downloadEpub(book);
         setDownloadedFile(file ?? null);
@@ -48,7 +50,7 @@ function BookPage() {
         return;
       }
       const safeTitle = book.title.replace(/[/\\?%*:|"<>]/g, "-");
-      const ext = book.mobiUrl ? "mobi" : "epub";
+      const ext = url.includes("/epub") || book.epubUrl ? "epub" : "mobi";
       const mime = ext === "epub" ? "application/epub+zip" : "application/x-mobipocket-ebook";
       const filename = `${safeTitle}.${ext}`;
       try {
@@ -177,7 +179,9 @@ function BookPage() {
           </button>
         )}
         {downloadedFile && (
-          <button
+      <div className="mt-3 rounded-2xl border border-border bg-card p-3">
+        <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
+        <button
             type="button"
             onClick={handleShareKindle}
             disabled={sharing || !canShareFiles || !navigator.canShare?.({ files: [downloadedFile] })}
@@ -192,7 +196,17 @@ function BookPage() {
                 <Share2 className="h-4 w-4" /> Compartilhar com Kindle
               </>
             )}
-          </button>
+        </button>
+        {downloadedUrl && (
+          <a
+            href={downloadedUrl}
+            download={downloadedFile.name}
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background py-3 text-sm font-semibold text-foreground transition active:scale-95"
+          >
+            <Download className="h-4 w-4" /> Baixar de novo
+          </a>
+        )}
+      </div>
         )}
       </div>
     </AppShell>
