@@ -1,4 +1,4 @@
-import { BookOpen, Download } from "lucide-react";
+import { BookOpen, Download, FileType2 } from "lucide-react";
 import type { DriveItem } from "@/hooks/useDriveLibrary";
 
 function formatSize(bytes: number) {
@@ -10,6 +10,7 @@ function formatSize(bytes: number) {
 export function DriveBookRow({ book }: { book: DriveItem }) {
   const fallback = book.name.replace(/\.mobi$/i, "");
   const dl = `/api/drive/${book.id}?name=${encodeURIComponent(book.name)}`;
+  const epubDl = `/api/drive/${book.id}/epub?name=${encodeURIComponent(book.name)}`;
   return (
     <li className="flex gap-3 border-b border-border/60 py-3">
       <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-primary/40 to-accent/30">
@@ -30,13 +31,23 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
           <p className="mt-1 text-xs italic text-muted-foreground">Gerando sinopse…</p>
         ) : null}
       </div>
-      <a
-        href={dl}
-        className="mt-1 grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30 active:scale-95"
-        aria-label="Baixar"
-      >
-        <Download className="h-4 w-4" />
-      </a>
+      <div className="mt-1 flex shrink-0 flex-col gap-2">
+        <a
+          href={dl}
+          className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30 active:scale-95"
+          aria-label="Baixar MOBI"
+        >
+          <Download className="h-4 w-4" />
+        </a>
+        <a
+          href={epubDl}
+          className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-secondary-foreground shadow-md shadow-secondary/30 active:scale-95"
+          aria-label="Converter para EPUB"
+          title="Converter para EPUB"
+        >
+          <FileType2 className="h-4 w-4" />
+        </a>
+      </div>
     </li>
   );
 }
