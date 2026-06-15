@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Download, FileType2, Loader2, Share2 } from "lucide-react";
+import { BookOpen, Download, FileType2, Loader2 } from "lucide-react";
 import type { DriveItem } from "@/hooks/useDriveLibrary";
 import { downloadFileFromUrl } from "@/lib/epub";
 
@@ -12,6 +12,7 @@ function formatSize(bytes: number) {
 export function DriveBookRow({ book }: { book: DriveItem }) {
   const [busy, setBusy] = useState<"mobi" | "epub" | "share" | null>(null);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
+  const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const fallback = book.name.replace(/\.mobi$/i, "");
   const dl = `/api/drive/${book.id}?name=${encodeURIComponent(book.name)}`;
   const epubDl = `/api/drive/${book.id}/epub?name=${encodeURIComponent(book.name)}`;
@@ -23,24 +24,9 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
     try {
       const file = await downloadFileFromUrl(url, filename, type);
       setDownloadedFile(file);
+      setDownloadedUrl(url);
     } catch (err) {
       window.alert(`Falha ao baixar: ${(err as Error).message}`);
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const shareToKindle = async () => {
-    if (!downloadedFile || busy) return;
-    if (!navigator.share || !navigator.canShare?.({ files: [downloadedFile] })) {
-      window.alert("Este navegador não permite compartilhar arquivos. Abra pelo celular e escolha o app Kindle.");
-      return;
-    }
-    setBusy("share");
-    try {
-      await navigator.share({ files: [downloadedFile], title });
-    } catch (err) {
-      if ((err as Error).name !== "AbortError") window.alert(`Falha ao compartilhar: ${(err as Error).message}`);
     } finally {
       setBusy(null);
     }
@@ -87,16 +73,20 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
           </button>
         </div>
       </div>
-      {downloadedFile && (
-        <button
-          type="button"
-          onClick={shareToKindle}
-          disabled={busy !== null}
-          className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-md shadow-accent/30 active:scale-95 disabled:opacity-70"
-        >
-          {busy === "share" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Share2 className="h-4 w-4" />}
-          Compartilhar com Kindle
-        </button>
+      {downloadedFile && downloadedUrl && (
+        <div className="mt-3 rounded-2xl border border-border bg-card p-3">
+          <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            Toque no arquivo baixado na barra de downloads ou baixe novamente e escolha o app Kindle para abrir.
+          </p>
+          <a
+            href={downloadedUrl}
+            download={downloadedFile.name}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-md shadow-accent/30 active:scale-95"
+          >
+            <Download className="h-4 w-4" /> Abrir arquivo para o Kindle
+          </a>
+        </div>
       )}
     </li>
   );
