@@ -176,11 +176,11 @@ function BookPage() {
             )}
           </button>
         )}
-        {downloadedFile && canShareFiles && navigator.canShare?.({ files: [downloadedFile] }) && (
+        {downloadedFile && (
           <button
             type="button"
             onClick={handleShareKindle}
-            disabled={sharing}
+            disabled={sharing || !canShareFiles || !navigator.canShare?.({ files: [downloadedFile] })}
             className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95 disabled:opacity-70"
           >
             {sharing ? (
