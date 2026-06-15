@@ -3,6 +3,16 @@ import autobiografiaEpub from "@/assets/epubs/autobiografia.epub.asset.json";
 import amigaGenialEpub from "@/assets/epubs/amiga-genial.epub.asset.json";
 import cemDiasEpub from "@/assets/epubs/100-dias.epub.asset.json";
 import compatibilidadeEpub from "@/assets/epubs/988-compatibilidade.epub.asset.json";
+import hipoteseEpub from "@/assets/epubs/hipotese-do-amor.epub.asset.json";
+import guardaCostasEpub from "@/assets/epubs/guarda-costas.epub.asset.json";
+import florestaEpub from "@/assets/epubs/floresta-pigmeus.epub.asset.json";
+import filhaCubanaEpub from "@/assets/epubs/filha-cubana.epub.asset.json";
+import destruidoraEpub from "@/assets/epubs/destruidora-casamentos.epub.asset.json";
+import aCoroaEpub from "@/assets/epubs/a-coroa.epub.asset.json";
+import condessaEpub from "@/assets/epubs/condessa-ensanguentada.epub.asset.json";
+import cincoPassosEpub from "@/assets/epubs/cinco-passos.epub.asset.json";
+import casaEspiritosEpub from "@/assets/epubs/casa-espiritos.epub.asset.json";
+import aCarneEpub from "@/assets/epubs/a-carne.epub.asset.json";
 
 import cover1 from "@/assets/covers/1.jpg";
 import cover2 from "@/assets/covers/2.jpg";
@@ -21,12 +31,24 @@ import cover14 from "@/assets/covers/14.jpg";
 import cover15 from "@/assets/covers/15.jpg";
 import cover16 from "@/assets/covers/16.jpg";
 import cover17 from "@/assets/covers/17.jpg";
+import cover18 from "@/assets/covers/18.jpg";
+import cover19 from "@/assets/covers/19.jpg";
+import cover20 from "@/assets/covers/20.jpg";
+import cover21 from "@/assets/covers/21.jpg";
+import cover22 from "@/assets/covers/22.jpg";
+import cover23 from "@/assets/covers/23.jpg";
+import cover24 from "@/assets/covers/24.jpg";
+import cover25 from "@/assets/covers/25.jpg";
+import cover26 from "@/assets/covers/26.jpg";
+import cover27 from "@/assets/covers/27.jpg";
 
 const COVERS: Record<string, string> = {
   "1": cover1, "2": cover2, "3": cover3, "4": cover4, "5": cover5,
   "6": cover6, "7": cover7, "8": cover8, "9": cover9, "10": cover10,
   "11": cover11, "12": cover12, "13": cover13, "14": cover14, "15": cover15,
   "16": cover16, "17": cover17,
+  "18": cover18, "19": cover19, "20": cover20, "21": cover21, "22": cover22,
+  "23": cover23, "24": cover24, "25": cover25, "26": cover26, "27": cover27,
 };
 
 export const coverFor = (id: string): string | undefined => COVERS[id];
