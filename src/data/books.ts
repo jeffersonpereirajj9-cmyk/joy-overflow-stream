@@ -14,6 +14,15 @@ import cincoPassosEpub from "@/assets/epubs/cinco-passos.epub.asset.json";
 import casaEspiritosEpub from "@/assets/epubs/casa-espiritos.epub.asset.json";
 import aCarneEpub from "@/assets/epubs/a-carne.epub.asset.json";
 
+import amadaImortalMobi from "@/assets/mobis/amada-imortal.mobi.asset.json";
+import amanhecerMobi from "@/assets/mobis/amanhecer.mobi.asset.json";
+import amanteEternoMobi from "@/assets/mobis/amante-eterno.mobi.asset.json";
+import amanteFantasiaMobi from "@/assets/mobis/amante-fantasia.mobi.asset.json";
+import amanteLibertadaMobi from "@/assets/mobis/amante-libertada.mobi.asset.json";
+import amanteLibertoMobi from "@/assets/mobis/amante-liberto.mobi.asset.json";
+import amanteSombrioMobi from "@/assets/mobis/amante-sombrio.mobi.asset.json";
+import amorCruelMobi from "@/assets/mobis/amor-cruel.mobi.asset.json";
+
 import cover1 from "@/assets/covers/1.jpg";
 import cover2 from "@/assets/covers/2.jpg";
 import cover3 from "@/assets/covers/3.jpg";
@@ -71,6 +80,7 @@ export type Book = {
   synopsis: string;
   tags?: ("trending" | "new" | "top" | "favorites")[];
   epubUrl?: string;
+  mobiUrl?: string;
 };
 
 export const categories: Category[] = [
@@ -258,6 +268,61 @@ export const books: Book[] = [
     synopsis: "Soledad contrata um acompanhante para vingar-se do amante casado que a abandonou. O que era para ser uma noite torna-se uma obsessão que a fará repensar tudo o que sabia sobre desejo e identidade.",
     tags: ["trending"],
     epubUrl: aCarneEpub.url,
+  },
+  {
+    id: "28", title: "Amante Sombrio", author: "J. R. Ward", category: "dark-romance",
+    rating: 4.7, cover: "from-zinc-900 via-rose-950 to-black", accent: "rose",
+    synopsis: "Wrath, o último vampiro de sangue puro, jurou nunca amar uma humana. Até conhecer Beth — e descobrir que algumas regras existem só para serem quebradas.",
+    tags: ["top", "trending"],
+    mobiUrl: amanteSombrioMobi.url,
+  },
+  {
+    id: "29", title: "Amante Eterno", author: "J. R. Ward", category: "dark-romance",
+    rating: 4.6, cover: "from-stone-900 via-rose-900 to-black", accent: "rose",
+    synopsis: "Rhage carrega uma maldição que ameaça destruí-lo. Mary é a única capaz de acalmar a fera — mesmo sabendo que talvez não tenha tempo suficiente.",
+    tags: ["favorites"],
+    mobiUrl: amanteEternoMobi.url,
+  },
+  {
+    id: "30", title: "Amante Liberto", author: "J. R. Ward", category: "dark-romance",
+    rating: 4.6, cover: "from-rose-900 via-stone-900 to-black", accent: "rose",
+    synopsis: "Mais um capítulo da Irmandade da Adaga Negra: paixão, lealdade e batalhas em meio à noite eterna.",
+    tags: ["new"],
+    mobiUrl: amanteLibertoMobi.url,
+  },
+  {
+    id: "31", title: "Amante Libertada", author: "J. R. Ward", category: "dark-romance",
+    rating: 4.5, cover: "from-rose-950 via-zinc-900 to-black", accent: "rose",
+    synopsis: "Um amor proibido entre mundos opostos coloca à prova tudo o que a Irmandade jurou proteger.",
+    mobiUrl: amanteLibertadaMobi.url,
+  },
+  {
+    id: "32", title: "Amanhecer", author: "Stephenie Meyer", category: "fantasia-romantica",
+    rating: 4.8, cover: "from-rose-300 via-pink-500 to-rose-900", accent: "rose",
+    synopsis: "Bella e Edward selam seu destino em uma união que mudará para sempre o equilíbrio entre vampiros, lobos e humanos.",
+    tags: ["top", "favorites"],
+    mobiUrl: amanhecerMobi.url,
+  },
+  {
+    id: "33", title: "Amada Imortal", author: "Cate Tiernan", category: "fantasia-romantica",
+    rating: 4.4, cover: "from-purple-800 via-rose-800 to-black", accent: "purple",
+    synopsis: "Nastasya viveu por séculos sem se importar com nada. Quando o passado a alcança, ela precisa decidir o que está disposta a sacrificar pelo amor.",
+    tags: ["new"],
+    mobiUrl: amadaImortalMobi.url,
+  },
+  {
+    id: "34", title: "Amor Cruel", author: "Reyes Monforte", category: "dark-romance",
+    rating: 4.5, cover: "from-rose-800 via-red-900 to-black", accent: "red",
+    synopsis: "Inspirado em fatos reais, a história de uma mulher que descobre que o homem por quem se apaixonou esconde segredos capazes de destruí-la.",
+    tags: ["trending"],
+    mobiUrl: amorCruelMobi.url,
+  },
+  {
+    id: "35", title: "Amante da Fantasia", author: "Sherrilyn Kenyon", category: "fantasia-romantica",
+    rating: 4.5, cover: "from-fuchsia-800 via-rose-800 to-purple-950", accent: "fuchsia",
+    synopsis: "Um deus do sono. Uma mortal que ousou sonhar com o impossível. E uma paixão que pode incendiar dois mundos.",
+    tags: ["favorites"],
+    mobiUrl: amanteFantasiaMobi.url,
   },
 ];
 
