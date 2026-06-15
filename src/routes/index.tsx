@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCard } from "@/components/bookfy/BookCard";
 import { books, categories } from "@/data/books";
@@ -29,11 +30,22 @@ function Section({ title, books: list }: { title: string; books: typeof books })
 }
 
 function Home() {
-  const mostWanted = [...books].sort((a, b) => b.rating - a.rating).slice(0, 12);
-  const mostRead = books.filter((b) => b.tags?.includes("top"));
-  const newest = books.filter((b) => b.tags?.includes("new"));
-  const trending = books.filter((b) => b.tags?.includes("trending"));
-  const readerFavs = books.filter((b) => b.tags?.includes("favorites"));
+  const { mostWanted, mostRead, newest, trending, readerFavs } = useMemo(() => {
+    const mostWanted = [...books].sort((a, b) => b.rating - a.rating).slice(0, 12);
+    const mostRead: typeof books = [];
+    const newest: typeof books = [];
+    const trending: typeof books = [];
+    const readerFavs: typeof books = [];
+    for (const b of books) {
+      const tags = b.tags;
+      if (!tags) continue;
+      if (tags.includes("top")) mostRead.push(b);
+      if (tags.includes("new")) newest.push(b);
+      if (tags.includes("trending")) trending.push(b);
+      if (tags.includes("favorites")) readerFavs.push(b);
+    }
+    return { mostWanted, mostRead, newest, trending, readerFavs };
+  }, []);
 
   return (
     <AppShell>
