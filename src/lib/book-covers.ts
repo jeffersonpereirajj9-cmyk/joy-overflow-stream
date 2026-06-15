@@ -1,5 +1,5 @@
 const memCache = new Map<string, string | null>();
-const STORAGE_PREFIX = "bookcover:v2:";
+const STORAGE_PREFIX = "bookcover:v3:";
 const inFlight = new Map<string, Promise<string | null>>();
 
 // Concurrency limiter so we don't fire hundreds of requests at once.
