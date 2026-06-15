@@ -15,7 +15,8 @@ export function BookCover({
   className?: string;
   priority?: boolean;
 }) {
-  const staticImage = coverFor(book.id);
+  const isUrl = (s?: string) => !!s && /^(https?:|\/|data:)/.test(s);
+  const staticImage = coverFor(book.id) ?? (isUrl(book.cover) ? book.cover : undefined);
   const [remote, setRemote] = useState<string | null>(null);
   const [remoteTried, setRemoteTried] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
