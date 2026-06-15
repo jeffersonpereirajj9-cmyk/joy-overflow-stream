@@ -4,7 +4,7 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2, FileType2 } from "lucide-react";
 import { downloadEpub } from "@/lib/epub";
 
 export const Route = createFileRoute("/book/$id")({
@@ -26,7 +26,9 @@ function BookPage() {
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
   const [downloading, setDownloading] = useState(false);
+  const [converting, setConverting] = useState(false);
   const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
+  const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
 
   const handleDownload = async () => {
     if (downloading) return;
@@ -36,6 +38,16 @@ function BookPage() {
     } finally {
       setDownloading(false);
     }
+  };
+
+  const handleConvert = () => {
+    if (converting || !book.mobiUrl) return;
+    setConverting(true);
+    // Drive URL: /api/drive/<id>?name=<name> → convert endpoint: /api/drive/<id>/epub?name=<name>
+    const url = book.mobiUrl.replace(/^\/api\/drive\/([^/?]+)/, "/api/drive/$1/epub");
+    window.location.href = url;
+    // Reset the spinner shortly after; the browser handles the download.
+    setTimeout(() => setConverting(false), 4000);
   };
 
   return (
@@ -103,6 +115,24 @@ function BookPage() {
             <Heart className={`h-5 w-5 transition ${fav ? "fill-primary text-primary" : "text-foreground"}`} />
           </button>
         </div>
+        {canConvert && (
+          <button
+            type="button"
+            onClick={handleConvert}
+            disabled={converting}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3 text-sm font-semibold text-foreground transition active:scale-95 disabled:opacity-70"
+          >
+            {converting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Convertendo (pode levar ~30s)…
+              </>
+            ) : (
+              <>
+                <FileType2 className="h-4 w-4" /> Converter para EPUB
+              </>
+            )}
+          </button>
+        )}
       </div>
     </AppShell>
   );
