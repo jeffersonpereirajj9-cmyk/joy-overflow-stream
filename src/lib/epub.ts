@@ -7,6 +7,18 @@ function escapeXml(s: string) {
 }
 
 export async function downloadEpub(book: Book) {
+  // If the book has a real EPUB file hosted on the CDN, download that.
+  if (book.epubUrl) {
+    const a = document.createElement("a");
+    a.href = book.epubUrl;
+    a.download = `${book.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-")}.epub`;
+    a.rel = "noopener";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return;
+  }
+
   const zip = new JSZip();
   const uuid = `bookfy-${book.id}`;
   const title = escapeXml(book.title);
