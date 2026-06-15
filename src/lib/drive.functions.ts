@@ -70,6 +70,43 @@ export const listDriveBooks = createServerFn({ method: "GET" })
     };
   });
 
+function guessCategory(name: string): DriveCategory {
+  const n = name.toLowerCase();
+  const has = (...words: string[]) => words.some((w) => n.includes(w));
+  if (
+    has(
+      "mafia", "máfia", "mafioso", "bratva", "cartel", "cosa nostra",
+      "padrinho", "don ", "famiglia", "famiglia", "yakuza",
+    )
+  )
+    return "mafia-romance";
+  if (
+    has(
+      "bilion", "bilhão", "ceo", "tycoon", "magnata", "boss", "billion",
+      "executivo", "milion",
+    )
+  )
+    return "bilionarios";
+  if (
+    has(
+      "vampir", "lobo", "lobis", "alfa", "alpha", "ômega", "omega",
+      "dragão", "dragao", "dragon", "bruxa", "bruxo", "fada", "fae",
+      "feiti", "magia", "elfo", "fantas", "trono", "reino", "court of",
+      "acotar", "rei ", "rainha", "deus", "deusa", "imortal", "vidente",
+    )
+  )
+    return "fantasia-romantica";
+  if (
+    has(
+      "dark", "cruel", "vingan", "sombri", "obsess", "punish", "tormento",
+      "sangue", "ruína", "ruina", "veneno", "pecad", "ódio", "odio",
+      "haunting", "twisted", "savage", "wicked", "ruthless",
+    )
+  )
+    return "dark-romance";
+  return "romance";
+}
+
 const EnrichSchema = z.object({
   books: z.array(
     z.object({
@@ -130,7 +167,7 @@ Retorne JSON com a chave "books" preservando exatamente os mesmos ids.`;
             id: b.id,
             title: (titlePart || base).trim(),
             author: (authorPart || "Desconhecido").trim(),
-            category: "romance" as const,
+            category: guessCategory(base),
             synopsis: "",
           };
         }),
