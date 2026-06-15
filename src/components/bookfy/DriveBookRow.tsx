@@ -14,6 +14,7 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const fallback = book.name.replace(/\.mobi$/i, "");
+  const mobiDl = `/api/drive/${book.id}?name=${encodeURIComponent(book.name)}`;
   const epubDl = `/api/drive/${book.id}/epub?name=${encodeURIComponent(book.name)}`;
   const title = book.title ?? fallback;
 
@@ -25,7 +26,13 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
       setDownloadedFile(file);
       setDownloadedUrl(epubDl);
     } catch (err) {
-      window.alert(`Falha ao baixar: ${(err as Error).message}`);
+      try {
+        const file = await downloadFileFromUrl(mobiDl, `${fallback}.mobi`, "application/x-mobipocket-ebook");
+        setDownloadedFile(file);
+        setDownloadedUrl(mobiDl);
+      } catch {
+        window.alert(`Falha ao baixar arquivo completo: ${(err as Error).message}`);
+      }
     } finally {
       setBusy(false);
     }
