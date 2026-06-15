@@ -1,19 +1,42 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { coverFor, type Book } from "@/data/books";
 import { fetchBookCover } from "@/lib/book-covers";
 
 export function BookCover({ book, className = "" }: { book: Book; className?: string }) {
   const staticImage = coverFor(book.id);
   const [remote, setRemote] = useState<string | null>(null);
+  const wrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (staticImage) return;
+    const el = wrapRef.current;
+    if (!el) return;
     let cancelled = false;
-    fetchBookCover(book.title, book.author).then((url) => {
-      if (!cancelled && url) setRemote(url);
-    });
+    const load = () => {
+      fetchBookCover(book.title, book.author).then((url) => {
+        if (!cancelled && url) setRemote(url);
+      });
+    };
+    if (typeof IntersectionObserver === "undefined") {
+      load();
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            io.disconnect();
+            load();
+            break;
+          }
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    io.observe(el);
     return () => {
       cancelled = true;
+      io.disconnect();
     };
   }, [staticImage, book.title, book.author]);
 
@@ -22,12 +45,14 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
   if (image) {
     return (
       <div
+        ref={wrapRef}
         className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 ${className}`}
       >
         <img
           src={image}
           alt={`Capa de ${book.title}`}
           loading="lazy"
+          decoding="async"
           width={512}
           height={768}
           className="h-full w-full object-cover"
@@ -42,6 +67,7 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
 
   return (
     <div
+      ref={wrapRef}
       className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${book.cover} shadow-lg shadow-black/40 ${className}`}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_60%)]" />
