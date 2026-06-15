@@ -80,10 +80,25 @@ function BookPage() {
 
   const handleShareKindle = async () => {
     if (sharing || !downloadedFile) return;
+    // Re-wrap as a guaranteed-shareable EPUB file (Chrome's allowlist accepts application/epub+zip).
+    const safeName = downloadedFile.name.toLowerCase().endsWith(".epub")
+      ? downloadedFile.name
+      : downloadedFile.name.replace(/\.[^.]+$/, "") + ".epub";
+    const shareFile = new File([downloadedFile], safeName, {
+      type: "application/epub+zip",
+    });
+    if (shareFile.size === 0) {
+      window.alert("Arquivo vazio. Baixe novamente antes de compartilhar.");
+      return;
+    }
+    if (!navigator.canShare?.({ files: [shareFile] })) {
+      window.alert("Seu navegador não permite compartilhar este arquivo. Use o botão 'Baixar de novo' e abra pelo app Kindle.");
+      return;
+    }
     setSharing(true);
     try {
       await navigator.share({
-        files: [downloadedFile],
+        files: [shareFile],
         title: book.title,
       });
     } catch (err) {
