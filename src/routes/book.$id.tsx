@@ -31,6 +31,7 @@ function BookPage() {
   const [sendingKindle, setSendingKindle] = useState(false);
   const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
+  const canSendKindle = !!book.epubUrl || canConvert;
 
   const handleDownload = async () => {
     if (downloading) return;
@@ -53,11 +54,7 @@ function BookPage() {
   };
 
   const handleSendKindle = async () => {
-    if (sendingKindle || !book.mobiUrl) return;
-    const m = book.mobiUrl.match(/^\/api\/drive\/([^/?]+)\?name=(.+)$/);
-    if (!m) return;
-    const driveId = m[1];
-    const filename = decodeURIComponent(m[2]);
+    if (sendingKindle) return;
     const stored = typeof window !== "undefined" ? window.localStorage.getItem("kindleEmail") : null;
     const email = window.prompt(
       "Digite seu e-mail @kindle.com (encontre em Amazon → Gerenciar seu Conteúdo → Configurações). Lembre de aprovar onboarding@resend.dev na lista de e-mails permitidos.",
@@ -71,7 +68,31 @@ function BookPage() {
     window.localStorage.setItem("kindleEmail", email);
     setSendingKindle(true);
     try {
-      await sendBookToKindle({ data: { driveId, filename, kindleEmail: email } });
+      // Fetch the EPUB: either the static asset, or convert MOBI→EPUB via /api/drive/<id>/epub
+      let epubUrl: string;
+      let filename: string;
+      if (book.epubUrl) {
+        epubUrl = book.epubUrl;
+        filename = `${book.title}.epub`.replace(/[/\\?%*:|"<>]/g, "-");
+      } else if (book.mobiUrl) {
+        const m = book.mobiUrl.match(/^\/api\/drive\/([^/?]+)\?name=(.+)$/);
+        if (!m) throw new Error("URL do MOBI inválida");
+        epubUrl = `/api/drive/${m[1]}/epub?name=${m[2]}`;
+        filename = decodeURIComponent(m[2]).replace(/\.mobi$/i, ".epub");
+      } else {
+        throw new Error("Livro sem arquivo disponível");
+      }
+      const res = await fetch(epubUrl);
+      if (!res.ok) throw new Error(`Falha ao obter EPUB (${res.status})`);
+      const buf = await res.arrayBuffer();
+      const bytes = new Uint8Array(buf);
+      let bin = "";
+      const CHUNK = 0x8000;
+      for (let i = 0; i < bytes.length; i += CHUNK) {
+        bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+      }
+      const contentB64 = window.btoa(bin);
+      await sendBookToKindle({ data: { filename, contentB64, kindleEmail: email } });
       window.alert("Enviado! O livro deve chegar no seu Kindle em alguns minutos.");
     } catch (err) {
       window.alert(`Falha ao enviar: ${(err as Error).message}`);
@@ -163,7 +184,7 @@ function BookPage() {
             )}
           </button>
         )}
-        {canConvert && (
+        {canSendKindle && (
           <button
             type="button"
             onClick={handleSendKindle}
