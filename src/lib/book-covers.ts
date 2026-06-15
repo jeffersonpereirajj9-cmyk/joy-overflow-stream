@@ -1,5 +1,23 @@
 const memCache = new Map<string, string | null>();
 const STORAGE_PREFIX = "bookcover:v2:";
+const inFlight = new Map<string, Promise<string | null>>();
+
+// Concurrency limiter so we don't fire hundreds of requests at once.
+const MAX_CONCURRENT = 4;
+let active = 0;
+const queue: (() => void)[] = [];
+function acquire(): Promise<void> {
+  if (active < MAX_CONCURRENT) {
+    active++;
+    return Promise.resolve();
+  }
+  return new Promise((res) => queue.push(() => { active++; res(); }));
+}
+function release() {
+  active--;
+  const next = queue.shift();
+  if (next) next();
+}
 
 function readStored(key: string): string | null | undefined {
   if (typeof localStorage === "undefined") return undefined;
