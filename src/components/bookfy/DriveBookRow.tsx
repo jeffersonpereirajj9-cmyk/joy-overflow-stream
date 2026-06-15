@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BookOpen, Download, FileType2, Loader2 } from "lucide-react";
+import { BookOpen, Download, Loader2 } from "lucide-react";
 import type { DriveItem } from "@/hooks/useDriveLibrary";
 import { downloadFileFromUrl } from "@/lib/epub";
 
@@ -10,25 +10,24 @@ function formatSize(bytes: number) {
 }
 
 export function DriveBookRow({ book }: { book: DriveItem }) {
-  const [busy, setBusy] = useState<"mobi" | "epub" | "share" | null>(null);
+  const [busy, setBusy] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const fallback = book.name.replace(/\.mobi$/i, "");
-  const dl = `/api/drive/${book.id}?name=${encodeURIComponent(book.name)}`;
   const epubDl = `/api/drive/${book.id}/epub?name=${encodeURIComponent(book.name)}`;
   const title = book.title ?? fallback;
 
-  const downloadAndKeep = async (url: string, filename: string, type: string, kind: "mobi" | "epub") => {
+  const handleDownloadEpub = async () => {
     if (busy) return;
-    setBusy(kind);
+    setBusy(true);
     try {
-      const file = await downloadFileFromUrl(url, filename, type);
+      const file = await downloadFileFromUrl(epubDl, `${fallback}.epub`, "application/epub+zip");
       setDownloadedFile(file);
-      setDownloadedUrl(url);
+      setDownloadedUrl(epubDl);
     } catch (err) {
       window.alert(`Falha ao baixar: ${(err as Error).message}`);
     } finally {
-      setBusy(null);
+      setBusy(false);
     }
   };
 
@@ -54,22 +53,13 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
         <div className="mt-1 flex shrink-0 flex-col gap-2">
           <button
             type="button"
-            onClick={() => downloadAndKeep(dl, book.name, "application/x-mobipocket-ebook", "mobi")}
-            disabled={busy !== null}
+            onClick={handleDownloadEpub}
+            disabled={busy}
             className="grid h-10 w-10 place-items-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/30 active:scale-95 disabled:opacity-70"
-            aria-label="Baixar MOBI"
+            aria-label="Baixar EPUB"
+            title="Baixar EPUB"
           >
-            {busy === "mobi" ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
-          </button>
-          <button
-            type="button"
-            onClick={() => downloadAndKeep(epubDl, `${fallback}.epub`, "application/epub+zip", "epub")}
-            disabled={busy !== null}
-            className="grid h-10 w-10 place-items-center rounded-full bg-secondary text-secondary-foreground shadow-md shadow-secondary/30 active:scale-95 disabled:opacity-70"
-            aria-label="Converter para EPUB"
-            title="Converter para EPUB"
-          >
-            {busy === "epub" ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileType2 className="h-4 w-4" />}
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
           </button>
         </div>
       </div>
