@@ -23,6 +23,8 @@ import amanteLibertoMobi from "@/assets/mobis/amante-liberto.mobi.asset.json";
 import amanteSombrioMobi from "@/assets/mobis/amante-sombrio.mobi.asset.json";
 import amorCruelMobi from "@/assets/mobis/amor-cruel.mobi.asset.json";
 
+import driveCatalogJson from "./drive-catalog.json";
+
 import cover1 from "@/assets/covers/1.jpg";
 import cover2 from "@/assets/covers/2.jpg";
 import cover3 from "@/assets/covers/3.jpg";
@@ -82,6 +84,42 @@ export type Book = {
   epubUrl?: string;
   mobiUrl?: string;
 };
+
+const CATEGORY_VISUALS: Record<string, { cover: string; accent: string }> = {
+  romance: { cover: "from-pink-400 via-rose-500 to-pink-700", accent: "rose" },
+  "dark-romance": { cover: "from-rose-950 via-black to-pink-950", accent: "rose" },
+  "mafia-romance": { cover: "from-zinc-900 via-red-950 to-black", accent: "red" },
+  bilionarios: { cover: "from-amber-700 via-yellow-600 to-rose-700", accent: "amber" },
+  "fantasia-romantica": { cover: "from-purple-700 via-pink-700 to-rose-900", accent: "purple" },
+};
+
+type DriveCatalogEntry = {
+  id: string;
+  name: string;
+  size: number;
+  title: string;
+  author: string;
+  category: string;
+  synopsis: string;
+  rating: number;
+  tags: ("trending" | "new" | "top" | "favorites")[];
+};
+
+const driveBooks: Book[] = (driveCatalogJson as DriveCatalogEntry[]).map((b) => {
+  const visuals = CATEGORY_VISUALS[b.category] ?? CATEGORY_VISUALS.romance;
+  return {
+    id: `drv-${b.id}`,
+    title: b.title,
+    author: b.author,
+    category: b.category,
+    rating: b.rating,
+    cover: visuals.cover,
+    accent: visuals.accent,
+    synopsis: b.synopsis,
+    tags: b.tags,
+    mobiUrl: `/api/drive/${b.id}?name=${encodeURIComponent(b.name)}`,
+  };
+});
 
 export const categories: Category[] = [
   { slug: "romance", name: "Romance", description: "Histórias para se apaixonar", gradient: "from-pink-500 via-rose-500 to-pink-700" },
@@ -324,6 +362,7 @@ export const books: Book[] = [
     tags: ["favorites"],
     mobiUrl: amanteFantasiaMobi.url,
   },
+  ...driveBooks,
 ];
 
 export const sampleChapter = `Capítulo 1 — O Encontro
