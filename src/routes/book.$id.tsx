@@ -4,8 +4,9 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, Download, Star, Loader2, FileType2 } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2, FileType2, Send } from "lucide-react";
 import { downloadEpub } from "@/lib/epub";
+import { sendBookToKindle } from "@/lib/kindle.functions";
 
 export const Route = createFileRoute("/book/$id")({
   component: BookPage,
@@ -27,6 +28,7 @@ function BookPage() {
   const fav = isFavorite(book.id);
   const [downloading, setDownloading] = useState(false);
   const [converting, setConverting] = useState(false);
+  const [sendingKindle, setSendingKindle] = useState(false);
   const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
 
@@ -48,6 +50,34 @@ function BookPage() {
     window.location.href = url;
     // Reset the spinner shortly after; the browser handles the download.
     setTimeout(() => setConverting(false), 4000);
+  };
+
+  const handleSendKindle = async () => {
+    if (sendingKindle || !book.mobiUrl) return;
+    const m = book.mobiUrl.match(/^\/api\/drive\/([^/?]+)\?name=(.+)$/);
+    if (!m) return;
+    const driveId = m[1];
+    const filename = decodeURIComponent(m[2]);
+    const stored = typeof window !== "undefined" ? window.localStorage.getItem("kindleEmail") : null;
+    const email = window.prompt(
+      "Digite seu e-mail @kindle.com (encontre em Amazon → Gerenciar seu Conteúdo → Configurações). Lembre de aprovar onboarding@resend.dev na lista de e-mails permitidos.",
+      stored ?? "",
+    );
+    if (!email) return;
+    if (!/^[^@\s]+@kindle\.com$/i.test(email)) {
+      window.alert("E-mail inválido. Precisa terminar em @kindle.com");
+      return;
+    }
+    window.localStorage.setItem("kindleEmail", email);
+    setSendingKindle(true);
+    try {
+      await sendBookToKindle({ data: { driveId, filename, kindleEmail: email } });
+      window.alert("Enviado! O livro deve chegar no seu Kindle em alguns minutos.");
+    } catch (err) {
+      window.alert(`Falha ao enviar: ${(err as Error).message}`);
+    } finally {
+      setSendingKindle(false);
+    }
   };
 
   return (
@@ -129,6 +159,24 @@ function BookPage() {
             ) : (
               <>
                 <FileType2 className="h-4 w-4" /> Converter para EPUB
+              </>
+            )}
+          </button>
+        )}
+        {canConvert && (
+          <button
+            type="button"
+            onClick={handleSendKindle}
+            disabled={sendingKindle}
+            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95 disabled:opacity-70"
+          >
+            {sendingKindle ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Enviando para Kindle…
+              </>
+            ) : (
+              <>
+                <Send className="h-4 w-4" /> Enviar para Kindle
               </>
             )}
           </button>
