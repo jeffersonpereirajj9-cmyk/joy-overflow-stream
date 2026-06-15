@@ -3,10 +3,10 @@ import { useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { PageHeader } from "@/components/bookfy/PageHeader";
 import { DriveBookRow } from "@/components/bookfy/DriveBookRow";
-import { categories, coverFor } from "@/data/books";
-import type { Book } from "@/data/books";
+import { categories } from "@/data/books";
 import { BookCard } from "@/components/bookfy/BookCard";
 import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
+import { findCollection } from "@/data/collections";
 import { CATEGORIES, type DriveCategory } from "@/lib/drive.functions";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useDriveLibrary } from "@/hooks/useDriveLibrary";
@@ -17,56 +17,7 @@ export const Route = createFileRoute("/library")({
   head: () => ({ meta: [{ title: "Biblioteca completa — Bookfy" }] }),
 });
 
-const OFF_CAMPUS: Book[] = [
-  {
-    id: "off-campus-1",
-    title: "O Acordo",
-    author: "Elle Kennedy",
-    category: "romance",
-    rating: 4.7,
-    synopsis:
-      "Hannah Wells nunca imaginou fechar um acordo com Garrett Graham, o astro do hóquei — aulas em troca de ciúmes calculados.",
-    tags: ["new"],
-    cover: coverFor("9") ?? "",
-    accent: "rose",
-  },
-  {
-    id: "off-campus-2",
-    title: "O Erro",
-    author: "Elle Kennedy",
-    category: "romance",
-    rating: 4.6,
-    synopsis:
-      "John Logan está prestes a se formar quando comete o pior erro possível: se apaixonar pela namorada do melhor amigo.",
-    tags: ["new"],
-    cover: coverFor("10") ?? "",
-    accent: "rose",
-  },
-  {
-    id: "off-campus-3",
-    title: "O Jogo",
-    author: "Elle Kennedy",
-    category: "romance",
-    rating: 4.7,
-    synopsis:
-      "Allie Hayes precisa de distração depois do término — Dean Di Laurentis é o tipo errado de cara, mas o jogo já começou.",
-    tags: ["trending"],
-    cover: coverFor("11") ?? "",
-    accent: "rose",
-  },
-  {
-    id: "off-campus-4",
-    title: "A Conquista",
-    author: "Elle Kennedy",
-    category: "romance",
-    rating: 4.8,
-    synopsis:
-      "Sabrina James não tem tempo para romance — até que Tucker, o tranquilão do time de hóquei, decide conquistá-la.",
-    tags: ["top"],
-    cover: coverFor("12") ?? "",
-    accent: "rose",
-  },
-];
+const OFF_CAMPUS = findCollection("off-campus")?.books ?? [];
 
 function LibraryPage() {
   const [search, setSearch] = useState("");
