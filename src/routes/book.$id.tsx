@@ -48,19 +48,24 @@ function BookPage() {
       const ext = book.mobiUrl ? "mobi" : "epub";
       const mime = ext === "epub" ? "application/epub+zip" : "application/x-mobipocket-ebook";
       const filename = `${safeTitle}.${ext}`;
-      const res = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const blob = await res.blob();
-      const file = new File([blob], filename, { type: mime });
-      const objUrl = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = objUrl;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
-      setDownloadedFile(file);
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const blob = await res.blob();
+        const file = new File([blob], filename, { type: mime });
+        const objUrl = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = objUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
+        setDownloadedFile(file);
+      } catch (err) {
+        console.error("[download] fetch falhou, usando fallback", err);
+        await downloadEpub(book);
+      }
     } finally {
       setDownloading(false);
     }
