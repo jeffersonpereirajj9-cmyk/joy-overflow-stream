@@ -362,6 +362,7 @@ export const books: Book[] = [
     tags: ["favorites"],
     mobiUrl: amanteFantasiaMobi.url,
   },
+  ...driveBooks,
 ];
 
 export const sampleChapter = `Capítulo 1 — O Encontro
