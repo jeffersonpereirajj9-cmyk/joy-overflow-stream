@@ -5,7 +5,8 @@ import { BookCard } from "@/components/bookfy/BookCard";
 import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
 import { CategoryChip } from "@/components/bookfy/CategoryChip";
 import { books, categories } from "@/data/books";
-import { Search, Sparkles } from "lucide-react";
+import { COLLECTIONS } from "@/data/collections";
+import { ChevronRight, Search, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -89,6 +90,52 @@ function Home() {
           <CategoryChip key={c.slug} category={c} />
         ))}
       </HorizontalScroller>
+
+      {/* Coleções em destaque */}
+      {COLLECTIONS.map((col) => (
+        <section key={col.slug} className="mt-7 px-4">
+          <Link
+            to="/collection/$slug"
+            params={{ slug: col.slug }}
+            className="group block overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-rose-900 via-primary/80 to-black p-5 shadow-xl shadow-primary/20 active:scale-[0.98]"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="text-[10px] uppercase tracking-[0.25em] text-accent">
+                  Coleção · {col.author}
+                </div>
+                <h2 className="mt-1 font-serif text-xl leading-tight text-white">
+                  {col.title}
+                </h2>
+                <p className="mt-1 line-clamp-2 text-xs text-white/75">
+                  {col.description}
+                </p>
+              </div>
+              <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-white/80 transition group-active:translate-x-0.5" />
+            </div>
+            <div className="mt-4 flex gap-2 overflow-hidden">
+              {col.books.slice(0, 4).map((b) => (
+                <div
+                  key={b.id}
+                  className="aspect-[2/3] w-16 shrink-0 overflow-hidden rounded-md bg-black/40 shadow-lg shadow-black/40 ring-1 ring-white/10"
+                >
+                  {b.cover ? (
+                    <img
+                      src={b.cover}
+                      alt={b.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : null}
+                </div>
+              ))}
+              <div className="ml-auto self-end text-[11px] font-medium text-white/80">
+                {col.books.length} livros →
+              </div>
+            </div>
+          </Link>
+        </section>
+      ))}
 
       <BookRow title="Mais Desejados" books={mostWanted} />
       <BookRow title="Mais Lidos" books={mostRead} />
