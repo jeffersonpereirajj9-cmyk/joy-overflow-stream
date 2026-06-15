@@ -56,10 +56,13 @@ function BookPage() {
   const handleSendKindle = async () => {
     if (sendingKindle) return;
     const stored = typeof window !== "undefined" ? window.localStorage.getItem("kindleEmail") : null;
-    const email = window.prompt(
-      "Digite seu e-mail @kindle.com (encontre em Amazon → Gerenciar seu Conteúdo → Configurações). Lembre de aprovar onboarding@resend.dev na lista de e-mails permitidos.",
-      stored ?? "",
-    );
+    const email =
+      stored && /^[^@\s]+@kindle\.com$/i.test(stored)
+        ? stored
+        : window.prompt(
+            "Digite seu e-mail @kindle.com (Amazon → Gerenciar seu Conteúdo → Configurações). Aprove onboarding@resend.dev na lista de e-mails permitidos.",
+            stored ?? "",
+          );
     if (!email) return;
     if (!/^[^@\s]+@kindle\.com$/i.test(email)) {
       window.alert("E-mail inválido. Precisa terminar em @kindle.com");
