@@ -1,9 +1,11 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, BookOpen, Star } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
+import { downloadEpub } from "@/lib/epub";
 
 export const Route = createFileRoute("/book/$id")({
   component: BookPage,
@@ -23,6 +25,17 @@ function BookPage() {
   const category = categories.find((c) => c.slug === book.category);
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
+  const [downloading, setDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (downloading) return;
+    setDownloading(true);
+    try {
+      await downloadEpub(book);
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <AppShell>
@@ -65,13 +78,22 @@ function BookPage() {
         </div>
 
         <div className="mt-8 flex gap-3">
-          <Link
-            to="/read/$id"
-            params={{ id: book.id }}
-            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition active:scale-95"
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={downloading}
+            className="flex flex-1 items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/30 transition active:scale-95 disabled:opacity-70"
           >
-            <BookOpen className="h-4 w-4" /> Ler agora
-          </Link>
+            {downloading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando…
+              </>
+            ) : (
+              <>
+                <Download className="h-4 w-4" /> Baixar EPUB
+              </>
+            )}
+          </button>
           <button
             onClick={() => toggle(book.id)}
             aria-label={fav ? "Remover dos favoritos" : "Adicionar aos favoritos"}
