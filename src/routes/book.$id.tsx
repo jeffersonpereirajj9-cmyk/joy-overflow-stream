@@ -3,14 +3,19 @@ import { useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
+import { COLLECTIONS } from "@/data/collections";
 import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
 import { downloadEpub, downloadFileFromUrl } from "@/lib/epub";
 
+const findBook = (id: string) =>
+  books.find((b) => b.id === id) ??
+  COLLECTIONS.flatMap((c) => c.books).find((b) => b.id === id);
+
 export const Route = createFileRoute("/book/$id")({
   component: BookPage,
   loader: ({ params }) => {
-    const book = books.find((b) => b.id === params.id);
+    const book = findBook(params.id);
     if (!book) throw notFound();
     return { book };
   },
@@ -21,7 +26,7 @@ export const Route = createFileRoute("/book/$id")({
 
 function BookPage() {
   const { id } = Route.useParams();
-  const book = books.find((b) => b.id === id)!;
+  const book = findBook(id)!;
   const category = categories.find((c) => c.slug === book.category);
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
