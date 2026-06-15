@@ -1,13 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/bookfy/AppShell";
+import { BookCard } from "@/components/bookfy/BookCard";
 import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
 import { CategoryChip } from "@/components/bookfy/CategoryChip";
-import { DriveCard } from "@/components/bookfy/DriveCard";
 import { categories } from "@/data/books";
 import { COLLECTIONS } from "@/data/collections";
-import { useDriveLibrary } from "@/hooks/useDriveLibrary";
-import { CATEGORIES } from "@/lib/drive.functions";
-import { ChevronRight, Loader2, Search, Sparkles } from "lucide-react";
+import {
+  mostWantedCurated,
+  mostReadCurated,
+  newestCurated,
+  trendingCurated,
+  favoritesCurated,
+} from "@/data/curated";
+import type { Book } from "@/data/books";
+import { ChevronRight, Search, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -20,9 +26,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { items, grouped, loading, error } = useDriveLibrary("");
-  const catName = (slug: string) =>
-    categories.find((c) => c.slug === slug)?.name ?? slug;
+  const rows: { title: string; books: Book[] }[] = [
+    { title: "🔥 Mais Desejados", books: mostWantedCurated.slice(0, 10) },
+    { title: "📖 Mais Lidos", books: mostReadCurated.slice(0, 10) },
+    { title: "✨ Novidades", books: newestCurated.slice(0, 10) },
+    { title: "📈 Em Alta", books: trendingCurated.slice(0, 10) },
+    { title: "💖 Favoritos das Leitoras", books: favoritesCurated.slice(0, 10) },
+  ];
 
   return (
     <AppShell>
@@ -117,52 +127,13 @@ function Home() {
         </section>
       ))}
 
-      {loading && items.length === 0 && (
-        <div className="mt-8 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-          <Loader2 className="h-4 w-4 animate-spin" /> Carregando biblioteca…
-        </div>
-      )}
-      {error && (
-        <p className="mt-6 px-4 text-center text-sm text-destructive">{error}</p>
-      )}
-      {items.length > 0 && (
-        <div className="mt-7 px-4 text-xs uppercase tracking-[0.25em] text-accent">
-          {items.length} livros disponíveis
-        </div>
-      )}
-      {CATEGORIES.map((slug) => {
-        const list = grouped.get(slug);
-        if (!list || list.length === 0) return null;
-        return (
-          <HorizontalScroller
-            key={slug}
-            title={catName(slug)}
-            action={
-              <Link to="/library" className="text-xs text-muted-foreground">
-                Ver todos ({list.length})
-              </Link>
-            }
-          >
-            {list.map((it, i) => (
-              <DriveCard key={it.id} item={it} priority={i < 3} />
-            ))}
-          </HorizontalScroller>
-        );
-      })}
-      {grouped.get("_unsorted")?.length ? (
-        <HorizontalScroller
-          title="Classificando…"
-          action={
-            <span className="text-xs text-muted-foreground">
-              {grouped.get("_unsorted")?.length}
-            </span>
-          }
-        >
-          {grouped.get("_unsorted")!.map((it) => (
-            <DriveCard key={it.id} item={it} />
+      {rows.map((r) => (
+        <HorizontalScroller key={r.title} title={r.title}>
+          {r.books.map((b, i) => (
+            <BookCard key={b.id} book={b} priority={i < 2} />
           ))}
         </HorizontalScroller>
-      ) : null}
+      ))}
     </AppShell>
   );
 }
