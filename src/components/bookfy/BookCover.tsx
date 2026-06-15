@@ -63,7 +63,7 @@ export function BookCover({
     return (
       <div
         ref={wrapRef}
-        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 ${className}`}
+        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:240px_360px] ${className}`}
       >
         <img
           src={image}
@@ -71,8 +71,9 @@ export function BookCover({
           loading={priority ? "eager" : "lazy"}
           decoding="async"
           fetchPriority={priority ? "high" : "auto"}
-          width={512}
-          height={768}
+          width={256}
+          height={384}
+          sizes="(max-width: 640px) 160px, 200px"
           className="h-full w-full object-cover"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
@@ -87,15 +88,16 @@ export function BookCover({
     return (
       <div
         ref={wrapRef}
-        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 ${className}`}
+        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:240px_360px] ${className}`}
       >
         <img
           src={categoryImage}
           alt={`Capa de ${book.title}`}
           loading="lazy"
           decoding="async"
-          width={512}
-          height={768}
+          width={256}
+          height={384}
+          sizes="(max-width: 640px) 160px, 200px"
           className="h-full w-full object-cover"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />

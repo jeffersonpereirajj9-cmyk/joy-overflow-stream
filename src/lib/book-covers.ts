@@ -59,7 +59,13 @@ async function tryGoogle(q: string): Promise<string | null> {
     for (const item of data.items ?? []) {
       const links = item.volumeInfo?.imageLinks;
       const raw = links?.thumbnail ?? links?.smallThumbnail;
-      if (raw) return raw.replace(/^http:/, "https:").replace(/&edge=curl/, "");
+      if (raw) {
+        // Upgrade to a slightly larger but still lightweight cover.
+        return raw
+          .replace(/^http:/, "https:")
+          .replace(/&edge=curl/, "")
+          .replace(/zoom=\d+/, "zoom=1");
+      }
     }
     return null;
   } catch {
@@ -75,7 +81,8 @@ async function tryOpenLibrary(title: string, author: string): Promise<string | n
     if (!res.ok) return null;
     const data = (await res.json()) as { docs?: { cover_i?: number }[] };
     const cid = data.docs?.[0]?.cover_i;
-    return cid ? `https://covers.openlibrary.org/b/id/${cid}-L.jpg` : null;
+    // -M is ~180px wide — perfect for card thumbnails and ~5x lighter than -L.
+    return cid ? `https://covers.openlibrary.org/b/id/${cid}-M.jpg` : null;
   } catch {
     return null;
   }
@@ -91,8 +98,8 @@ async function tryItunes(title: string, author: string): Promise<string | null> 
     const data = (await res.json()) as { results?: { artworkUrl100?: string }[] };
     const art = data.results?.[0]?.artworkUrl100;
     if (!art) return null;
-    // Upscale Apple thumbnails from 100x100 to 600x600
-    return art.replace(/\/\d+x\d+(bb)?\.(jpg|png)/i, "/600x600bb.$2");
+    // 300x300 is plenty for card-sized covers and much lighter than 600.
+    return art.replace(/\/\d+x\d+(bb)?\.(jpg|png)/i, "/300x300bb.$2");
   } catch {
     return null;
   }
