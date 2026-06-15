@@ -27,16 +27,40 @@ function BookPage() {
   const fav = isFavorite(book.id);
   const [downloading, setDownloading] = useState(false);
   const [converting, setConverting] = useState(false);
-  const [sendingKindle, setSendingKindle] = useState(false);
+  const [sharing, setSharing] = useState(false);
+  const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
-  const canSendKindle = !!book.epubUrl || canConvert;
+  const canShareFiles =
+    typeof navigator !== "undefined" &&
+    typeof navigator.canShare === "function";
 
   const handleDownload = async () => {
     if (downloading) return;
     setDownloading(true);
     try {
-      await downloadEpub(book);
+      const url = book.mobiUrl || book.epubUrl;
+      if (!url) {
+        await downloadEpub(book);
+        return;
+      }
+      const safeTitle = book.title.replace(/[/\\?%*:|"<>]/g, "-");
+      const ext = book.mobiUrl ? "mobi" : "epub";
+      const mime = ext === "epub" ? "application/epub+zip" : "application/x-mobipocket-ebook";
+      const filename = `${safeTitle}.${ext}`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const file = new File([blob], filename, { type: mime });
+      const objUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = objUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
+      setDownloadedFile(file);
     } finally {
       setDownloading(false);
     }
@@ -52,44 +76,20 @@ function BookPage() {
     setTimeout(() => setConverting(false), 4000);
   };
 
-  const handleSendKindle = async () => {
-    if (sendingKindle) return;
-    setSendingKindle(true);
+  const handleShareKindle = async () => {
+    if (sharing || !downloadedFile) return;
+    setSharing(true);
     try {
-      let epubUrl: string;
-      let filename: string;
-      if (book.epubUrl) {
-        epubUrl = book.epubUrl;
-        filename = `${book.title}.epub`.replace(/[/\\?%*:|"<>]/g, "-");
-      } else if (book.mobiUrl) {
-        const m = book.mobiUrl.match(/^\/api\/drive\/([^/?]+)\?name=(.+)$/);
-        if (!m) throw new Error("URL do MOBI inválida");
-        epubUrl = `/api/drive/${m[1]}/epub?name=${m[2]}`;
-        filename = decodeURIComponent(m[2]).replace(/\.mobi$/i, ".epub");
-      } else {
-        throw new Error("Livro sem arquivo disponível");
-      }
-      const res = await fetch(epubUrl);
-      if (!res.ok) throw new Error(`Falha ao obter EPUB (${res.status})`);
-      const blob = await res.blob();
-      // Trigger a normal download. On mobile, tap the downloaded file and
-      // choose "Abrir com Kindle" no menu do sistema.
-      const url = URL.createObjectURL(
-        new Blob([blob], { type: "application/epub+zip" }),
-      );
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      await navigator.share({
+        files: [downloadedFile],
+        title: book.title,
+      });
     } catch (err) {
       if ((err as Error).name !== "AbortError") {
-        window.alert(`Falha ao enviar: ${(err as Error).message}`);
+        window.alert(`Falha ao compartilhar: ${(err as Error).message}`);
       }
     } finally {
-      setSendingKindle(false);
+      setSharing(false);
     }
   };
 
@@ -176,20 +176,20 @@ function BookPage() {
             )}
           </button>
         )}
-        {canSendKindle && (
+        {downloadedFile && canShareFiles && navigator.canShare?.({ files: [downloadedFile] }) && (
           <button
             type="button"
-            onClick={handleSendKindle}
-            disabled={sendingKindle}
+            onClick={handleShareKindle}
+            disabled={sharing}
             className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95 disabled:opacity-70"
           >
-            {sendingKindle ? (
+            {sharing ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Preparando para Kindle…
+                <Loader2 className="h-4 w-4 animate-spin" /> Abrindo…
               </>
             ) : (
               <>
-                <Share2 className="h-4 w-4" /> Abrir no Kindle
+                <Share2 className="h-4 w-4" /> Compartilhar com Kindle
               </>
             )}
           </button>
