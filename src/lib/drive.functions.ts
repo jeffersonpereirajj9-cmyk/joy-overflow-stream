@@ -2,7 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { generateText, Output } from "ai";
 import { z } from "zod";
 
-const FOLDER_A = "18BrkP6vLpnhi99thQNHxqNkBGMjVn0lw";
+const FOLDER_A = "1p-KoTGJLj6oAKXLFcCLkIgj4hwp5Tuev";
 const GATEWAY = "https://connector-gateway.lovable.dev/google_drive/drive/v3";
 
 export type DriveBook = {
