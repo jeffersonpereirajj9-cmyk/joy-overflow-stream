@@ -10,9 +10,12 @@ function safeName(s: string) {
   return s.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
 }
 
-async function downloadFromUrl(url: string, filename: string) {
+export async function downloadFileFromUrl(url: string, filename: string, fallbackType = "application/octet-stream") {
   const res = await fetch(url);
+  if (!res.ok) throw new Error(`Download falhou: HTTP ${res.status}`);
   const blob = await res.blob();
+  const fileType = blob.type && blob.type !== "application/octet-stream" ? blob.type : fallbackType;
+  const file = new File([blob], filename, { type: fileType });
   const obj = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = obj;
@@ -21,16 +24,15 @@ async function downloadFromUrl(url: string, filename: string) {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(obj), 1000);
+  return file;
 }
 
 export async function downloadEpub(book: Book) {
   if (book.mobiUrl) {
-    await downloadFromUrl(book.mobiUrl, `${safeName(book.title)}.mobi`);
-    return;
+    return downloadFileFromUrl(book.mobiUrl, `${safeName(book.title)}.mobi`, "application/x-mobipocket-ebook");
   }
   if (book.epubUrl) {
-    await downloadFromUrl(book.epubUrl, `${safeName(book.title)}.epub`);
-    return;
+    return downloadFileFromUrl(book.epubUrl, `${safeName(book.title)}.epub`, "application/epub+zip");
   }
 
   const zip = new JSZip();
@@ -90,13 +92,16 @@ export async function downloadEpub(book: Book) {
 <body><nav epub:type="toc"><h1>Sumário</h1><ol><li><a href="chapter1.xhtml">${title}</a></li></ol></nav></body></html>`,
   );
 
+  const filename = `${book.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-")}.epub`;
   const blob = await zip.generateAsync({ type: "blob", mimeType: "application/epub+zip" });
+  const file = new File([blob], filename, { type: "application/epub+zip" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${book.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-")}.epub`;
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
+  return file;
 }

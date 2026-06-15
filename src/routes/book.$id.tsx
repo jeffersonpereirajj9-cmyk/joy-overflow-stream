@@ -5,7 +5,7 @@ import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2, FileType2, Share2 } from "lucide-react";
-import { downloadEpub } from "@/lib/epub";
+import { downloadEpub, downloadFileFromUrl } from "@/lib/epub";
 
 export const Route = createFileRoute("/book/$id")({
   component: BookPage,
@@ -29,7 +29,8 @@ function BookPage() {
   const [converting, setConverting] = useState(false);
   const [sharing, setSharing] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
-  const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
+  const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
+  const downloadFormat = "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
   const canShareFiles =
     typeof navigator !== "undefined" &&
@@ -39,32 +40,28 @@ function BookPage() {
     if (downloading) return;
     setDownloading(true);
     try {
-      const url = book.mobiUrl || book.epubUrl;
+      const url = book.mobiUrl?.startsWith("/api/drive/")
+        ? book.mobiUrl.replace(/^\/api\/drive\/([^/?]+)/, "/api/drive/$1/epub")
+        : book.epubUrl || book.mobiUrl;
       if (!url) {
-        await downloadEpub(book);
+        const file = await downloadEpub(book);
+        setDownloadedFile(file ?? null);
+        setDownloadedUrl(null);
         return;
       }
       const safeTitle = book.title.replace(/[/\\?%*:|"<>]/g, "-");
-      const ext = book.mobiUrl ? "mobi" : "epub";
+      const ext = url.includes("/epub") || book.epubUrl ? "epub" : "mobi";
       const mime = ext === "epub" ? "application/epub+zip" : "application/x-mobipocket-ebook";
       const filename = `${safeTitle}.${ext}`;
       try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const blob = await res.blob();
-        const file = new File([blob], filename, { type: mime });
-        const objUrl = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = objUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        setTimeout(() => URL.revokeObjectURL(objUrl), 1000);
+        const file = await downloadFileFromUrl(url, filename, mime);
         setDownloadedFile(file);
+        setDownloadedUrl(url);
       } catch (err) {
         console.error("[download] fetch falhou, usando fallback", err);
-        await downloadEpub(book);
+        const file = await downloadEpub(book);
+        setDownloadedFile(file ?? new File([], filename, { type: mime }));
+        setDownloadedUrl(url);
       }
     } finally {
       setDownloading(false);
@@ -151,7 +148,7 @@ function BookPage() {
               </>
             ) : (
               <>
-                <Download className="h-4 w-4" /> Baixar {fileFormat}
+                <Download className="h-4 w-4" /> Baixar {downloadFormat}
               </>
             )}
           </button>
@@ -182,7 +179,9 @@ function BookPage() {
           </button>
         )}
         {downloadedFile && (
-          <button
+      <div className="mt-3 rounded-2xl border border-border bg-card p-3">
+        <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
+        <button
             type="button"
             onClick={handleShareKindle}
             disabled={sharing || !canShareFiles || !navigator.canShare?.({ files: [downloadedFile] })}
@@ -197,7 +196,17 @@ function BookPage() {
                 <Share2 className="h-4 w-4" /> Compartilhar com Kindle
               </>
             )}
-          </button>
+        </button>
+        {downloadedUrl && (
+          <a
+            href={downloadedUrl}
+            download={downloadedFile.name}
+            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background py-3 text-sm font-semibold text-foreground transition active:scale-95"
+          >
+            <Download className="h-4 w-4" /> Baixar de novo
+          </a>
+        )}
+      </div>
         )}
       </div>
     </AppShell>
