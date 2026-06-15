@@ -15,6 +15,7 @@ export type Book = {
   accent: string; // accent color for cover overlay
   synopsis: string;
   tags?: ("trending" | "new" | "top" | "favorites")[];
+  epubUrl?: string;
 };
 
 export const categories: Category[] = [
