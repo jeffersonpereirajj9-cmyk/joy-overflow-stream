@@ -2,7 +2,10 @@ import { createServerFn } from "@tanstack/react-start";
 import { generateText, Output } from "ai";
 import { z } from "zod";
 
-const FOLDER_A = "1p-KoTGJLj6oAKXLFcCLkIgj4hwp5Tuev";
+const FOLDERS = [
+  "1p-KoTGJLj6oAKXLFcCLkIgj4hwp5Tuev",
+  "10tAJkQBA2voEE2CfS4HDs__9tEdVY4Ap",
+];
 const GATEWAY = "https://connector-gateway.lovable.dev/google_drive/drive/v3";
 
 export type DriveBook = {
@@ -39,7 +42,7 @@ export const listDriveBooks = createServerFn({ method: "GET" })
 
     const search = (data.search ?? "").trim().replace(/'/g, "\\'");
     const qParts = [
-      `'${FOLDER_A}' in parents`,
+      `(${FOLDERS.map((f) => `'${f}' in parents`).join(" or ")})`,
       "trashed = false",
       "mimeType = 'application/octet-stream'",
     ];
