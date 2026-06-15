@@ -26,6 +26,7 @@ function BookPage() {
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
   const [downloading, setDownloading] = useState(false);
+  const fileFormat = book.mobiUrl ? "MOBI" : "EPUB";
 
   const handleDownload = async () => {
     if (downloading) return;
@@ -90,7 +91,7 @@ function BookPage() {
               </>
             ) : (
               <>
-                <Download className="h-4 w-4" /> Baixar EPUB
+                <Download className="h-4 w-4" /> Baixar {fileFormat}
               </>
             )}
           </button>
