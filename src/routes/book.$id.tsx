@@ -72,28 +72,18 @@ function BookPage() {
       const res = await fetch(epubUrl);
       if (!res.ok) throw new Error(`Falha ao obter EPUB (${res.status})`);
       const blob = await res.blob();
-      const file = new File([blob], filename, { type: "application/epub+zip" });
-
-      const nav = window.navigator as Navigator & {
-        canShare?: (data: ShareData) => boolean;
-        share?: (data: ShareData) => Promise<void>;
-      };
-      if (nav.canShare?.({ files: [file] }) && nav.share) {
-        await nav.share({ files: [file], title: book.title });
-      } else {
-        // Fallback: trigger a normal download so the user can open with Kindle app
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-        window.alert(
-          "Seu navegador não suporta compartilhamento direto. O arquivo foi baixado — abra-o com o app Kindle.",
-        );
-      }
+      // Trigger a normal download. On mobile, tap the downloaded file and
+      // choose "Abrir com Kindle" no menu do sistema.
+      const url = URL.createObjectURL(
+        new Blob([blob], { type: "application/epub+zip" }),
+      );
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
     } catch (err) {
       if ((err as Error).name !== "AbortError") {
         window.alert(`Falha ao enviar: ${(err as Error).message}`);
