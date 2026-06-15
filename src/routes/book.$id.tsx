@@ -57,7 +57,7 @@ function BookPage() {
     try {
       if (!downloadOption) {
         window.alert("Arquivo completo não encontrado no Drive para este título.");
-        setDownloadedFile(file ?? null);
+        setDownloadedFile(null);
         setDownloadedUrl(null);
         return;
       }
