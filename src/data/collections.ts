@@ -1,4 +1,8 @@
-import { coverFor, type Book } from "./books";
+import { type Book } from "./books";
+import offCampus1 from "@/assets/covers/off-campus-1.jpg";
+import offCampus2 from "@/assets/covers/off-campus-2.jpg";
+import offCampus3 from "@/assets/covers/off-campus-3.jpg";
+import offCampus4 from "@/assets/covers/off-campus-4.jpg";
 
 export type Collection = {
   slug: string;
@@ -25,7 +29,7 @@ export const COLLECTIONS: Collection[] = [
         synopsis:
           "Hannah Wells nunca imaginou fechar um acordo com Garrett Graham, o astro do hóquei — aulas em troca de ciúmes calculados.",
         tags: ["new"],
-        cover: coverFor("9") ?? "",
+        cover: offCampus1,
         accent: "rose",
       },
       {
@@ -37,7 +41,7 @@ export const COLLECTIONS: Collection[] = [
         synopsis:
           "John Logan está prestes a se formar quando comete o pior erro possível: se apaixonar pela namorada do melhor amigo.",
         tags: ["new"],
-        cover: coverFor("10") ?? "",
+        cover: offCampus2,
         accent: "rose",
       },
       {
@@ -49,7 +53,7 @@ export const COLLECTIONS: Collection[] = [
         synopsis:
           "Allie Hayes precisa de distração depois do término — Dean Di Laurentis é o tipo errado de cara, mas o jogo já começou.",
         tags: ["trending"],
-        cover: coverFor("11") ?? "",
+        cover: offCampus3,
         accent: "rose",
       },
       {
@@ -61,7 +65,7 @@ export const COLLECTIONS: Collection[] = [
         synopsis:
           "Sabrina James não tem tempo para romance — até que Tucker, o tranquilão do time de hóquei, decide conquistá-la.",
         tags: ["top"],
-        cover: coverFor("12") ?? "",
+        cover: offCampus4,
         accent: "rose",
       },
     ],
