@@ -1,10 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { coverFor, type Book } from "@/data/books";
+import { categories, coverFor, type Book } from "@/data/books";
 import { fetchBookCover } from "@/lib/book-covers";
+
+const CATEGORY_IMAGE: Record<string, string | undefined> = Object.fromEntries(
+  categories.map((c) => [c.slug, c.image]),
+);
 
 export function BookCover({ book, className = "" }: { book: Book; className?: string }) {
   const staticImage = coverFor(book.id);
   const [remote, setRemote] = useState<string | null>(null);
+  const [remoteTried, setRemoteTried] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -14,7 +19,9 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
     let cancelled = false;
     const load = () => {
       fetchBookCover(book.title, book.author).then((url) => {
-        if (!cancelled && url) setRemote(url);
+        if (cancelled) return;
+        if (url) setRemote(url);
+        setRemoteTried(true);
       });
     };
     if (typeof IntersectionObserver === "undefined") {
@@ -41,6 +48,7 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
   }, [staticImage, book.title, book.author]);
 
   const image = staticImage ?? remote;
+  const categoryImage = CATEGORY_IMAGE[book.category];
 
   if (image) {
     return (
@@ -58,6 +66,38 @@ export function BookCover({ book, className = "" }: { book: Book; className?: st
           className="h-full w-full object-cover"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-medium text-accent backdrop-blur">
+          ★ {book.rating.toFixed(1)}
+        </div>
+      </div>
+    );
+  }
+
+  if (categoryImage && (staticImage || remoteTried)) {
+    return (
+      <div
+        ref={wrapRef}
+        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 ${className}`}
+      >
+        <img
+          src={categoryImage}
+          alt={`Capa de ${book.title}`}
+          loading="lazy"
+          decoding="async"
+          width={512}
+          height={768}
+          className="h-full w-full object-cover"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-accent/80 via-accent/30 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-3">
+          <div className="text-[10px] uppercase tracking-[0.2em] text-white/70">
+            {book.author.split(" ")[0]}
+          </div>
+          <div className="font-serif text-base leading-tight text-white drop-shadow">
+            {book.title}
+          </div>
+        </div>
         <div className="absolute right-2 top-2 rounded-full bg-black/50 px-2 py-0.5 text-[10px] font-medium text-accent backdrop-blur">
           ★ {book.rating.toFixed(1)}
         </div>
