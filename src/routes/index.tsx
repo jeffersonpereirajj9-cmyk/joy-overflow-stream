@@ -6,6 +6,13 @@ import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
 import { CategoryChip } from "@/components/bookfy/CategoryChip";
 import { books, categories } from "@/data/books";
 import { COLLECTIONS } from "@/data/collections";
+import {
+  mostWantedCurated,
+  mostReadCurated,
+  newestCurated,
+  trendingCurated,
+  favoritesCurated,
+} from "@/data/curated";
 import { ChevronRight, Search, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -28,7 +35,26 @@ function BookRow({ title, books: list }: { title: string; books: typeof books })
 
 function Home() {
   const { mostWanted, mostRead, newest, trending, readerFavs } = useMemo(() => {
-    const mostWanted = [...books].sort((a, b) => b.rating - a.rating).slice(0, 12);
+    const fromTags = (tag: "top" | "new" | "trending" | "favorites") =>
+      books.filter((b) => b.tags?.includes(tag));
+    const dedupe = (list: typeof books) => {
+      const seen = new Set<string>();
+      return list.filter((b) => (seen.has(b.id) ? false : (seen.add(b.id), true)));
+    };
+    const mostWanted = dedupe([
+      ...mostWantedCurated,
+      ...[...books].sort((a, b) => b.rating - a.rating),
+    ]).slice(0, 18);
+    const mostRead = dedupe([...mostReadCurated, ...fromTags("top")]).slice(0, 18);
+    const newest = dedupe([...newestCurated, ...fromTags("new")]).slice(0, 18);
+    const trending = dedupe([...trendingCurated, ...fromTags("trending")]).slice(0, 18);
+    const readerFavs = dedupe([...favoritesCurated, ...fromTags("favorites")]).slice(0, 18);
+    return { mostWanted, mostRead, newest, trending, readerFavs };
+  }, []);
+
+  // unused placeholder to keep the previous loop removed cleanly
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const _ = useMemo(() => {
     const mostRead: typeof books = [];
     const newest: typeof books = [];
     const trending: typeof books = [];
@@ -41,7 +67,7 @@ function Home() {
       if (tags.includes("trending")) trending.push(b);
       if (tags.includes("favorites")) readerFavs.push(b);
     }
-    return { mostWanted, mostRead, newest, trending, readerFavs };
+    return { mostRead, newest, trending, readerFavs };
   }, []);
 
   return (
