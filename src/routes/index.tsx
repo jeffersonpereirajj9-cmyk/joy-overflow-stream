@@ -52,24 +52,6 @@ function Home() {
     return { mostWanted, mostRead, newest, trending, readerFavs };
   }, []);
 
-  // unused placeholder to keep the previous loop removed cleanly
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _ = useMemo(() => {
-    const mostRead: typeof books = [];
-    const newest: typeof books = [];
-    const trending: typeof books = [];
-    const readerFavs: typeof books = [];
-    for (const b of books) {
-      const tags = b.tags;
-      if (!tags) continue;
-      if (tags.includes("top")) mostRead.push(b);
-      if (tags.includes("new")) newest.push(b);
-      if (tags.includes("trending")) trending.push(b);
-      if (tags.includes("favorites")) readerFavs.push(b);
-    }
-    return { mostRead, newest, trending, readerFavs };
-  }, []);
-
   return (
     <AppShell>
       {/* Banner */}
