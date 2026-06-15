@@ -49,29 +49,33 @@
   --color-gold: var(--gold);
   --color-neon-blue: var(--neon-blue);
   --color-neon-purple: var(--neon-purple);
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.75rem;
-  --background: oklch(0.1 0.02 15); /* Deep Wine Black */
-  --foreground: oklch(0.98 0.01 15);
-  --card: oklch(0.15 0.03 15);
-  --card-foreground: oklch(0.98 0.01 15);
-  --popover: oklch(0.15 0.03 15);
-  --popover-foreground: oklch(0.98 0.01 15);
-  --primary: oklch(0.45 0.18 15); /* Deep Wine */
-  --primary-foreground: oklch(0.98 0.01 15);
-  --secondary: oklch(0.8 0.15 85); /* Gold */
-  --secondary-foreground: oklch(0.1 0.02 15);
-  --muted: oklch(0.18 0.04 15);
-  --muted-foreground: oklch(0.7 0.1 15);
-  --accent: oklch(0.6 0.2 340); /* Dark Pink/Rose */
-  --accent-foreground: oklch(0.98 0.01 15);
-  --destructive: oklch(0.55 0.2 25);
+  /* Bookfy palette: black, dark pink, light pink, gold */
+  --background: oklch(0.08 0.005 350);        /* near-black with rose tint */
+  --foreground: oklch(0.97 0.01 350);
+  --card: oklch(0.13 0.015 350);
+  --card-foreground: oklch(0.97 0.01 350);
+  --popover: oklch(0.13 0.015 350);
+  --popover-foreground: oklch(0.97 0.01 350);
+  --primary: oklch(0.5 0.18 350);              /* dark pink */
+  --primary-foreground: oklch(0.98 0.01 350);
+  --secondary: oklch(0.85 0.08 355);           /* light pink */
+  --secondary-foreground: oklch(0.15 0.02 350);
+  --muted: oklch(0.17 0.02 350);
+  --muted-foreground: oklch(0.7 0.03 350);
+  --accent: oklch(0.82 0.16 88);               /* gold */
+  --accent-foreground: oklch(0.12 0.01 350);
+  --destructive: oklch(0.55 0.22 25);
   --destructive-foreground: oklch(0.98 0.01 15);
-  --border: oklch(0.25 0.05 15);
-  --input: oklch(0.25 0.05 15);
-  --ring: oklch(0.45 0.18 15);
+  --border: oklch(0.22 0.03 350);
+  --input: oklch(0.22 0.03 350);
+  --ring: oklch(0.5 0.18 350);
+  --gold: oklch(0.82 0.16 88);
 }
 
 .dark {
@@ -103,6 +107,9 @@
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
   }
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
   
   .text-glow-wine {
     text-shadow: 0 0 20px oklch(0.45 0.18 15 / 0.5);
