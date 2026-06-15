@@ -3,6 +3,16 @@ import autobiografiaEpub from "@/assets/epubs/autobiografia.epub.asset.json";
 import amigaGenialEpub from "@/assets/epubs/amiga-genial.epub.asset.json";
 import cemDiasEpub from "@/assets/epubs/100-dias.epub.asset.json";
 import compatibilidadeEpub from "@/assets/epubs/988-compatibilidade.epub.asset.json";
+import hipoteseEpub from "@/assets/epubs/hipotese-do-amor.epub.asset.json";
+import guardaCostasEpub from "@/assets/epubs/guarda-costas.epub.asset.json";
+import florestaEpub from "@/assets/epubs/floresta-pigmeus.epub.asset.json";
+import filhaCubanaEpub from "@/assets/epubs/filha-cubana.epub.asset.json";
+import destruidoraEpub from "@/assets/epubs/destruidora-casamentos.epub.asset.json";
+import aCoroaEpub from "@/assets/epubs/a-coroa.epub.asset.json";
+import condessaEpub from "@/assets/epubs/condessa-ensanguentada.epub.asset.json";
+import cincoPassosEpub from "@/assets/epubs/cinco-passos.epub.asset.json";
+import casaEspiritosEpub from "@/assets/epubs/casa-espiritos.epub.asset.json";
+import aCarneEpub from "@/assets/epubs/a-carne.epub.asset.json";
 
 import cover1 from "@/assets/covers/1.jpg";
 import cover2 from "@/assets/covers/2.jpg";
@@ -21,12 +31,24 @@ import cover14 from "@/assets/covers/14.jpg";
 import cover15 from "@/assets/covers/15.jpg";
 import cover16 from "@/assets/covers/16.jpg";
 import cover17 from "@/assets/covers/17.jpg";
+import cover18 from "@/assets/covers/18.jpg";
+import cover19 from "@/assets/covers/19.jpg";
+import cover20 from "@/assets/covers/20.jpg";
+import cover21 from "@/assets/covers/21.jpg";
+import cover22 from "@/assets/covers/22.jpg";
+import cover23 from "@/assets/covers/23.jpg";
+import cover24 from "@/assets/covers/24.jpg";
+import cover25 from "@/assets/covers/25.jpg";
+import cover26 from "@/assets/covers/26.jpg";
+import cover27 from "@/assets/covers/27.jpg";
 
 const COVERS: Record<string, string> = {
   "1": cover1, "2": cover2, "3": cover3, "4": cover4, "5": cover5,
   "6": cover6, "7": cover7, "8": cover8, "9": cover9, "10": cover10,
   "11": cover11, "12": cover12, "13": cover13, "14": cover14, "15": cover15,
   "16": cover16, "17": cover17,
+  "18": cover18, "19": cover19, "20": cover20, "21": cover21, "22": cover22,
+  "23": cover23, "24": cover24, "25": cover25, "26": cover26, "27": cover27,
 };
 
 export const coverFor = (id: string): string | undefined => COVERS[id];
@@ -166,6 +188,76 @@ export const books: Book[] = [
     synopsis: "Um algoritmo promete encontrar o par perfeito com 98% de compatibilidade. Mas e se o destino tiver outros planos — e o homem certo for justamente quem o sistema rejeitou?",
     tags: ["trending", "favorites"],
     epubUrl: compatibilidadeEpub.url,
+  },
+  {
+    id: "18", title: "A Hipótese do Amor", author: "Ali Hazelwood", category: "romance",
+    rating: 4.8, cover: "from-pink-300 via-rose-400 to-pink-600", accent: "pink",
+    synopsis: "Olive Smith, uma PhD em biologia, finge namorar o temido professor Adam Carlsen para convencer a melhor amiga de que está bem. O problema? O fingimento pode estar deixando de ser fingimento.",
+    tags: ["trending", "top"],
+    epubUrl: hipoteseEpub.url,
+  },
+  {
+    id: "19", title: "A Guarda-Costas", author: "Katherine Center", category: "romance",
+    rating: 4.6, cover: "from-pink-600 via-rose-700 to-black", accent: "pink",
+    synopsis: "Hannah é uma guarda-costas durona contratada para proteger um ator famoso. A missão fingir ser sua namorada deveria ser fácil — até o coração dela esquecer que tudo é só fachada.",
+    tags: ["new"],
+    epubUrl: guardaCostasEpub.url,
+  },
+  {
+    id: "20", title: "A Floresta dos Pigmeus", author: "Isabel Allende", category: "romance",
+    rating: 4.5, cover: "from-emerald-700 via-rose-700 to-rose-950", accent: "rose",
+    synopsis: "Alex e Nadia embarcam em uma aventura pela floresta africana, onde descobrem segredos ancestrais, mistérios mágicos e uma amizade que floresce em meio ao perigo.",
+    tags: ["favorites"],
+    epubUrl: florestaEpub.url,
+  },
+  {
+    id: "21", title: "A Filha Cubana", author: "Soraya Lane", category: "romance",
+    rating: 4.6, cover: "from-amber-400 via-rose-500 to-rose-800", accent: "amber",
+    synopsis: "Em meio aos perfumes e sons de Havana, uma jovem descobre o diário da avó e, com ele, uma história de amor proibido que mudará para sempre a forma como entende suas próprias raízes.",
+    tags: ["new", "favorites"],
+    epubUrl: filhaCubanaEpub.url,
+  },
+  {
+    id: "22", title: "A Destruidora de Casamentos", author: "Mia Sosa", category: "romance",
+    rating: 4.7, cover: "from-pink-200 via-rose-400 to-pink-600", accent: "pink",
+    synopsis: "Wedding planner perfeccionista, Carolina arruína sem querer o casamento do próprio cunhado. Para consertar o estrago, terá que trabalhar lado a lado com o homem que mais detesta — e que talvez seja exatamente quem ela precisa.",
+    tags: ["trending"],
+    epubUrl: destruidoraEpub.url,
+  },
+  {
+    id: "23", title: "A Coroa", author: "Kiera Cass", category: "romance",
+    rating: 4.7, cover: "from-pink-300 via-pink-500 to-rose-700", accent: "pink",
+    synopsis: "A princesa Eadlyn precisa escolher entre seis pretendentes para suceder ao trono. Mas governar um reino e governar o próprio coração podem ser duas coisas impossíveis ao mesmo tempo.",
+    tags: ["top", "favorites"],
+    epubUrl: aCoroaEpub.url,
+  },
+  {
+    id: "24", title: "A Condessa Ensanguentada", author: "Valentine Penrose", category: "romance",
+    rating: 4.3, cover: "from-rose-900 via-red-950 to-black", accent: "red",
+    synopsis: "A história real e perturbadora de Erzsébet Báthory, a condessa húngara que se tornou lenda — entre o desejo de eternidade, o poder e os limites tênues entre amor e crueldade.",
+    tags: ["new"],
+    epubUrl: condessaEpub.url,
+  },
+  {
+    id: "25", title: "A Cinco Passos de Você", author: "Rachael Lippincott", category: "romance",
+    rating: 4.9, cover: "from-pink-300 via-rose-400 to-pink-500", accent: "pink",
+    synopsis: "Stella e Will se conhecem no hospital e se apaixonam — só que precisam manter, no mínimo, cinco passos de distância um do outro. Uma história sobre o amor que desafia até as regras mais impossíveis.",
+    tags: ["top", "trending", "favorites"],
+    epubUrl: cincoPassosEpub.url,
+  },
+  {
+    id: "26", title: "A Casa dos Espíritos", author: "Isabel Allende", category: "romance",
+    rating: 4.9, cover: "from-amber-700 via-rose-700 to-rose-950", accent: "amber",
+    synopsis: "Três gerações da família Trueba vivem amores intensos, paixões proibidas e encontros sobrenaturais em uma casa onde os espíritos do passado se recusam a partir.",
+    tags: ["top", "favorites"],
+    epubUrl: casaEspiritosEpub.url,
+  },
+  {
+    id: "27", title: "A Carne", author: "Rosa Montero", category: "romance",
+    rating: 4.4, cover: "from-rose-700 via-red-800 to-rose-950", accent: "red",
+    synopsis: "Soledad contrata um acompanhante para vingar-se do amante casado que a abandonou. O que era para ser uma noite torna-se uma obsessão que a fará repensar tudo o que sabia sobre desejo e identidade.",
+    tags: ["trending"],
+    epubUrl: aCarneEpub.url,
   },
 ];
 
