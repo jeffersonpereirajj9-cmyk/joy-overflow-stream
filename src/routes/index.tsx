@@ -41,14 +41,12 @@ function Home() {
       const seen = new Set<string>();
       return list.filter((b) => (seen.has(b.id) ? false : (seen.add(b.id), true)));
     };
-    const mostWanted = dedupe([
-      ...mostWantedCurated,
-      ...[...books].sort((a, b) => b.rating - a.rating),
-    ]).slice(0, 18);
-    const mostRead = dedupe([...mostReadCurated, ...fromTags("top")]).slice(0, 18);
-    const newest = dedupe([...newestCurated, ...fromTags("new")]).slice(0, 18);
-    const trending = dedupe([...trendingCurated, ...fromTags("trending")]).slice(0, 18);
-    const readerFavs = dedupe([...favoritesCurated, ...fromTags("favorites")]).slice(0, 18);
+    const mostWanted = dedupe(mostWantedCurated).slice(0, 10);
+    const mostRead = dedupe(mostReadCurated).slice(0, 10);
+    const newest = dedupe(newestCurated).slice(0, 10);
+    const trending = dedupe(trendingCurated).slice(0, 10);
+    const readerFavs = dedupe(favoritesCurated).slice(0, 10);
+    void fromTags;
     return { mostWanted, mostRead, newest, trending, readerFavs };
   }, []);
 
