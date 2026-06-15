@@ -30,7 +30,7 @@ function BookPage() {
   const [sharing, setSharing] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
-  const downloadFormat = book.mobiUrl ? "EPUB" : "EPUB";
+  const downloadFormat = "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
   const canShareFiles =
     typeof navigator !== "undefined" &&
@@ -148,7 +148,7 @@ function BookPage() {
               </>
             ) : (
               <>
-                <Download className="h-4 w-4" /> Baixar {fileFormat}
+                <Download className="h-4 w-4" /> Baixar {downloadFormat}
               </>
             )}
           </button>
