@@ -95,30 +95,36 @@ const CATEGORY_VISUALS: Record<string, { cover: string; accent: string }> = {
 };
 
 type DriveCatalogEntry = {
-  id: string;
-  name: string;
-  size: number;
-  title: string;
-  author: string;
-  category: string;
-  synopsis: string;
-  rating: number;
-  tags: ("trending" | "new" | "top" | "favorites")[];
+  i: string; // id
+  n: string; // filename
+  t: string; // title
+  a: string; // author
+  c: string; // category
+  r: number; // rating
 };
 
+const SYNOPSES = [
+  "Quando o destino coloca dois mundos opostos frente a frente, segredos vêm à tona e nada mais será como antes.",
+  "Uma paixão proibida desafia tudo o que ela jurou nunca sentir — e tudo o que ele jurou nunca entregar.",
+  "Entre olhares roubados e promessas perigosas, dois corações descobrem que algumas histórias só podem ser escritas com fogo.",
+  "Ela queria liberdade. Ele queria controle. Juntos, descobriram que o desejo tem regras próprias.",
+  "Um encontro inesperado, uma escolha impossível e um amor que se recusa a obedecer ao tempo.",
+];
+
 const driveBooks: Book[] = (driveCatalogJson as DriveCatalogEntry[]).map((b) => {
-  const visuals = CATEGORY_VISUALS[b.category] ?? CATEGORY_VISUALS.romance;
+  const visuals = CATEGORY_VISUALS[b.c] ?? CATEGORY_VISUALS.romance;
+  const synopsis = SYNOPSES[b.i.charCodeAt(0) % SYNOPSES.length];
   return {
-    id: `drv-${b.id}`,
-    title: b.title,
-    author: b.author,
-    category: b.category,
-    rating: b.rating,
+    id: `drv-${b.i}`,
+    title: b.t,
+    author: b.a,
+    category: b.c,
+    rating: b.r,
     cover: visuals.cover,
     accent: visuals.accent,
-    synopsis: b.synopsis,
-    tags: b.tags,
-    mobiUrl: `/api/drive/${b.id}?name=${encodeURIComponent(b.name)}`,
+    synopsis,
+    tags: [],
+    mobiUrl: `/api/drive/${b.i}?name=${encodeURIComponent(b.n)}`,
   };
 });
 
