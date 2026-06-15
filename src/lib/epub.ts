@@ -6,16 +6,30 @@ function escapeXml(s: string) {
   return s.replace(/[<>&'"]/g, (c) => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", "'": "&apos;", '"': "&quot;" })[c]!);
 }
 
+function safeName(s: string) {
+  return s.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-");
+}
+
+async function downloadFromUrl(url: string, filename: string) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  const obj = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = obj;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(obj), 1000);
+}
+
 export async function downloadEpub(book: Book) {
-  // If the book has a real EPUB file hosted on the CDN, download that.
+  if (book.mobiUrl) {
+    await downloadFromUrl(book.mobiUrl, `${safeName(book.title)}.mobi`);
+    return;
+  }
   if (book.epubUrl) {
-    const a = document.createElement("a");
-    a.href = book.epubUrl;
-    a.download = `${book.title.replace(/[^\w\s-]/g, "").trim().replace(/\s+/g, "-")}.epub`;
-    a.rel = "noopener";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    await downloadFromUrl(book.epubUrl, `${safeName(book.title)}.epub`);
     return;
   }
 
