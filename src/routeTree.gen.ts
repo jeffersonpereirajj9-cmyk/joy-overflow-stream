@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as IndexRouteImport } from './routes/index'
@@ -16,6 +17,11 @@ import { Route as ReadIdRouteImport } from './routes/read.$id'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as BookIdRouteImport } from './routes/book.$id'
 
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
   '/favorites': typeof FavoritesRoute
+  '/profile': typeof ProfileRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
   '/favorites': typeof FavoritesRoute
+  '/profile': typeof ProfileRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
   '/favorites': typeof FavoritesRoute
+  '/profile': typeof ProfileRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/read/$id': typeof ReadIdRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/categories'
     | '/favorites'
+    | '/profile'
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/categories'
     | '/favorites'
+    | '/profile'
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/categories'
     | '/favorites'
+    | '/profile'
     | '/book/$id'
     | '/category/$slug'
     | '/read/$id'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CategoriesRoute: typeof CategoriesRoute
   FavoritesRoute: typeof FavoritesRoute
+  ProfileRoute: typeof ProfileRoute
   BookIdRoute: typeof BookIdRoute
   CategorySlugRoute: typeof CategorySlugRoute
   ReadIdRoute: typeof ReadIdRoute
@@ -110,6 +123,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/favorites': {
       id: '/favorites'
       path: '/favorites'
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CategoriesRoute: CategoriesRoute,
   FavoritesRoute: FavoritesRoute,
+  ProfileRoute: ProfileRoute,
   BookIdRoute: BookIdRoute,
   CategorySlugRoute: CategorySlugRoute,
   ReadIdRoute: ReadIdRoute,
