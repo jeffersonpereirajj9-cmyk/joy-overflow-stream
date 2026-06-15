@@ -124,11 +124,12 @@ const driveBooks: Book[] = (driveCatalogJson as DriveCatalogEntry[]).map((b) => 
 
 import romanceImage from "@/assets/categories/romance.png.asset.json";
 import darkRomanceImage from "@/assets/categories/dark-romance.png.asset.json";
+import mafiaRomanceImage from "@/assets/categories/mafia-romance.png.asset.json";
 
 export const categories: Category[] = [
   { slug: "romance", name: "Romance", description: "Histórias para se apaixonar", gradient: "from-pink-500 via-rose-500 to-pink-700", image: romanceImage.url },
   { slug: "dark-romance", name: "Dark Romance", description: "Paixões intensas e proibidas", gradient: "from-rose-900 via-black to-pink-900", image: darkRomanceImage.url },
-  { slug: "mafia-romance", name: "Máfia Romance", description: "Poder, perigo e desejo", gradient: "from-zinc-900 via-red-950 to-black" },
+  { slug: "mafia-romance", name: "Máfia Romance", description: "Poder, perigo e desejo", gradient: "from-zinc-900 via-red-950 to-black", image: mafiaRomanceImage.url },
   { slug: "bilionarios", name: "Bilionários", description: "Luxo e romance", gradient: "from-amber-700 via-yellow-600 to-rose-700" },
   { slug: "fantasia-romantica", name: "Fantasia Romântica", description: "Reinos, magia e amor", gradient: "from-purple-700 via-pink-700 to-rose-900" },
 ];
