@@ -4,9 +4,8 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, Download, Star, Loader2, FileType2, Send } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2, FileType2, Share2 } from "lucide-react";
 import { downloadEpub } from "@/lib/epub";
-import { sendBookToKindle } from "@/lib/kindle.functions";
 
 export const Route = createFileRoute("/book/$id")({
   component: BookPage,
@@ -55,23 +54,8 @@ function BookPage() {
 
   const handleSendKindle = async () => {
     if (sendingKindle) return;
-    const stored = typeof window !== "undefined" ? window.localStorage.getItem("kindleEmail") : null;
-    const email =
-      stored && /^[^@\s]+@kindle\.com$/i.test(stored)
-        ? stored
-        : window.prompt(
-            "Digite seu e-mail @kindle.com (Amazon → Gerenciar seu Conteúdo → Configurações). Aprove onboarding@resend.dev na lista de e-mails permitidos.",
-            stored ?? "",
-          );
-    if (!email) return;
-    if (!/^[^@\s]+@kindle\.com$/i.test(email)) {
-      window.alert("E-mail inválido. Precisa terminar em @kindle.com");
-      return;
-    }
-    window.localStorage.setItem("kindleEmail", email);
     setSendingKindle(true);
     try {
-      // Fetch the EPUB: either the static asset, or convert MOBI→EPUB via /api/drive/<id>/epub
       let epubUrl: string;
       let filename: string;
       if (book.epubUrl) {
@@ -87,18 +71,33 @@ function BookPage() {
       }
       const res = await fetch(epubUrl);
       if (!res.ok) throw new Error(`Falha ao obter EPUB (${res.status})`);
-      const buf = await res.arrayBuffer();
-      const bytes = new Uint8Array(buf);
-      let bin = "";
-      const CHUNK = 0x8000;
-      for (let i = 0; i < bytes.length; i += CHUNK) {
-        bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+      const blob = await res.blob();
+      const file = new File([blob], filename, { type: "application/epub+zip" });
+
+      const nav = window.navigator as Navigator & {
+        canShare?: (data: ShareData) => boolean;
+        share?: (data: ShareData) => Promise<void>;
+      };
+      if (nav.canShare?.({ files: [file] }) && nav.share) {
+        await nav.share({ files: [file], title: book.title });
+      } else {
+        // Fallback: trigger a normal download so the user can open with Kindle app
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        window.alert(
+          "Seu navegador não suporta compartilhamento direto. O arquivo foi baixado — abra-o com o app Kindle.",
+        );
       }
-      const contentB64 = window.btoa(bin);
-      await sendBookToKindle({ data: { filename, contentB64, kindleEmail: email } });
-      window.alert("Enviado! O livro deve chegar no seu Kindle em alguns minutos.");
     } catch (err) {
-      window.alert(`Falha ao enviar: ${(err as Error).message}`);
+      if ((err as Error).name !== "AbortError") {
+        window.alert(`Falha ao enviar: ${(err as Error).message}`);
+      }
     } finally {
       setSendingKindle(false);
     }
@@ -196,11 +195,11 @@ function BookPage() {
           >
             {sendingKindle ? (
               <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Enviando para Kindle…
+                <Loader2 className="h-4 w-4 animate-spin" /> Preparando para Kindle…
               </>
             ) : (
               <>
-                <Send className="h-4 w-4" /> Enviar para Kindle
+                <Share2 className="h-4 w-4" /> Abrir no Kindle
               </>
             )}
           </button>
