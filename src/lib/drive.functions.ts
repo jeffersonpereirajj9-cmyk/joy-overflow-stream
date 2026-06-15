@@ -5,6 +5,10 @@ const FOLDERS = [
   "10tAJkQBA2voEE2CfS4HDs__9tEdVY4Ap",
 ];
 const GATEWAY = "https://connector-gateway.lovable.dev/google_drive/drive/v3";
+const FOLDER_MIME = "application/vnd.google-apps.folder";
+const FOLDER_CACHE_MS = 5 * 60 * 1000;
+
+let folderCache: { ids: string[]; expires: number } | null = null;
 
 export type DriveBook = {
   id: string;
@@ -31,6 +35,70 @@ export type EnrichedBook = {
   synopsis: string;
 };
 
+type DriveFile = { id: string; name: string; size?: string; mimeType?: string };
+
+async function driveList(
+  key: string,
+  conn: string,
+  params: URLSearchParams,
+): Promise<{ files: DriveFile[]; nextPageToken?: string }> {
+  const res = await fetch(`${GATEWAY}/files?${params}`, {
+    headers: {
+      Authorization: `Bearer ${key}`,
+      "X-Connection-Api-Key": conn,
+    },
+  });
+  if (!res.ok) throw new Error(`Drive list failed: ${res.status}`);
+  const json = (await res.json()) as { files?: DriveFile[]; nextPageToken?: string };
+  return { files: json.files ?? [], nextPageToken: json.nextPageToken };
+}
+
+async function listChildFolders(key: string, conn: string, parentIds: string[]) {
+  if (parentIds.length === 0) return [];
+  const params = new URLSearchParams({
+    q: `(${parentIds.map((f) => `'${f}' in parents`).join(" or ")}) and trashed = false and mimeType = '${FOLDER_MIME}'`,
+    fields: "nextPageToken,files(id,name,mimeType)",
+    pageSize: "1000",
+    orderBy: "name",
+  });
+  const folders: DriveFile[] = [];
+  let pageToken: string | undefined;
+  do {
+    if (pageToken) params.set("pageToken", pageToken);
+    const page = await driveList(key, conn, params);
+    folders.push(...page.files);
+    pageToken = page.nextPageToken;
+  } while (pageToken);
+  return folders;
+}
+
+async function getSearchFolderIds(key: string, conn: string) {
+  const now = Date.now();
+  if (folderCache && folderCache.expires > now) return folderCache.ids;
+
+  const seen = new Set(FOLDERS);
+  const ids = [...FOLDERS];
+  let frontier = [...FOLDERS];
+
+  while (frontier.length > 0) {
+    const next: string[] = [];
+    for (let i = 0; i < frontier.length; i += 25) {
+      const folders = await listChildFolders(key, conn, frontier.slice(i, i + 25));
+      for (const folder of folders) {
+        if (!seen.has(folder.id)) {
+          seen.add(folder.id);
+          ids.push(folder.id);
+          next.push(folder.id);
+        }
+      }
+    }
+    frontier = next;
+  }
+
+  folderCache = { ids, expires: now + FOLDER_CACHE_MS };
+  return ids;
+}
+
 export const listDriveBooks = createServerFn({ method: "GET" })
   .inputValidator((input: { pageToken?: string; search?: string }) => input)
   .handler(async ({ data }): Promise<{ files: DriveBook[]; nextPageToken?: string }> => {
@@ -39,30 +107,25 @@ export const listDriveBooks = createServerFn({ method: "GET" })
     if (!key || !conn) throw new Error("Drive connector not configured");
 
     const search = (data.search ?? "").trim().replace(/'/g, "\\'");
+    const folderIds = await getSearchFolderIds(key, conn);
     const qParts = [
-      `(${FOLDERS.map((f) => `'${f}' in parents`).join(" or ")})`,
+      `(${folderIds.map((f) => `'${f}' in parents`).join(" or ")})`,
       "trashed = false",
+      `mimeType != '${FOLDER_MIME}'`,
     ];
     if (search) qParts.push(`name contains '${search}'`);
 
     const params = new URLSearchParams({
       q: qParts.join(" and "),
-      fields: "nextPageToken,files(id,name,size)",
+      fields: "nextPageToken,files(id,name,size,mimeType)",
       pageSize: "1000",
       orderBy: "name",
     });
     if (data.pageToken) params.set("pageToken", data.pageToken);
 
-    const res = await fetch(`${GATEWAY}/files?${params}`, {
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "X-Connection-Api-Key": conn,
-      },
-    });
-    if (!res.ok) throw new Error(`Drive list failed: ${res.status}`);
-    const json = (await res.json()) as { files?: Array<{ id: string; name: string; size?: string }>; nextPageToken?: string };
+    const json = await driveList(key, conn, params);
     return {
-      files: (json.files ?? []).map((f) => ({ id: f.id, name: f.name, size: Number(f.size ?? 0) })),
+      files: json.files.map((f) => ({ id: f.id, name: f.name, size: Number(f.size ?? 0) })),
       nextPageToken: json.nextPageToken,
     };
   });
