@@ -4,7 +4,7 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, Download, Star, Loader2, FileType2, Share2 } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2, FileType2 } from "lucide-react";
 import { downloadEpub, downloadFileFromUrl } from "@/lib/epub";
 
 export const Route = createFileRoute("/book/$id")({
@@ -27,14 +27,10 @@ function BookPage() {
   const fav = isFavorite(book.id);
   const [downloading, setDownloading] = useState(false);
   const [converting, setConverting] = useState(false);
-  const [sharing, setSharing] = useState(false);
   const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const downloadFormat = "EPUB";
   const canConvert = !!book.mobiUrl && book.mobiUrl.startsWith("/api/drive/");
-  const canShareFiles =
-    typeof navigator !== "undefined" &&
-    typeof navigator.canShare === "function";
 
   const handleDownload = async () => {
     if (downloading) return;
@@ -76,38 +72,6 @@ function BookPage() {
     window.location.href = url;
     // Reset the spinner shortly after; the browser handles the download.
     setTimeout(() => setConverting(false), 4000);
-  };
-
-  const handleShareKindle = async () => {
-    if (sharing || !downloadedFile) return;
-    // Re-wrap as a guaranteed-shareable EPUB file (Chrome's allowlist accepts application/epub+zip).
-    const safeName = downloadedFile.name.toLowerCase().endsWith(".epub")
-      ? downloadedFile.name
-      : downloadedFile.name.replace(/\.[^.]+$/, "") + ".epub";
-    const shareFile = new File([downloadedFile], safeName, {
-      type: "application/epub+zip",
-    });
-    if (shareFile.size === 0) {
-      window.alert("Arquivo vazio. Baixe novamente antes de compartilhar.");
-      return;
-    }
-    if (!navigator.canShare?.({ files: [shareFile] })) {
-      window.alert("Seu navegador não permite compartilhar este arquivo. Use o botão 'Baixar de novo' e abra pelo app Kindle.");
-      return;
-    }
-    setSharing(true);
-    try {
-      await navigator.share({
-        files: [shareFile],
-        title: book.title,
-      });
-    } catch (err) {
-      if ((err as Error).name !== "AbortError") {
-        window.alert(`Falha ao compartilhar: ${(err as Error).message}`);
-      }
-    } finally {
-      setSharing(false);
-    }
   };
 
   return (
@@ -194,34 +158,21 @@ function BookPage() {
           </button>
         )}
         {downloadedFile && (
-      <div className="mt-3 rounded-2xl border border-border bg-card p-3">
-        <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
-        <button
-            type="button"
-            onClick={handleShareKindle}
-            disabled={sharing || !canShareFiles || !navigator.canShare?.({ files: [downloadedFile] })}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95 disabled:opacity-70"
-          >
-            {sharing ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Abrindo…
-              </>
-            ) : (
-              <>
-                <Share2 className="h-4 w-4" /> Compartilhar com Kindle
-              </>
+          <div className="mt-3 rounded-2xl border border-border bg-card p-3">
+            <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              Toque no arquivo baixado na barra de downloads ou baixe novamente e escolha o app Kindle para abrir.
+            </p>
+            {downloadedUrl && (
+              <a
+                href={downloadedUrl}
+                download={downloadedFile.name}
+                className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95"
+              >
+                <Download className="h-4 w-4" /> Abrir arquivo para o Kindle
+              </a>
             )}
-        </button>
-        {downloadedUrl && (
-          <a
-            href={downloadedUrl}
-            download={downloadedFile.name}
-            className="mt-2 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-background py-3 text-sm font-semibold text-foreground transition active:scale-95"
-          >
-            <Download className="h-4 w-4" /> Baixar de novo
-          </a>
-        )}
-      </div>
+          </div>
         )}
       </div>
     </AppShell>
