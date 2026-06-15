@@ -81,6 +81,15 @@ export function getBookDownloadOption(book: Book): BookDownloadOption | null {
     };
   }
 
+  if (/\.epub(?:$|[?#])/.test(mobiUrl)) {
+    return {
+      primaryUrl: mobiUrl,
+      primaryFilename: `${base}.epub`,
+      primaryMime: "application/epub+zip",
+      formatLabel: "EPUB",
+    };
+  }
+
   return {
     primaryUrl: mobiUrl,
     primaryFilename: `${base}.mobi`,
