@@ -1,5 +1,5 @@
 const memCache = new Map<string, string | null>();
-const STORAGE_PREFIX = "bookcover:v1:";
+const STORAGE_PREFIX = "bookcover:v2:";
 
 function readStored(key: string): string | null | undefined {
   if (typeof localStorage === "undefined") return undefined;
