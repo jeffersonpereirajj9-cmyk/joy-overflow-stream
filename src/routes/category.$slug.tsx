@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { AppShell } from "@/components/bookfy/AppShell";
-import { BookCard } from "@/components/bookfy/BookCard";
+import { BookGrid } from "@/components/bookfy/BookGrid";
 import { books, categories } from "@/data/books";
 import { ChevronLeft } from "lucide-react";
 
@@ -32,11 +32,7 @@ function CategoryPage() {
         <p className="relative mt-1 text-sm text-white/80">{category.description}</p>
       </header>
 
-      <div className="grid grid-cols-2 gap-4 px-4 pt-6">
-        {list.map((b) => (
-          <BookCard key={b.id} book={b} size="lg" />
-        ))}
-      </div>
+      <BookGrid books={list} />
     </AppShell>
   );
 }

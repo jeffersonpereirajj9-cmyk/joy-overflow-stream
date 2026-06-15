@@ -4,26 +4,28 @@ import { BookCover } from "./BookCover";
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/hooks/useFavorites";
 
-export function BookCard({ book, size = "md" }: { book: Book; size?: "sm" | "md" | "lg" }) {
+type Size = "sm" | "md" | "lg";
+
+const WIDTHS: Record<Size, string> = {
+  sm: "w-28",
+  md: "w-36",
+  lg: "w-full",
+};
+const HEIGHTS: Record<Size, string> = {
+  sm: "h-40",
+  md: "h-52",
+  lg: "h-60",
+};
+
+export function BookCard({ book, size = "md" }: { book: Book; size?: Size }) {
   const { isFavorite, toggle } = useFavorites();
   const fav = isFavorite(book.id);
 
-  const widths = {
-    sm: "w-28",
-    md: "w-36",
-    lg: "w-full",
-  } as const;
-  const heights = {
-    sm: "h-40",
-    md: "h-52",
-    lg: "h-60",
-  } as const;
-
   return (
-    <div className={`${widths[size]} shrink-0`}>
+    <div className={`${WIDTHS[size]} shrink-0`}>
       <Link to="/book/$id" params={{ id: book.id }} className="block group">
         <div className="relative">
-          <BookCover book={book} className={`${heights[size]} transition-transform group-active:scale-95`} />
+          <BookCover book={book} className={`${HEIGHTS[size]} transition-transform group-active:scale-95`} />
           <button
             type="button"
             aria-label={fav ? "Remover dos favoritos" : "Adicionar aos favoritos"}

@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCard } from "@/components/bookfy/BookCard";
+import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
+import { CategoryChip } from "@/components/bookfy/CategoryChip";
 import { books, categories } from "@/data/books";
 import { Search, Sparkles } from "lucide-react";
 
@@ -15,17 +17,11 @@ export const Route = createFileRoute("/")({
   }),
 });
 
-function Section({ title, books: list }: { title: string; books: typeof books }) {
+function BookRow({ title, books: list }: { title: string; books: typeof books }) {
   return (
-    <section className="mt-7">
-      <div className="mb-3 flex items-end justify-between px-4">
-        <h2 className="font-serif text-lg text-foreground">{title}</h2>
-        <span className="text-xs text-muted-foreground">Ver tudo</span>
-      </div>
-      <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 pb-2">
-        {list.map((b) => <BookCard key={b.id} book={b} />)}
-      </div>
-    </section>
+    <HorizontalScroller title={title}>
+      {list.map((b) => <BookCard key={b.id} book={b} />)}
+    </HorizontalScroller>
   );
 }
 
@@ -84,34 +80,21 @@ function Home() {
       </header>
 
       {/* Categories chips */}
-      <section className="mt-6">
-        <div className="mb-3 flex items-end justify-between px-4">
-          <h2 className="font-serif text-lg text-foreground">Categorias</h2>
-          <Link to="/categories" className="text-xs text-muted-foreground">Ver tudo</Link>
-        </div>
-        <div className="no-scrollbar flex gap-3 overflow-x-auto px-4 pb-1">
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              to="/category/$slug"
-              params={{ slug: c.slug }}
-              className={`relative h-20 w-40 shrink-0 overflow-hidden rounded-2xl bg-gradient-to-br ${c.gradient} p-3 shadow-lg shadow-black/30`}
-            >
-              <div className="absolute inset-0 bg-black/20" />
-              <div className="relative font-serif text-sm leading-tight text-white">
-                {c.name}
-              </div>
-              <div className="relative mt-1 text-[10px] text-white/70">{c.description}</div>
-            </Link>
-          ))}
-        </div>
-      </section>
+      <HorizontalScroller
+        className="mt-6"
+        title="Categorias"
+        action={<Link to="/categories" className="text-xs text-muted-foreground">Ver tudo</Link>}
+      >
+        {categories.map((c) => (
+          <CategoryChip key={c.slug} category={c} />
+        ))}
+      </HorizontalScroller>
 
-      <Section title="Mais Desejados" books={mostWanted} />
-      <Section title="Mais Lidos" books={mostRead} />
-      <Section title="Novidades" books={newest} />
-      <Section title="Em Alta" books={trending} />
-      <Section title="Favoritos das Leitoras" books={readerFavs} />
+      <BookRow title="Mais Desejados" books={mostWanted} />
+      <BookRow title="Mais Lidos" books={mostRead} />
+      <BookRow title="Novidades" books={newest} />
+      <BookRow title="Em Alta" books={trending} />
+      <BookRow title="Favoritos das Leitoras" books={readerFavs} />
     </AppShell>
   );
 }
