@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo, useSyncExternalStore } from "react";
+import { useCallback, useMemo, useSyncExternalStore } from "react";
 
 const KEY = "bookfy:favorites";
 
@@ -67,11 +67,6 @@ export function useFavorites() {
 
   const isFavorite = useCallback((id: string) => set.has(id), [set]);
   const favorites = useMemo(() => Array.from(set), [set]);
-
-  // Keep useEffect/useState imports referenced for future expansion;
-  // noop to satisfy the linter without behavior change.
-  void useEffect;
-  void useState;
 
   return { favorites, toggle, isFavorite };
 }

@@ -14,6 +14,7 @@ import {
 } from "@/data/curated";
 import type { Book } from "@/data/books";
 import { ChevronRight, Search, Sparkles } from "lucide-react";
+import { LazyMount } from "@/components/bookfy/LazyMount";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -82,8 +83,9 @@ function Home() {
       </HorizontalScroller>
 
       {/* Coleções em destaque */}
-      {COLLECTIONS.map((col) => (
-        <section key={col.slug} className="mt-7 px-4">
+      {COLLECTIONS.map((col, idx) => {
+        const card = (
+        <section className="mt-7 px-4">
           <Link
             to="/collection/$slug"
             params={{ slug: col.slug }}
@@ -114,6 +116,7 @@ function Home() {
                       src={b.cover}
                       alt={b.title}
                       loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                     />
                   ) : null}
@@ -125,15 +128,28 @@ function Home() {
             </div>
           </Link>
         </section>
-      ))}
+        );
+        return idx === 0 ? (
+          <div key={col.slug}>{card}</div>
+        ) : (
+          <LazyMount key={col.slug} minHeight={220}>{card}</LazyMount>
+        );
+      })}
 
-      {rows.map((r) => (
-        <HorizontalScroller key={r.title} title={r.title}>
-          {r.books.map((b, i) => (
-            <BookCard key={b.id} book={b} priority={i < 2} />
-          ))}
-        </HorizontalScroller>
-      ))}
+      {rows.map((r, idx) => {
+        const row = (
+          <HorizontalScroller title={r.title}>
+            {r.books.map((b, i) => (
+              <BookCard key={b.id} book={b} priority={idx === 0 && i < 2} />
+            ))}
+          </HorizontalScroller>
+        );
+        return idx < 2 ? (
+          <div key={r.title}>{row}</div>
+        ) : (
+          <LazyMount key={r.title} minHeight={260}>{row}</LazyMount>
+        );
+      })}
     </AppShell>
   );
 }
