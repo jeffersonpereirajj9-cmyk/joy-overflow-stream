@@ -178,17 +178,57 @@ export type EnrichResult = {
 export const enrichDriveBooks = createServerFn({ method: "POST" })
   .inputValidator((input: { books: { id: string; name: string }[] }) => input)
   .handler(async ({ data }): Promise<{ books: EnrichResult[] }> => {
-    return {
-      books: data.books.map((b) => {
-        const base = b.name.replace(/\.(mobi|epub|azw3?|pdf)$/i, "");
-        const [titlePart, authorPart] = base.split(/\s+-\s+/);
-        return {
-          id: b.id,
-          title: (titlePart || base).trim(),
-          author: (authorPart || "Desconhecido").trim(),
-          category: guessCategory(base),
-          synopsis: "",
-        };
+    const base = data.books.map((b) => {
+      const stem = b.name.replace(/\.(mobi|epub|azw3?|pdf)$/i, "");
+      const [titlePart, authorPart] = stem.split(/\s+-\s+/);
+      return {
+        id: b.id,
+        title: (titlePart || stem).trim(),
+        author: (authorPart || "Desconhecido").trim(),
+        category: guessCategory(stem),
+        synopsis: "",
+      } as EnrichResult;
+    });
+
+    const key = process.env.LOVABLE_API_KEY;
+    if (!key) return { books: base };
+
+    const synopses = await Promise.all(
+      base.map(async (b) => {
+        try {
+          const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${key}`,
+            },
+            body: JSON.stringify({
+              model: "google/gemini-2.5-flash-lite",
+              messages: [
+                {
+                  role: "system",
+                  content:
+                    "Você é um especialista em literatura romântica. Escreva uma sinopse envolvente em português (4 a 6 frases) do livro citado. Se não conhecer o livro, descreva de forma plausível pelo gênero. Responda apenas com a sinopse, sem prefixos.",
+                },
+                {
+                  role: "user",
+                  content: `Livro: "${b.title}"\nAutor: ${b.author}`,
+                },
+              ],
+            }),
+          });
+          if (!res.ok) return "";
+          const json = (await res.json()) as {
+            choices?: { message?: { content?: string } }[];
+          };
+          return json.choices?.[0]?.message?.content?.trim() ?? "";
+        } catch {
+          return "";
+        }
       }),
+    );
+
+    return {
+      books: base.map((b, i) => ({ ...b, synopsis: synopses[i] })),
     };
   });
