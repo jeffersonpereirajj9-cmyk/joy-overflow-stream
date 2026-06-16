@@ -140,6 +140,8 @@ export const categories: Category[] = [
   { slug: "mafia-romance", name: "Máfia Romance", description: "Poder, perigo e desejo", gradient: "from-zinc-900 via-red-950 to-black", image: mafiaRomanceImage.url },
   { slug: "bilionarios", name: "Bilionários", description: "Luxo e romance", gradient: "from-amber-700 via-yellow-600 to-rose-700", image: bilionariosImage.url },
   { slug: "fantasia-romantica", name: "Fantasia Romântica", description: "Reinos, magia e amor", gradient: "from-purple-700 via-pink-700 to-rose-900", image: fantasiaRomanticaImage.url },
+  { slug: "literatura", name: "Literatura", description: "Ficção contemporânea e clássicos", gradient: "from-stone-700 via-amber-800 to-rose-900" },
+  { slug: "aventura", name: "Aventura", description: "Jornadas e descobertas", gradient: "from-emerald-700 via-teal-700 to-rose-800" },
 ];
 
 const allBooks: Book[] = [
