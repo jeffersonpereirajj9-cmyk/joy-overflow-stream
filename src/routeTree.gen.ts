@@ -13,6 +13,7 @@ import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as DownsellRouteImport } from './routes/downsell'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
@@ -44,6 +45,11 @@ const ObrigadoRoute = ObrigadoRouteImport.update({
 const DownsellRoute = DownsellRouteImport.update({
   id: '/downsell',
   path: '/downsell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -110,6 +116,7 @@ const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/upsell': typeof UpsellRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/upsell': typeof UpsellRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/upsell': typeof UpsellRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/downsell'
     | '/obrigado'
     | '/upsell'
@@ -182,6 +192,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/downsell'
     | '/obrigado'
     | '/upsell'
@@ -200,6 +211,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/auth'
     | '/downsell'
     | '/obrigado'
     | '/upsell'
@@ -219,6 +231,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   DownsellRoute: typeof DownsellRoute
   ObrigadoRoute: typeof ObrigadoRoute
   UpsellRoute: typeof UpsellRoute
@@ -254,6 +267,13 @@ declare module '@tanstack/react-router' {
       path: '/downsell'
       fullPath: '/downsell'
       preLoaderRoute: typeof DownsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -383,6 +403,7 @@ const ApiDriveIdRouteWithChildren = ApiDriveIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   DownsellRoute: DownsellRoute,
   ObrigadoRoute: ObrigadoRoute,
   UpsellRoute: UpsellRoute,
