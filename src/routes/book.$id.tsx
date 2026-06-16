@@ -55,7 +55,7 @@ function BookPage() {
   useEffect(() => {
     if (!downloadOption) return;
     let cancelled = false;
-    const url = downloadOption.primaryUrl;
+    const url = downloadOption.fallbackUrl ?? downloadOption.primaryUrl;
     fetch(url, { method: "HEAD" })
       .then((res) => {
         const len = res.headers.get("content-length");
