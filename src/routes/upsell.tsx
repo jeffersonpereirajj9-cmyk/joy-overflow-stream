@@ -291,7 +291,7 @@ function UpsellPage() {
         {/* Decline */}
         <div className="mt-10 mb-4 text-center">
           <a
-            href="/"
+            href="/downsell"
             className="inline-block text-sm text-white/50 underline underline-offset-4 transition hover:text-white/80"
           >
             Não, obrigada. Vou ficar apenas com o Clube das Leitoras.
