@@ -9,7 +9,6 @@ import mafiaRomance from "@/assets/categories/mafia-romance.png.asset.json";
 import bilionarios from "@/assets/categories/bilionarios.png.asset.json";
 import fantasia from "@/assets/categories/fantasia-romantica.png.asset.json";
 
-const CHECKOUT_URL = "https://pay.wiapy.com/checkout/6a315728da80fafc34a7baa3";
 const COUPON_CHECKOUT_URL = "https://pay.wiapy.com/4TLnkgRu2_";
 
 export const Route = createFileRoute("/vendas")({
