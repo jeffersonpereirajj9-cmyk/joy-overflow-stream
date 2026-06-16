@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
@@ -24,6 +25,11 @@ import { Route as BookIdRouteImport } from './routes/book.$id'
 import { Route as ApiDriveIdRouteImport } from './routes/api/drive.$id'
 import { Route as ApiDriveIdEpubRouteImport } from './routes/api/drive.$id.epub'
 
+const VendasRoute = VendasRouteImport.update({
+  id: '/vendas',
+  path: '/vendas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UpsellRoute = UpsellRouteImport.update({
   id: '/upsell',
   path: '/upsell',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
+  '/vendas': typeof VendasRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
+  '/vendas': typeof VendasRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
+  '/vendas': typeof VendasRoute
   '/book/$id': typeof BookIdRoute
   '/category/$slug': typeof CategorySlugRoute
   '/collection/$slug': typeof CollectionSlugRoute
@@ -155,6 +164,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/profile'
     | '/upsell'
+    | '/vendas'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/profile'
     | '/upsell'
+    | '/vendas'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/obrigado'
     | '/profile'
     | '/upsell'
+    | '/vendas'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
@@ -204,6 +216,7 @@ export interface RootRouteChildren {
   ObrigadoRoute: typeof ObrigadoRoute
   ProfileRoute: typeof ProfileRoute
   UpsellRoute: typeof UpsellRoute
+  VendasRoute: typeof VendasRoute
   BookIdRoute: typeof BookIdRoute
   CategorySlugRoute: typeof CategorySlugRoute
   CollectionSlugRoute: typeof CollectionSlugRoute
@@ -213,6 +226,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vendas': {
+      id: '/vendas'
+      path: '/vendas'
+      fullPath: '/vendas'
+      preLoaderRoute: typeof VendasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/upsell': {
       id: '/upsell'
       path: '/upsell'
@@ -335,6 +355,7 @@ const rootRouteChildren: RootRouteChildren = {
   ObrigadoRoute: ObrigadoRoute,
   ProfileRoute: ProfileRoute,
   UpsellRoute: UpsellRoute,
+  VendasRoute: VendasRoute,
   BookIdRoute: BookIdRoute,
   CategorySlugRoute: CategorySlugRoute,
   CollectionSlugRoute: CollectionSlugRoute,
