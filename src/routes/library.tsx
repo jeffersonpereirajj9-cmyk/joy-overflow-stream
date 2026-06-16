@@ -7,7 +7,7 @@ import { categories } from "@/data/books";
 import { CATEGORIES, type DriveCategory } from "@/lib/drive.functions";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useDriveLibrary } from "@/hooks/useDriveLibrary";
-import { Loader2, Search, Sparkles } from "lucide-react";
+import { ChevronDown, Folder, Loader2, Search, Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/library")({
   component: LibraryPage,
@@ -18,6 +18,8 @@ function LibraryPage() {
   const [search, setSearch] = useState("");
   const query = useDebouncedValue(search, 350);
   const { items, grouped, loading, error, nextToken, loadMore } = useDriveLibrary(query);
+  const [open, setOpen] = useState<Record<string, boolean>>({});
+  const toggle = (k: string) => setOpen((p) => ({ ...p, [k]: !p[k] }));
 
   const catName = (slug: DriveCategory) =>
     categories.find((c) => c.slug === slug)?.name ?? slug;
@@ -27,7 +29,7 @@ function LibraryPage() {
       <PageHeader
         eyebrow="Drive"
         title="Biblioteca completa"
-        description="Milhares de títulos disponíveis sob demanda — busque e baixe em MOBI."
+        description="Milhares de títulos disponíveis sob demanda — busque e baixe em EPUB."
       />
 
       <div className="sticky top-0 z-20 mt-4 bg-background/85 px-4 py-3 backdrop-blur-xl">
@@ -47,23 +49,34 @@ function LibraryPage() {
           const list = grouped.get(slug);
           if (!list || list.length === 0) return null;
           const isUnsorted = slug === "_unsorted";
+          const isOpen = open[slug] ?? false;
           return (
             <section key={slug} className="mt-6">
-              <h2 className="mb-2 flex items-center gap-2 font-serif text-lg text-foreground">
+              <button
+                type="button"
+                onClick={() => toggle(slug)}
+                className="flex w-full items-center gap-2 rounded-xl border border-border bg-card px-3 py-3 text-left font-serif text-base text-foreground active:scale-[0.99]"
+              >
                 {isUnsorted ? (
-                  <>
-                    <Sparkles className="h-4 w-4 animate-pulse text-accent" /> Classificando…
-                  </>
+                  <Sparkles className="h-4 w-4 animate-pulse text-accent" />
                 ) : (
-                  catName(slug as DriveCategory)
+                  <Folder className="h-4 w-4 text-accent" />
                 )}
-                <span className="text-xs text-muted-foreground">({list.length})</span>
-              </h2>
-              <ul>
-                {list.map((b) => (
-                  <DriveBookRow key={b.id} book={b} />
-                ))}
-              </ul>
+                <span className="flex-1 truncate">
+                  {isUnsorted ? "Classificando…" : catName(slug as DriveCategory)}
+                </span>
+                <span className="text-xs text-muted-foreground">{list.length}</span>
+                <ChevronDown
+                  className={`h-4 w-4 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              {isOpen && (
+                <ul className="mt-1 px-1">
+                  {list.map((b) => (
+                    <DriveBookRow key={b.id} book={b} />
+                  ))}
+                </ul>
+              )}
             </section>
           );
         })}
