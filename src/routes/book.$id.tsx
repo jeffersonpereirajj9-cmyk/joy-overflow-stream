@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
 import { books, categories } from "@/data/books";
@@ -50,6 +50,26 @@ function BookPage() {
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const downloadOption = getBookDownloadOption(book);
   const downloadFormat = downloadOption?.formatLabel ?? "Livro";
+  const [fileSize, setFileSize] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!downloadOption) return;
+    let cancelled = false;
+    const url = downloadOption.primaryUrl;
+    fetch(url, { method: "HEAD" })
+      .then((res) => {
+        const len = res.headers.get("content-length");
+        if (!len || cancelled) return;
+        const bytes = Number(len);
+        if (!Number.isFinite(bytes) || bytes <= 0) return;
+        const mb = bytes / (1024 * 1024);
+        setFileSize(mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [downloadOption?.primaryUrl]);
 
   const handleDownload = async () => {
     if (downloading) return;
@@ -116,17 +136,31 @@ function BookPage() {
             <h1 className="mt-2 font-serif text-2xl leading-tight text-foreground">
               {book.title}
             </h1>
-            <p className="text-sm text-muted-foreground">{book.author}</p>
+            <p className="text-sm text-muted-foreground">
+              {book.author}
+              {fileSize && (
+                <>
+                  <span className="mx-1.5 opacity-50">·</span>
+                  <span className="text-foreground/80">{fileSize}</span>
+                </>
+              )}
+            </p>
             <div className="mt-1 flex items-center gap-1 text-xs text-accent">
               <Star className="h-3.5 w-3.5 fill-accent" /> {book.rating.toFixed(1)}
             </div>
           </div>
         </div>
 
-        <div className="mt-6">
-          <h2 className="font-serif text-base text-foreground">Sinopse</h2>
-          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{book.synopsis}</p>
-        </div>
+        <section className="mt-8 rounded-2xl border border-border/60 bg-card/40 p-5">
+          <h2 className="font-serif text-lg text-foreground">Sinopse</h2>
+          <div className="mt-3 space-y-3 text-[15px] leading-7 text-muted-foreground first-letter:font-serif first-letter:text-3xl first-letter:font-semibold first-letter:text-foreground first-letter:mr-1 first-letter:float-left first-letter:leading-none">
+            {book.synopsis
+              .split(/\n\s*\n/)
+              .map((paragraph, idx) => (
+                <p key={idx}>{paragraph.trim()}</p>
+              ))}
+          </div>
+        </section>
 
         <div className="mt-8 flex gap-3">
           <button
