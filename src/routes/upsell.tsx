@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Flame, Crown, Gem, Sparkles, Heart, Skull, Clock, Smartphone, BookHeart } from "lucide-react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
+import collectionsPreview from "@/assets/bookfy-collections-preview.png.asset.json";
 
 export const Route = createFileRoute("/upsell")({
   component: UpsellPage,
@@ -68,16 +69,25 @@ function UpsellPage() {
 
         {/* App preview */}
         <div className="mt-10 flex justify-center">
-          <div className="relative">
+          <div className="relative flex flex-wrap items-end justify-center gap-4">
             <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-pink-500/30 via-fuchsia-500/20 to-transparent blur-2xl" />
             <img
               src={appPreview.url}
               alt="Tela inicial do app Bookfy com biblioteca de romances"
-              className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
+              className="relative w-[45%] max-w-[240px] rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
+              loading="lazy"
+            />
+            <img
+              src={collectionsPreview.url}
+              alt="Coleções famosas do Bookfy disponíveis para baixar em EPUB"
+              className="relative w-[45%] max-w-[240px] rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(217,70,239,0.5)]"
               loading="lazy"
             />
           </div>
         </div>
+        <p className="mt-4 text-center text-sm text-white/60">
+          Coleções famosas prontas para baixar em EPUB direto no app.
+        </p>
 
         {/* Problem */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
