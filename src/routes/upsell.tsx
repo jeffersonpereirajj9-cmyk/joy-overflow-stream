@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { Check, Flame, Crown, Gem, Sparkles, Heart, Skull, Clock, Smartphone, BookHeart } from "lucide-react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 import collectionsPreview from "@/assets/bookfy-collections-preview.png.asset.json";
@@ -12,6 +13,9 @@ export const Route = createFileRoute("/upsell")({
       { name: "description", content: "Desbloqueie o Bookfy: uma biblioteca infinita de romances no seu celular por apenas R$ 47 por ano. Oferta exclusiva para novas integrantes do Clube Secreto das Leituras." },
       { property: "og:title", content: "Bookfy — Nunca mais fique sem uma história para ler" },
       { property: "og:description", content: "Acesso imediato a centenas de romances: Dark Romance, Máfia, Bilionários e Fantasia Romântica. Apenas R$ 47/ano." },
+    ],
+    scripts: [
+      { src: "https://wiapy.com/sell/1.0.0/sell.min.js", async: true },
     ],
   }),
 });
@@ -27,6 +31,41 @@ function CTAButton({ label = "SIM! QUERO DESBLOQUEAR O BOOKFY AGORA" }: { label?
       {label}
     </a>
   );
+}
+
+function WiapyUpsellButton({ containerId = "wiapy_upsell" }: { containerId?: string }) {
+  useEffect(() => {
+    let cancelled = false;
+    const tryInit = () => {
+      if (cancelled) return;
+      const w = window as unknown as { initWiapyUpsell?: (opts: unknown) => void };
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      if (typeof w.initWiapyUpsell === "function") {
+        el.innerHTML = "";
+        w.initWiapyUpsell({
+          linkUrl: "https://pay.wiapy.com/checkout/6a315728da80fafc34a7baa3",
+          linkText: "SIM, EU ACEITO ESSA OFERTA",
+          styles: {
+            backgroundColor: "#00d769",
+            hoverBackgroundColor: "#00b85a",
+            fontSize: "17px",
+            borderRadius: "10px",
+          },
+          refusalLinkUrl: "/",
+          refusalLinkText: "Recusar está oferta",
+          refusalLinkColor: "#ffffff",
+        });
+      } else {
+        setTimeout(tryInit, 200);
+      }
+    };
+    tryInit();
+    return () => {
+      cancelled = true;
+    };
+  }, [containerId]);
+  return <div id={containerId} />;
 }
 
 function UpsellPage() {
@@ -224,7 +263,7 @@ function UpsellPage() {
           <p className="text-sm text-white/70">por 12 meses inteiros de acesso</p>
 
           <div className="mt-6">
-            <CTAButton />
+            <WiapyUpsellButton containerId="wiapy_upsell" />
           </div>
           <p className="mt-3 text-xs text-white/60">Pagamento único anual • Acesso imediato</p>
         </section>
@@ -244,7 +283,7 @@ function UpsellPage() {
             Você terminando uma história. Abrindo o Bookfy. Escolhendo imediatamente a próxima obsessão literária. Sem procurar. Sem esperar. Sem gastar com livros avulsos. <strong className="text-pink-300">Apenas lendo.</strong>
           </p>
           <div className="mt-8">
-            <CTAButton label="QUERO MEU ACESSO POR R$ 47/ANO" />
+            <WiapyUpsellButton containerId="wiapy_upsell_2" />
           </div>
           <p className="mt-4 text-xs text-white/50">Garantia de acesso imediato após a confirmação do pagamento.</p>
         </section>
