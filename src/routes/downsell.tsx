@@ -29,7 +29,7 @@ function WiapyDownsellButton({ containerId = "wiapy_downsell" }: { containerId?:
       if (typeof w.initWiapyUpsell === "function") {
         el.innerHTML = "";
         w.initWiapyUpsell({
-          linkUrl: "https://pay.wiapy.com/checkout/6a315728da80fafc34a7baa3",
+          linkUrl: "https://pay.wiapy.com/checkout/6a315a479c863d1390bc5a09",
           linkText: "SIM, QUERO APROVEITAR POR R$ 37",
           styles: {
             backgroundColor: "#00d769",
