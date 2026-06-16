@@ -9,7 +9,7 @@ import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useDriveLibrary } from "@/hooks/useDriveLibrary";
 import { ChevronDown, Folder, Loader2, Search, Sparkles } from "lucide-react";
 
-export const Route = createFileRoute("/library")({
+export const Route = createFileRoute("/_authenticated/library")({
   component: LibraryPage,
   head: () => ({ meta: [{ title: "Biblioteca completa — Bookfy" }] }),
 });
