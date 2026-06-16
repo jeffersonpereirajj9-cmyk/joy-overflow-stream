@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Link } from "@tanstack/react-router";
 import type { Book } from "@/data/books";
 import { BookCover } from "./BookCover";
@@ -17,7 +18,7 @@ const HEIGHTS: Record<Size, string> = {
   lg: "h-60",
 };
 
-export function BookCard({
+function BookCardImpl({
   book,
   size = "md",
   priority = false,
@@ -63,3 +64,7 @@ export function BookCard({
     </div>
   );
 }
+
+export const BookCard = memo(BookCardImpl, (a, b) =>
+  a.book.id === b.book.id && a.size === b.size && a.priority === b.priority,
+);

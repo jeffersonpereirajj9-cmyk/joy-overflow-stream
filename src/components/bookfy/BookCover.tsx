@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { categories, coverFor, type Book } from "@/data/books";
 import { fetchBookCover } from "@/lib/book-covers";
 
@@ -6,7 +6,7 @@ const CATEGORY_IMAGE: Record<string, string | undefined> = Object.fromEntries(
   categories.map((c) => [c.slug, c.image]),
 );
 
-export function BookCover({
+function BookCoverImpl({
   book,
   className = "",
   priority = false,
@@ -63,7 +63,7 @@ export function BookCover({
     return (
       <div
         ref={wrapRef}
-        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:240px_360px] ${className}`}
+        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:160px_240px] ${className}`}
       >
         <img
           src={image}
@@ -88,7 +88,7 @@ export function BookCover({
     return (
       <div
         ref={wrapRef}
-        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:240px_360px] ${className}`}
+        className={`relative overflow-hidden rounded-xl shadow-lg shadow-black/40 [content-visibility:auto] [contain-intrinsic-size:160px_240px] ${className}`}
       >
         <img
           src={categoryImage}
@@ -140,3 +140,7 @@ export function BookCover({
     </div>
   );
 }
+
+export const BookCover = memo(BookCoverImpl, (a, b) =>
+  a.book.id === b.book.id && a.className === b.className && a.priority === b.priority,
+);
