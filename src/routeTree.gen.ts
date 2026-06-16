@@ -13,6 +13,7 @@ import { Route as UpsellRouteImport } from './routes/upsell'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as DownsellRouteImport } from './routes/downsell'
 import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ReadIdRouteImport } from './routes/read.$id'
@@ -40,6 +41,11 @@ const LibraryRoute = LibraryRouteImport.update({
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownsellRoute = DownsellRouteImport.update({
+  id: '/downsell',
+  path: '/downsell',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategoriesRoute = CategoriesRouteImport.update({
@@ -86,6 +92,7 @@ const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
+  '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
   '/profile': typeof ProfileRoute
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
+  '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
   '/profile': typeof ProfileRoute
@@ -115,6 +123,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/categories': typeof CategoriesRoute
+  '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
   '/profile': typeof ProfileRoute
@@ -131,6 +140,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/categories'
+    | '/downsell'
     | '/favorites'
     | '/library'
     | '/profile'
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/categories'
+    | '/downsell'
     | '/favorites'
     | '/library'
     | '/profile'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/categories'
+    | '/downsell'
     | '/favorites'
     | '/library'
     | '/profile'
@@ -174,6 +186,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CategoriesRoute: typeof CategoriesRoute
+  DownsellRoute: typeof DownsellRoute
   FavoritesRoute: typeof FavoritesRoute
   LibraryRoute: typeof LibraryRoute
   ProfileRoute: typeof ProfileRoute
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downsell': {
+      id: '/downsell'
+      path: '/downsell'
+      fullPath: '/downsell'
+      preLoaderRoute: typeof DownsellRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/categories': {
@@ -289,6 +309,7 @@ const ApiDriveIdRouteWithChildren = ApiDriveIdRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CategoriesRoute: CategoriesRoute,
+  DownsellRoute: DownsellRoute,
   FavoritesRoute: FavoritesRoute,
   LibraryRoute: LibraryRoute,
   ProfileRoute: ProfileRoute,
