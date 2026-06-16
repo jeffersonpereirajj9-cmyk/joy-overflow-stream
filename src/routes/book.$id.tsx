@@ -15,6 +15,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
 import { downloadFileFromUrl } from "@/lib/epub";
 import { getBookDownloadOption } from "@/lib/book-downloads";
+import { expandSynopsis } from "@/lib/synopsis.functions";
 
 const findBook = (id: string) =>
   books.find((b) => b.id === id) ??
@@ -51,6 +52,38 @@ function BookPage() {
   const downloadOption = getBookDownloadOption(book);
   const downloadFormat = downloadOption?.formatLabel ?? "Livro";
   const [fileSize, setFileSize] = useState<string | null>(null);
+  const [synopsis, setSynopsis] = useState<string>(book.synopsis);
+  const [synopsisLoading, setSynopsisLoading] = useState(false);
+
+  useEffect(() => {
+    const cacheKey = `synopsis:v1:${book.id}`;
+    try {
+      const cached = localStorage.getItem(cacheKey);
+      if (cached && cached.length > 200) {
+        setSynopsis(cached);
+        return;
+      }
+    } catch {}
+    let cancelled = false;
+    setSynopsisLoading(true);
+    expandSynopsis({
+      data: { title: book.title, author: book.author, category: category?.name, current: book.synopsis },
+    })
+      .then(({ synopsis: text }) => {
+        if (cancelled || !text) return;
+        setSynopsis(text);
+        try {
+          localStorage.setItem(cacheKey, text);
+        } catch {}
+      })
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setSynopsisLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [book.id, book.title, book.author, book.synopsis, category?.name]);
 
   useEffect(() => {
     if (!downloadOption) return;
@@ -154,11 +187,14 @@ function BookPage() {
         <section className="mt-8 rounded-2xl border border-border/60 bg-card/40 p-5">
           <h2 className="font-serif text-lg text-foreground">Sinopse</h2>
           <div className="mt-3 space-y-3 text-[15px] leading-7 text-muted-foreground first-letter:font-serif first-letter:text-3xl first-letter:font-semibold first-letter:text-foreground first-letter:mr-1 first-letter:float-left first-letter:leading-none">
-            {book.synopsis
+            {synopsis
               .split(/\n\s*\n/)
               .map((paragraph, idx) => (
                 <p key={idx}>{paragraph.trim()}</p>
               ))}
+            {synopsisLoading && (
+              <p className="text-xs italic opacity-60">Expandindo sinopse…</p>
+            )}
           </div>
         </section>
 
