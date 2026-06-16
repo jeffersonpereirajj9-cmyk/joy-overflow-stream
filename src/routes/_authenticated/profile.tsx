@@ -55,26 +55,30 @@ function ProfilePage() {
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setEmail(window.localStorage.getItem("bookfy_email"));
-    setName(window.localStorage.getItem("bookfy_name") ?? "");
-    setAvatar(window.localStorage.getItem("bookfy_avatar"));
+    const e = window.localStorage.getItem("bookfy_email");
+    setEmail(e);
+    if (e) {
+      setName(window.localStorage.getItem(`bookfy_name:${e}`) ?? "");
+      setAvatar(window.localStorage.getItem(`bookfy_avatar:${e}`));
+    }
   }, []);
 
   const saveName = () => {
+    if (!email) return;
     const v = name.trim().slice(0, 40);
     setName(v);
-    if (v) window.localStorage.setItem("bookfy_name", v);
-    else window.localStorage.removeItem("bookfy_name");
+    if (v) window.localStorage.setItem(`bookfy_name:${email}`, v);
+    else window.localStorage.removeItem(`bookfy_name:${email}`);
     setEditingName(false);
   };
 
   const onPickFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
+    if (!file || !email) return;
     try {
       const compressed = await fileToCompressedDataUrl(file);
       setAvatar(compressed);
-      window.localStorage.setItem("bookfy_avatar", compressed);
+      window.localStorage.setItem(`bookfy_avatar:${email}`, compressed);
     } catch {
       // ignore
     } finally {
