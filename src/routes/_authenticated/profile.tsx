@@ -5,7 +5,6 @@ import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
 import { BookOpen, Heart, LayoutGrid, Sparkles, LogOut } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
@@ -28,11 +27,11 @@ function ProfilePage() {
   const [email, setEmail] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+    setEmail(window.localStorage.getItem("bookfy_email"));
   }, []);
 
-  const signOut = async () => {
-    await supabase.auth.signOut();
+  const signOut = () => {
+    window.localStorage.removeItem("bookfy_email");
     navigate({ to: "/auth", replace: true });
   };
 
