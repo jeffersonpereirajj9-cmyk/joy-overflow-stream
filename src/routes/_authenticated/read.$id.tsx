@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { books, sampleChapter } from "@/data/books";
 import { ChevronLeft, Minus, Plus, Sun, Moon, Bookmark, BookmarkCheck } from "lucide-react";
 
-export const Route = createFileRoute("/_authenticated/_authenticated/read/$id")({
+export const Route = createFileRoute("/_authenticated/read/$id")({
   component: ReadPage,
   loader: ({ params }) => {
     const book = books.find((b) => b.id === params.id);
