@@ -84,7 +84,7 @@ export function BookCover({
     );
   }
 
-  if (categoryImage && (staticImage || remoteTried)) {
+  if (categoryImage) {
     return (
       <div
         ref={wrapRef}
@@ -93,8 +93,9 @@ export function BookCover({
         <img
           src={categoryImage}
           alt={`Capa de ${book.title}`}
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
           decoding="async"
+          fetchPriority={priority ? "high" : "auto"}
           width={256}
           height={384}
           sizes="(max-width: 640px) 160px, 200px"
