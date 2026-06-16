@@ -13,6 +13,7 @@ import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as DownsellRouteImport } from './routes/downsell'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
@@ -45,30 +46,34 @@ const DownsellRoute = DownsellRouteImport.update({
   path: '/downsell',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
-  id: '/_authenticated/profile',
+  id: '/profile',
   path: '/profile',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
-  id: '/_authenticated/library',
+  id: '/library',
   path: '/library',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
-  id: '/_authenticated/favorites',
+  id: '/favorites',
   path: '/favorites',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCategoriesRoute = AuthenticatedCategoriesRouteImport.update({
-  id: '/_authenticated/categories',
+  id: '/categories',
   path: '/categories',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiDriveIdRoute = ApiDriveIdRouteImport.update({
   id: '/api/drive/$id',
@@ -76,26 +81,26 @@ const ApiDriveIdRoute = ApiDriveIdRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedReadIdRoute = AuthenticatedReadIdRouteImport.update({
-  id: '/_authenticated/read/$id',
+  id: '/read/$id',
   path: '/read/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedCollectionSlugRoute =
   AuthenticatedCollectionSlugRouteImport.update({
-    id: '/_authenticated/collection/$slug',
+    id: '/collection/$slug',
     path: '/collection/$slug',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedCategorySlugRoute =
   AuthenticatedCategorySlugRouteImport.update({
-    id: '/_authenticated/category/$slug',
+    id: '/category/$slug',
     path: '/category/$slug',
-    getParentRoute: () => rootRouteImport,
+    getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedBookIdRoute = AuthenticatedBookIdRouteImport.update({
-  id: '/_authenticated/book/$id',
+  id: '/book/$id',
   path: '/book/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
   id: '/epub',
@@ -140,6 +145,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/upsell': typeof UpsellRoute
@@ -193,6 +199,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/downsell'
     | '/obrigado'
     | '/upsell'
@@ -211,18 +218,11 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   DownsellRoute: typeof DownsellRoute
   ObrigadoRoute: typeof ObrigadoRoute
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
-  AuthenticatedCategoriesRoute: typeof AuthenticatedCategoriesRoute
-  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
-  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
-  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
-  AuthenticatedBookIdRoute: typeof AuthenticatedBookIdRoute
-  AuthenticatedCategorySlugRoute: typeof AuthenticatedCategorySlugRoute
-  AuthenticatedCollectionSlugRoute: typeof AuthenticatedCollectionSlugRoute
-  AuthenticatedReadIdRoute: typeof AuthenticatedReadIdRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
 }
 
@@ -256,6 +256,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DownsellRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -268,28 +275,28 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/library': {
       id: '/_authenticated/library'
       path: '/library'
       fullPath: '/library'
       preLoaderRoute: typeof AuthenticatedLibraryRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/favorites': {
       id: '/_authenticated/favorites'
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/categories': {
       id: '/_authenticated/categories'
       path: '/categories'
       fullPath: '/categories'
       preLoaderRoute: typeof AuthenticatedCategoriesRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/drive/$id': {
       id: '/api/drive/$id'
@@ -303,28 +310,28 @@ declare module '@tanstack/react-router' {
       path: '/read/$id'
       fullPath: '/read/$id'
       preLoaderRoute: typeof AuthenticatedReadIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/collection/$slug': {
       id: '/_authenticated/collection/$slug'
       path: '/collection/$slug'
       fullPath: '/collection/$slug'
       preLoaderRoute: typeof AuthenticatedCollectionSlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/category/$slug': {
       id: '/_authenticated/category/$slug'
       path: '/category/$slug'
       fullPath: '/category/$slug'
       preLoaderRoute: typeof AuthenticatedCategorySlugRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/book/$id': {
       id: '/_authenticated/book/$id'
       path: '/book/$id'
       fullPath: '/book/$id'
       preLoaderRoute: typeof AuthenticatedBookIdRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/drive/$id/epub': {
       id: '/api/drive/$id/epub'
@@ -335,6 +342,31 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCategoriesRoute: typeof AuthenticatedCategoriesRoute
+  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedBookIdRoute: typeof AuthenticatedBookIdRoute
+  AuthenticatedCategorySlugRoute: typeof AuthenticatedCategorySlugRoute
+  AuthenticatedCollectionSlugRoute: typeof AuthenticatedCollectionSlugRoute
+  AuthenticatedReadIdRoute: typeof AuthenticatedReadIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCategoriesRoute: AuthenticatedCategoriesRoute,
+  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedBookIdRoute: AuthenticatedBookIdRoute,
+  AuthenticatedCategorySlugRoute: AuthenticatedCategorySlugRoute,
+  AuthenticatedCollectionSlugRoute: AuthenticatedCollectionSlugRoute,
+  AuthenticatedReadIdRoute: AuthenticatedReadIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface ApiDriveIdRouteChildren {
   ApiDriveIdEpubRoute: typeof ApiDriveIdEpubRoute
@@ -350,18 +382,11 @@ const ApiDriveIdRouteWithChildren = ApiDriveIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   DownsellRoute: DownsellRoute,
   ObrigadoRoute: ObrigadoRoute,
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
-  AuthenticatedCategoriesRoute: AuthenticatedCategoriesRoute,
-  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
-  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
-  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
-  AuthenticatedBookIdRoute: AuthenticatedBookIdRoute,
-  AuthenticatedCategorySlugRoute: AuthenticatedCategorySlugRoute,
-  AuthenticatedCollectionSlugRoute: AuthenticatedCollectionSlugRoute,
-  AuthenticatedReadIdRoute: AuthenticatedReadIdRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
