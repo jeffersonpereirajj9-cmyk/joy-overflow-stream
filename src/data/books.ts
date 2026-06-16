@@ -140,6 +140,8 @@ export const categories: Category[] = [
   { slug: "mafia-romance", name: "Máfia Romance", description: "Poder, perigo e desejo", gradient: "from-zinc-900 via-red-950 to-black", image: mafiaRomanceImage.url },
   { slug: "bilionarios", name: "Bilionários", description: "Luxo e romance", gradient: "from-amber-700 via-yellow-600 to-rose-700", image: bilionariosImage.url },
   { slug: "fantasia-romantica", name: "Fantasia Romântica", description: "Reinos, magia e amor", gradient: "from-purple-700 via-pink-700 to-rose-900", image: fantasiaRomanticaImage.url },
+  { slug: "literatura", name: "Literatura", description: "Ficção contemporânea e clássicos", gradient: "from-stone-700 via-amber-800 to-rose-900" },
+  { slug: "aventura", name: "Aventura", description: "Jornadas e descobertas", gradient: "from-emerald-700 via-teal-700 to-rose-800" },
 ];
 
 const allBooks: Book[] = [
@@ -223,14 +225,14 @@ const allBooks: Book[] = [
     epubUrl: aBabaEpub.url,
   },
   {
-    id: "14", title: "A Autobiografia da Minha Mãe", author: "Jamaica Kincaid", category: "romance",
+    id: "14", title: "A Autobiografia da Minha Mãe", author: "Jamaica Kincaid", category: "literatura",
     rating: 4.5, cover: "from-pink-300 via-rose-500 to-pink-800", accent: "pink",
     synopsis: "A história intensa e poética de Xuela Claudette Richardson, uma mulher caribenha que reconstrói a própria identidade a partir das ausências, dos desejos e das paixões que moldaram sua vida.",
     tags: ["favorites"],
     epubUrl: autobiografiaEpub.url,
   },
   {
-    id: "15", title: "A Amiga Genial", author: "Elena Ferrante", category: "romance",
+    id: "15", title: "A Amiga Genial", author: "Elena Ferrante", category: "literatura",
     rating: 4.9, cover: "from-rose-500 via-pink-700 to-rose-950", accent: "rose",
     synopsis: "Em uma Nápoles do pós-guerra, Lila e Elena constroem uma amizade que atravessa décadas — uma história sobre amor, rivalidade e a força inexplicável que une duas mulheres para sempre.",
     tags: ["top", "favorites"],
@@ -265,7 +267,7 @@ const allBooks: Book[] = [
     epubUrl: guardaCostasEpub.url,
   },
   {
-    id: "20", title: "A Floresta dos Pigmeus", author: "Isabel Allende", category: "romance",
+    id: "20", title: "A Floresta dos Pigmeus", author: "Isabel Allende", category: "aventura",
     rating: 4.5, cover: "from-emerald-700 via-rose-700 to-rose-950", accent: "rose",
     synopsis: "Alex e Nadia embarcam em uma aventura pela floresta africana, onde descobrem segredos ancestrais, mistérios mágicos e uma amizade que floresce em meio ao perigo.",
     tags: ["favorites"],
@@ -286,14 +288,14 @@ const allBooks: Book[] = [
     epubUrl: destruidoraEpub.url,
   },
   {
-    id: "23", title: "A Coroa", author: "Kiera Cass", category: "romance",
+    id: "23", title: "A Coroa", author: "Kiera Cass", category: "fantasia-romantica",
     rating: 4.7, cover: "from-pink-300 via-pink-500 to-rose-700", accent: "pink",
     synopsis: "A princesa Eadlyn precisa escolher entre seis pretendentes para suceder ao trono. Mas governar um reino e governar o próprio coração podem ser duas coisas impossíveis ao mesmo tempo.",
     tags: ["top", "favorites"],
     epubUrl: aCoroaEpub.url,
   },
   {
-    id: "24", title: "A Condessa Ensanguentada", author: "Valentine Penrose", category: "romance",
+    id: "24", title: "A Condessa Ensanguentada", author: "Valentine Penrose", category: "dark-romance",
     rating: 4.3, cover: "from-rose-900 via-red-950 to-black", accent: "red",
     synopsis: "A história real e perturbadora de Erzsébet Báthory, a condessa húngara que se tornou lenda — entre o desejo de eternidade, o poder e os limites tênues entre amor e crueldade.",
     tags: ["new"],
@@ -307,14 +309,14 @@ const allBooks: Book[] = [
     epubUrl: cincoPassosEpub.url,
   },
   {
-    id: "26", title: "A Casa dos Espíritos", author: "Isabel Allende", category: "romance",
+    id: "26", title: "A Casa dos Espíritos", author: "Isabel Allende", category: "literatura",
     rating: 4.9, cover: "from-amber-700 via-rose-700 to-rose-950", accent: "amber",
     synopsis: "Três gerações da família Trueba vivem amores intensos, paixões proibidas e encontros sobrenaturais em uma casa onde os espíritos do passado se recusam a partir.",
     tags: ["top", "favorites"],
     epubUrl: casaEspiritosEpub.url,
   },
   {
-    id: "27", title: "A Carne", author: "Rosa Montero", category: "romance",
+    id: "27", title: "A Carne", author: "Rosa Montero", category: "literatura",
     rating: 4.4, cover: "from-rose-700 via-red-800 to-rose-950", accent: "red",
     synopsis: "Soledad contrata um acompanhante para vingar-se do amante casado que a abandonou. O que era para ser uma noite torna-se uma obsessão que a fará repensar tudo o que sabia sobre desejo e identidade.",
     tags: ["trending"],
