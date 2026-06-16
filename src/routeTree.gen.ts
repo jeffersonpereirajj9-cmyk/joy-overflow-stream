@@ -25,6 +25,7 @@ import { Route as AuthenticatedReadIdRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedCollectionSlugRouteImport } from './routes/_authenticated/collection.$slug'
 import { Route as AuthenticatedCategorySlugRouteImport } from './routes/_authenticated/category.$slug'
 import { Route as AuthenticatedBookIdRouteImport } from './routes/_authenticated/book.$id'
+import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
 import { Route as ApiDriveIdEpubRouteImport } from './routes/api/drive.$id.epub'
 
 const VendasRoute = VendasRouteImport.update({
@@ -108,6 +109,11 @@ const AuthenticatedBookIdRoute = AuthenticatedBookIdRouteImport.update({
   path: '/book/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
+  id: '/api/public/webhooks/kiwify',
+  path: '/api/public/webhooks/kiwify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
   id: '/epub',
   path: '/epub',
@@ -131,6 +137,7 @@ export interface FileRoutesByFullPath {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -149,6 +156,7 @@ export interface FileRoutesByTo {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/_authenticated/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -189,6 +198,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -207,6 +217,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/kiwify'
   id:
     | '__root__'
     | '/'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/_authenticated/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
+  ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -353,6 +366,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBookIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/webhooks/kiwify': {
+      id: '/api/public/webhooks/kiwify'
+      path: '/api/public/webhooks/kiwify'
+      fullPath: '/api/public/webhooks/kiwify'
+      preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/drive/$id/epub': {
       id: '/api/drive/$id/epub'
       path: '/epub'
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
+  ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
