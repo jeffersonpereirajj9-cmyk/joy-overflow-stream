@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, BookHeart, Sparkles, ShieldCheck, Clock, Flame, Star, Lock } from "lucide-react";
+import { useState } from "react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 import categoriesPreview from "@/assets/bookfy-categories-preview.png.asset.json";
 import collectionsPreview from "@/assets/bookfy-collections-preview.png.asset.json";
@@ -8,7 +9,7 @@ import mafiaRomance from "@/assets/categories/mafia-romance.png.asset.json";
 import bilionarios from "@/assets/categories/bilionarios.png.asset.json";
 import fantasia from "@/assets/categories/fantasia-romantica.png.asset.json";
 
-const CHECKOUT_URL = "https://pay.wiapy.com/checkout/6a315728da80fafc34a7baa3";
+const COUPON_CHECKOUT_URL = "https://pay.wiapy.com/4TLnkgRu2_";
 
 export const Route = createFileRoute("/vendas")({
   component: VendasPage,
@@ -25,20 +26,69 @@ export const Route = createFileRoute("/vendas")({
   }),
 });
 
-function CTA({ label = "QUERO MEU ACESSO AGORA" }: { label?: string }) {
+function CTA({ label = "QUERO MEU ACESSO AGORA", onClick }: { label?: string; onClick: () => void }) {
   return (
-    <a
-      href={CHECKOUT_URL}
+    <button
+      type="button"
+      onClick={onClick}
       className="block w-full rounded-2xl bg-gradient-to-r from-pink-500 to-fuchsia-500 px-6 py-5 text-center text-base font-extrabold uppercase tracking-wide text-white shadow-[0_15px_40px_-10px_rgba(244,63,94,0.7)] transition hover:scale-[1.02] active:scale-100"
     >
       {label}
-    </a>
+    </button>
   );
 }
 
 function VendasPage() {
+  const [showCoupon, setShowCoupon] = useState(false);
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a0a1f] via-[#0f0712] to-black text-white">
+      {showCoupon && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-5" onClick={() => setShowCoupon(false)}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full max-w-md rounded-3xl border border-pink-400/40 bg-gradient-to-br from-[#2a0f33] via-[#1a0a1f] to-black p-7 text-center shadow-[0_30px_80px_-10px_rgba(244,63,94,0.5)]"
+          >
+            <button
+              type="button"
+              onClick={() => setShowCoupon(false)}
+              className="absolute right-4 top-3 text-2xl text-white/60 hover:text-white"
+              aria-label="Fechar"
+            >
+              ×
+            </button>
+            <div className="inline-flex items-center gap-2 rounded-full bg-pink-500/15 px-3 py-1 text-xs font-bold uppercase tracking-widest text-pink-300">
+              <Sparkles className="h-3 w-3" /> Cupom exclusivo
+            </div>
+            <h3 className="mt-4 text-2xl font-extrabold leading-tight text-white">
+              Você é do Clube das Leitoras! 💕
+            </h3>
+            <p className="mt-3 text-sm text-white/80">
+              Liberamos um cupom especial pra você. Em vez de R$ 47, você leva o Bookfy por:
+            </p>
+            <div className="mt-5 flex items-end justify-center gap-3">
+              <span className="text-xl font-bold text-white/50 line-through decoration-rose-500/70">R$ 47</span>
+              <span className="text-5xl font-extrabold text-pink-300">R$ 37</span>
+            </div>
+            <p className="mt-2 text-xs uppercase tracking-widest text-pink-300">12 meses de acesso</p>
+            <a
+              href={COUPON_CHECKOUT_URL}
+              className="mt-6 block w-full rounded-2xl bg-gradient-to-r from-pink-500 to-fuchsia-500 px-6 py-4 text-center text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_15px_40px_-10px_rgba(244,63,94,0.7)]"
+            >
+              Aplicar cupom e pagar R$ 37
+            </a>
+            <button
+              type="button"
+              onClick={() => setShowCoupon(false)}
+              className="mt-3 text-xs text-white/50 underline-offset-2 hover:underline"
+            >
+              Não, prefiro pagar R$ 47
+            </button>
+            <p className="mt-4 flex items-center justify-center gap-2 text-[10px] text-white/50">
+              <Lock className="h-3 w-3" /> Cupom válido por tempo limitado
+            </p>
+          </div>
+        </div>
+      )}
       <div className="mx-auto max-w-2xl px-5 py-10">
         {/* HERO */}
         <div className="mb-5 flex justify-center">
@@ -95,7 +145,7 @@ function VendasPage() {
           </ul>
 
           <div className="mt-7">
-            <CTA />
+            <CTA onClick={() => setShowCoupon(true)} />
           </div>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs text-white/60">
             <Lock className="h-3 w-3" /> Pagamento 100% seguro • Acesso imediato
@@ -238,7 +288,7 @@ function VendasPage() {
             12 meses de leitura por R$ 47. Acesso liberado na hora.
           </p>
           <div className="mt-6">
-            <CTA label="QUERO ENTRAR NO BOOKFY" />
+            <CTA label="QUERO ENTRAR NO BOOKFY" onClick={() => setShowCoupon(true)} />
           </div>
           <p className="mt-3 text-xs text-white/60">7 dias de garantia • pagamento seguro</p>
         </section>
