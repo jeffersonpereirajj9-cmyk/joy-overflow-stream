@@ -156,18 +156,13 @@ function BookPage() {
         {downloadedFile && (
           <div className="mt-3 rounded-2xl border border-border bg-card p-3">
             <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
-            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              Toque no arquivo baixado na barra de downloads ou baixe novamente e escolha o app Kindle para abrir.
-            </p>
-            {downloadedUrl && (
-              <a
-                href={downloadedUrl}
-                download={downloadedFile.name}
-                className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/30 transition active:scale-95"
-              >
-                <Download className="h-4 w-4" /> Abrir arquivo para o Kindle
-              </a>
-            )}
+            <p className="mt-2 text-xs font-semibold text-foreground">Como enviar para o Kindle:</p>
+            <ol className="mt-1 space-y-1 text-xs leading-relaxed text-muted-foreground list-decimal pl-4">
+              <li>Abra a pasta <span className="font-medium text-foreground">Downloads</span> no seu celular.</li>
+              <li>Encontre o arquivo <span className="font-medium text-foreground">{downloadedFile.name}</span> e toque nos <span className="font-medium text-foreground">3 pontinhos</span> (⋮) ao lado dele.</li>
+              <li>Selecione <span className="font-medium text-foreground">Compartilhar</span> e escolha o app <span className="font-medium text-foreground">Kindle</span>.</li>
+              <li>Pronto! O livro será aberto direto no seu Kindle. 📚</li>
+            </ol>
           </div>
         )}
       </div>
