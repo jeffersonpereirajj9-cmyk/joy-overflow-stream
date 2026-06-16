@@ -123,7 +123,7 @@ function VendasPage() {
               alt="Tela inicial do app Bookfy"
               width={560}
               height={1213}
-              fetchpriority="high"
+              fetchPriority="high"
               decoding="async"
               className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
             />
