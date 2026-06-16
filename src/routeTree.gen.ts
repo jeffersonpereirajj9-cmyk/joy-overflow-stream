@@ -26,6 +26,7 @@ import { Route as AuthenticatedCollectionSlugRouteImport } from './routes/_authe
 import { Route as AuthenticatedCategorySlugRouteImport } from './routes/_authenticated/category.$slug'
 import { Route as AuthenticatedBookIdRouteImport } from './routes/_authenticated/book.$id'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
+import { Route as ApiPublicWebhooksHotmartRouteImport } from './routes/api/public/webhooks/hotmart'
 import { Route as ApiDriveIdEpubRouteImport } from './routes/api/drive.$id.epub'
 
 const VendasRoute = VendasRouteImport.update({
@@ -114,6 +115,12 @@ const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
   path: '/api/public/webhooks/kiwify',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicWebhooksHotmartRoute =
+  ApiPublicWebhooksHotmartRouteImport.update({
+    id: '/api/public/webhooks/hotmart',
+    path: '/api/public/webhooks/hotmart',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
   id: '/epub',
   path: '/epub',
@@ -137,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesByTo {
@@ -156,6 +164,7 @@ export interface FileRoutesByTo {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesById {
@@ -177,6 +186,7 @@ export interface FileRoutesById {
   '/_authenticated/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRouteTypes {
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   id:
     | '__root__'
@@ -237,6 +249,7 @@ export interface FileRouteTypes {
     | '/_authenticated/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
 }
@@ -249,6 +262,7 @@ export interface RootRouteChildren {
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
+  ApiPublicWebhooksHotmartRoute: typeof ApiPublicWebhooksHotmartRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
 
@@ -373,6 +387,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/webhooks/hotmart': {
+      id: '/api/public/webhooks/hotmart'
+      path: '/api/public/webhooks/hotmart'
+      fullPath: '/api/public/webhooks/hotmart'
+      preLoaderRoute: typeof ApiPublicWebhooksHotmartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/drive/$id/epub': {
       id: '/api/drive/$id/epub'
       path: '/epub'
@@ -429,6 +450,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
+  ApiPublicWebhooksHotmartRoute: ApiPublicWebhooksHotmartRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
 export const routeTree = rootRouteImport
