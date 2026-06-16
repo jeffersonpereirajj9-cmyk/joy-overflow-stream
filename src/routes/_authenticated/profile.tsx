@@ -5,7 +5,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { BookOpen, Heart, LayoutGrid, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_authenticated/_authenticated/profile")({
   component: ProfilePage,
   head: () => ({ meta: [{ title: "Perfil — Bookfy" }] }),
 });

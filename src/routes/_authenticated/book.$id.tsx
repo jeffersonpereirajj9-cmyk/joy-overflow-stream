@@ -28,7 +28,7 @@ const findBook = (id: string) =>
     ...favoritesCurated,
   ].find((b) => b.id === id);
 
-export const Route = createFileRoute("/book/$id")({
+export const Route = createFileRoute("/_authenticated/book/$id")({
   component: BookPage,
   loader: ({ params }) => {
     const book = findBook(params.id);

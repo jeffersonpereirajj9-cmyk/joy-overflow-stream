@@ -4,7 +4,7 @@ import { BookGrid } from "@/components/bookfy/BookGrid";
 import { books, categories } from "@/data/books";
 import { ChevronLeft } from "lucide-react";
 
-export const Route = createFileRoute("/category/$slug")({
+export const Route = createFileRoute("/_authenticated/_authenticated/category/$slug")({
   component: CategoryPage,
   loader: ({ params }) => {
     const category = categories.find((c) => c.slug === params.slug);

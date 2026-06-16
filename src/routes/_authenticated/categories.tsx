@@ -3,7 +3,7 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { books, categories } from "@/data/books";
 import { ChevronRight } from "lucide-react";
 
-export const Route = createFileRoute("/categories")({
+export const Route = createFileRoute("/_authenticated/categories")({
   component: CategoriesPage,
   head: () => ({ meta: [{ title: "Categorias — Bookfy" }] }),
 });
