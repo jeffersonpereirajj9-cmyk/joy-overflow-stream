@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Lock, ArrowLeft, Sparkles } from "lucide-react";
+import { Check, Lock, ArrowLeft, Star, Heart } from "lucide-react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 import darkRomance from "@/assets/categories/dark-romance.png.asset.json";
 import mafiaRomance from "@/assets/categories/mafia-romance.png.asset.json";
@@ -142,45 +142,57 @@ function QuizPage() {
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-6">
         {/* top bar */}
-        <div className="mb-6 flex items-center gap-3">
+        <div className="mb-7 flex items-center gap-3">
           <button
             onClick={back}
             disabled={step === 0 || loading || done}
             aria-label="Voltar"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 transition hover:bg-white/10 disabled:opacity-30"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 backdrop-blur transition hover:scale-105 hover:border-white/25 hover:bg-white/10 disabled:opacity-30 disabled:hover:scale-100"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          <div className="flex min-w-0 flex-1 items-center gap-2">
-            <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-white/10">
-              <div
-                className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-pink-500 shadow-[0_0_12px_rgba(236,72,153,0.6)] transition-all duration-500 ease-out"
-                style={{ width: `${Math.max(progress, 4)}%` }}
-              />
-            </div>
-            <span className="shrink-0 text-[11px] font-semibold tabular-nums tracking-wide text-white/50">
-              {done ? total : Math.min(step + 1, total)}/{total}
-            </span>
+          <div className="flex min-w-0 flex-1 items-center gap-1.5">
+            {Array.from({ length: total }).map((_, i) => {
+              const filled = done || i < step;
+              const active = !done && i === step;
+              return (
+                <span
+                  key={i}
+                  className={`h-1.5 flex-1 overflow-hidden rounded-full transition-all duration-500 ${
+                    filled
+                      ? "bg-gradient-to-r from-indigo-400 to-pink-500"
+                      : "bg-white/10"
+                  }`}
+                >
+                  {active && (
+                    <span className="block h-full w-1/2 animate-pulse rounded-full bg-gradient-to-r from-indigo-400 to-pink-500 shadow-[0_0_10px_rgba(236,72,153,0.6)]" />
+                  )}
+                </span>
+              );
+            })}
           </div>
         </div>
 
         {!done && !loading && (
           <section
             key={step}
-            className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-3 duration-400"
+            className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-4 duration-500"
           >
-            <span className="mb-3 inline-flex w-fit items-center gap-1.5 self-center rounded-full border border-pink-400/30 bg-pink-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-pink-200">
-              <Sparkles className="h-3 w-3" /> Pergunta {step + 1}
-            </span>
+            <p className="mb-2 text-center text-[10px] font-semibold uppercase tracking-[0.32em] text-pink-300/80">
+              {String(step + 1).padStart(2, "0")} <span className="text-white/30">/</span> {String(total).padStart(2, "0")}
+            </p>
 
             <h1
-              className="text-center text-[34px] leading-[1.05] tracking-tight text-white"
+              className="text-balance text-center text-[36px] leading-[1.02] tracking-tight text-white"
               style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
             >
               {current.title}
             </h1>
             {current.subtitle && (
-              <p className="mx-auto mt-3 max-w-xs text-center text-[13px] leading-relaxed text-white/60">
+              <p
+                className="mx-auto mt-3 max-w-[22ch] text-center text-[13px] italic leading-relaxed text-white/55"
+                style={{ fontFamily: FONT_HEADING }}
+              >
                 {current.subtitle}
               </p>
             )}
@@ -190,84 +202,124 @@ function QuizPage() {
                 current.options[0].image ? "grid-cols-2" : "grid-cols-1"
               }`}
             >
-              {current.options.map((opt, i) => (
-                <button
-                  key={opt.label}
-                  onClick={() => pick(opt.label)}
-                  style={{ animationDelay: `${i * 50}ms` }}
-                  className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-left backdrop-blur-sm transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 hover:-translate-y-0.5 hover:border-pink-400/50 hover:bg-white/[0.07] hover:shadow-[0_10px_30px_-12px_rgba(236,72,153,0.55)] active:translate-y-0 active:scale-[0.98]"
-                >
-                  {opt.image ? (
+              {current.options.map((opt, i) =>
+                opt.image ? (
+                  <button
+                    key={opt.label}
+                    onClick={() => pick(opt.label)}
+                    style={{ animationDelay: `${i * 60}ms`, aspectRatio: "3 / 4" }}
+                    className="group relative overflow-hidden rounded-2xl border border-white/10 text-left transition-all duration-300 animate-in fade-in zoom-in-95 hover:-translate-y-1 hover:border-pink-400/60 hover:shadow-[0_25px_60px_-20px_rgba(236,72,153,0.7)] active:translate-y-0 active:scale-[0.98]"
+                  >
                     <img
                       src={opt.image}
                       alt=""
                       loading="lazy"
-                      className="h-24 w-16 shrink-0 rounded-xl object-cover ring-1 ring-white/10 transition group-hover:ring-pink-400/40"
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
-                  ) : (
-                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-xl ring-1 ring-white/10">
+                    <span
+                      aria-hidden
+                      className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"
+                    />
+                    <span className="absolute inset-x-0 bottom-0 p-3">
+                      <span className="block text-[13px] font-bold leading-tight text-white drop-shadow">
+                        {opt.label}
+                      </span>
+                    </span>
+                    <span
+                      aria-hidden
+                      className="absolute right-2.5 top-2.5 grid h-7 w-7 place-items-center rounded-full bg-white/15 text-xs text-white/0 backdrop-blur-md transition group-hover:bg-pink-500 group-hover:text-white"
+                    >
+                      →
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    key={opt.label}
+                    onClick={() => pick(opt.label)}
+                    style={{ animationDelay: `${i * 60}ms` }}
+                    className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3.5 text-left backdrop-blur-sm transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 hover:-translate-y-0.5 hover:border-pink-400/50 hover:from-pink-500/[0.10] hover:to-indigo-500/[0.06] hover:shadow-[0_12px_30px_-12px_rgba(236,72,153,0.55)] active:translate-y-0 active:scale-[0.98]"
+                  >
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-xl ring-1 ring-white/10 transition group-hover:scale-110">
                       {opt.emoji}
                     </span>
-                  )}
-                  <span className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-white/95">
-                    {opt.label}
-                  </span>
-                  <span
-                    aria-hidden
-                    className="ml-auto hidden h-6 w-6 shrink-0 place-items-center rounded-full bg-white/10 text-white/60 transition group-hover:grid group-hover:bg-pink-500/80 group-hover:text-white"
-                  >
-                    →
-                  </span>
-                </button>
-              ))}
+                    <span className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-white/95">
+                      {opt.label}
+                    </span>
+                    <span
+                      aria-hidden
+                      className="ml-auto grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white/5 text-sm text-white/40 transition group-hover:bg-pink-500 group-hover:text-white"
+                    >
+                      →
+                    </span>
+                  </button>
+                )
+              )}
             </div>
 
-            <p className="mt-auto pt-10 text-center text-[11px] tracking-wide text-white/35">
-              Suas respostas ajudam a montar sua biblioteca ideal
-            </p>
+            <div className="mt-auto flex flex-col items-center gap-2 pt-10">
+              <div className="flex items-center gap-1 text-amber-300">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <Star key={i} className="h-3 w-3 fill-current" />
+                ))}
+                <span className="ml-1.5 text-[11px] font-semibold text-white/60">
+                  +12.000 leitoras
+                </span>
+              </div>
+              <p className="text-center text-[11px] tracking-wide text-white/35">
+                Suas respostas montam sua biblioteca ideal
+              </p>
+            </div>
           </section>
         )}
 
         {loading && (
           <section className="flex flex-1 flex-col items-center justify-center text-center animate-in fade-in duration-300">
-            <div className="relative mb-8 h-16 w-16">
-              <div className="absolute inset-0 animate-ping rounded-full bg-pink-500/30" />
-              <div className="absolute inset-0 animate-spin rounded-full border-[3px] border-white/10 border-t-pink-400 border-r-indigo-400" />
+            <div className="relative mb-10 h-24 w-24">
+              <div className="absolute inset-0 animate-ping rounded-full bg-pink-500/20" />
+              <div className="absolute inset-2 animate-ping rounded-full bg-indigo-500/20 [animation-delay:300ms]" />
+              <div className="absolute inset-0 animate-spin rounded-full border-[3px] border-white/5 border-t-pink-400 border-r-indigo-400" />
+              <div className="absolute inset-0 grid place-items-center">
+                <Heart className="h-6 w-6 fill-pink-400 text-pink-400" />
+              </div>
             </div>
             <h2
-              className="text-3xl leading-tight text-white"
+              className="text-balance text-[34px] leading-[1.05] text-white"
               style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
             >
               Montando sua <em className="text-pink-300">biblioteca ideal</em>…
             </h2>
-            <p className="mt-3 text-sm text-white/60">Analisando seus gostos</p>
+            <p className="mt-3 text-[13px] text-white/55">Analisando seus gostos</p>
           </section>
         )}
 
         {done && (
-          <section className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-3 duration-500">
-            <div className="mb-5 inline-flex w-fit items-center gap-2 self-center rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-300">
+          <section className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="mb-5 inline-flex w-fit items-center gap-2 self-center rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-emerald-300">
               <Check className="h-3.5 w-3.5" /> Resultado pronto
             </div>
             <h2
-              className="text-center text-[36px] leading-[1.05] tracking-tight text-white"
+              className="text-balance text-center text-[38px] leading-[1.02] tracking-tight text-white"
               style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
             >
-              Encontramos <em className="bg-gradient-to-r from-pink-300 to-fuchsia-400 bg-clip-text not-italic text-transparent">+1000 romances</em> perfeitos pra você
+              Encontramos{" "}
+              <em className="bg-gradient-to-r from-pink-300 via-fuchsia-300 to-indigo-300 bg-clip-text not-italic text-transparent">
+                +1000 romances
+              </em>{" "}
+              perfeitos pra você
             </h2>
             <p className="mx-auto mt-3 max-w-xs text-center text-[13px] leading-relaxed text-white/65">
               Esqueça moedas, assinaturas e capítulos bloqueados. Sua biblioteca completa, sem censura.
             </p>
 
-            <div className="relative mx-auto mt-7 w-[240px]">
+            <div className="relative mx-auto mt-8 w-[230px]">
               <div
                 aria-hidden
-                className="absolute -inset-6 -z-10 rounded-full bg-pink-500/25 blur-2xl"
+                className="absolute -inset-8 -z-10 animate-pulse rounded-full bg-gradient-to-tr from-pink-500/30 to-indigo-500/30 blur-3xl"
               />
               <img
                 src={appPreview.url}
                 alt="Prévia do app Bookfy"
-                className="mx-auto block h-auto w-full rounded-[28px] ring-1 ring-white/10"
+                className="mx-auto block h-auto w-full rounded-[28px] shadow-[0_30px_80px_-20px_rgba(236,72,153,0.5)] ring-1 ring-white/10"
                 style={{ aspectRatio: "560 / 1213" }}
               />
             </div>
@@ -293,9 +345,13 @@ function QuizPage() {
 
             <button
               onClick={() => navigate({ to: "/vendas" })}
-              className="mt-8 w-full rounded-2xl bg-gradient-to-r from-pink-500 via-fuchsia-500 to-indigo-500 px-6 py-[18px] text-[15px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_20px_50px_-12px_rgba(236,72,153,0.7)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_25px_60px_-12px_rgba(236,72,153,0.85)] active:translate-y-0 active:scale-[0.99]"
+              className="group relative mt-8 w-full overflow-hidden rounded-2xl bg-gradient-to-r from-pink-500 via-fuchsia-500 to-indigo-500 px-6 py-[18px] text-[14px] font-bold uppercase tracking-[0.14em] text-white shadow-[0_20px_50px_-12px_rgba(236,72,153,0.7)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_25px_60px_-12px_rgba(236,72,153,0.9)] active:translate-y-0 active:scale-[0.99]"
             >
-              Ver minha biblioteca
+              <span
+                aria-hidden
+                className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"
+              />
+              <span className="relative">Ver minha biblioteca →</span>
             </button>
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-white/45">
               <Lock className="h-3 w-3" /> Pagamento 100% seguro
