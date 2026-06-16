@@ -5,7 +5,7 @@ import { BookGrid } from "@/components/bookfy/BookGrid";
 import { findCollection } from "@/data/collections";
 import { ArrowLeft } from "lucide-react";
 
-export const Route = createFileRoute("/collection/$slug")({
+export const Route = createFileRoute("/_authenticated/collection/$slug")({
   component: CollectionPage,
   loader: ({ params }) => {
     const c = findCollection(params.slug);

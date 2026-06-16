@@ -1,11 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { BookOpen, Heart, LayoutGrid, Sparkles } from "lucide-react";
+import { BookOpen, Heart, LayoutGrid, Sparkles, LogOut } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
-export const Route = createFileRoute("/profile")({
+export const Route = createFileRoute("/_authenticated/profile")({
   component: ProfilePage,
   head: () => ({ meta: [{ title: "Perfil — Bookfy" }] }),
 });
@@ -22,6 +24,17 @@ function Stat({ icon: Icon, label, value }: { icon: LucideIcon; label: string; v
 
 function ProfilePage() {
   const { favorites } = useFavorites();
+  const navigate = useNavigate();
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => setEmail(data.user?.email ?? null));
+  }, []);
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    navigate({ to: "/auth", replace: true });
+  };
 
   return (
     <AppShell>
@@ -31,7 +44,7 @@ function ProfilePage() {
           L
         </div>
         <h1 className="mt-3 text-center font-serif text-xl text-foreground">Leitora Bookfy</h1>
-        <p className="text-center text-xs text-muted-foreground">Membro desde 2026</p>
+        <p className="text-center text-xs text-muted-foreground">{email ?? "Membro desde 2026"}</p>
       </header>
 
       <section className="mt-8 grid grid-cols-3 gap-3 px-4">
@@ -60,6 +73,16 @@ function ProfilePage() {
           </div>
         </div>
       </section>
+
+      <div className="px-4 pt-6 pb-10">
+        <button
+          type="button"
+          onClick={signOut}
+          className="flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3 text-sm font-medium text-foreground transition active:scale-95"
+        >
+          <LogOut className="h-4 w-4" /> Sair
+        </button>
+      </div>
     </AppShell>
   );
 }

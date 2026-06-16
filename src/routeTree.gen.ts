@@ -11,18 +11,23 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
-import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
-import { Route as LibraryRouteImport } from './routes/library'
-import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DownsellRouteImport } from './routes/downsell'
-import { Route as CategoriesRouteImport } from './routes/categories'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ReadIdRouteImport } from './routes/read.$id'
-import { Route as CollectionSlugRouteImport } from './routes/collection.$slug'
-import { Route as CategorySlugRouteImport } from './routes/category.$slug'
-import { Route as BookIdRouteImport } from './routes/book.$id'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
+import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
+import { Route as AuthenticatedCategoriesRouteImport } from './routes/_authenticated/categories'
 import { Route as ApiDriveIdRouteImport } from './routes/api/drive.$id'
+import { Route as AuthenticatedReadIdRouteImport } from './routes/_authenticated/read.$id'
+import { Route as AuthenticatedCollectionSlugRouteImport } from './routes/_authenticated/collection.$slug'
+import { Route as AuthenticatedCategorySlugRouteImport } from './routes/_authenticated/category.$slug'
+import { Route as AuthenticatedBookIdRouteImport } from './routes/_authenticated/book.$id'
+import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
+import { Route as ApiPublicWebhooksHotmartRouteImport } from './routes/api/public/webhooks/hotmart'
+import { Route as ApiPublicWebhooksCaktoRouteImport } from './routes/api/public/webhooks/cakto'
 import { Route as ApiDriveIdEpubRouteImport } from './routes/api/drive.$id.epub'
 
 const VendasRoute = VendasRouteImport.update({
@@ -35,24 +40,9 @@ const UpsellRoute = UpsellRouteImport.update({
   path: '/upsell',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ObrigadoRoute = ObrigadoRouteImport.update({
   id: '/obrigado',
   path: '/obrigado',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LibraryRoute = LibraryRouteImport.update({
-  id: '/library',
-  path: '/library',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DownsellRoute = DownsellRouteImport.update({
@@ -60,9 +50,13 @@ const DownsellRoute = DownsellRouteImport.update({
   path: '/downsell',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CategoriesRoute = CategoriesRouteImport.update({
-  id: '/categories',
-  path: '/categories',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -70,29 +64,67 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReadIdRoute = ReadIdRouteImport.update({
-  id: '/read/$id',
-  path: '/read/$id',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CollectionSlugRoute = CollectionSlugRouteImport.update({
-  id: '/collection/$slug',
-  path: '/collection/$slug',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
+  id: '/library',
+  path: '/library',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const CategorySlugRoute = CategorySlugRouteImport.update({
-  id: '/category/$slug',
-  path: '/category/$slug',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const BookIdRoute = BookIdRouteImport.update({
-  id: '/book/$id',
-  path: '/book/$id',
-  getParentRoute: () => rootRouteImport,
+const AuthenticatedCategoriesRoute = AuthenticatedCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ApiDriveIdRoute = ApiDriveIdRouteImport.update({
   id: '/api/drive/$id',
   path: '/api/drive/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedReadIdRoute = AuthenticatedReadIdRouteImport.update({
+  id: '/read/$id',
+  path: '/read/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedCollectionSlugRoute =
+  AuthenticatedCollectionSlugRouteImport.update({
+    id: '/collection/$slug',
+    path: '/collection/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedCategorySlugRoute =
+  AuthenticatedCategorySlugRouteImport.update({
+    id: '/category/$slug',
+    path: '/category/$slug',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedBookIdRoute = AuthenticatedBookIdRouteImport.update({
+  id: '/book/$id',
+  path: '/book/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
+  id: '/api/public/webhooks/kiwify',
+  path: '/api/public/webhooks/kiwify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicWebhooksHotmartRoute =
+  ApiPublicWebhooksHotmartRouteImport.update({
+    id: '/api/public/webhooks/hotmart',
+    path: '/api/public/webhooks/hotmart',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicWebhooksCaktoRoute = ApiPublicWebhooksCaktoRouteImport.update({
+  id: '/api/public/webhooks/cakto',
+  path: '/api/public/webhooks/cakto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
@@ -103,125 +135,148 @@ const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/categories': typeof CategoriesRoute
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
-  '/favorites': typeof FavoritesRoute
-  '/library': typeof LibraryRoute
   '/obrigado': typeof ObrigadoRoute
-  '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
-  '/book/$id': typeof BookIdRoute
-  '/category/$slug': typeof CategorySlugRoute
-  '/collection/$slug': typeof CollectionSlugRoute
-  '/read/$id': typeof ReadIdRoute
+  '/categories': typeof AuthenticatedCategoriesRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/library': typeof AuthenticatedLibraryRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/book/$id': typeof AuthenticatedBookIdRoute
+  '/category/$slug': typeof AuthenticatedCategorySlugRoute
+  '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
+  '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/categories': typeof CategoriesRoute
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
-  '/favorites': typeof FavoritesRoute
-  '/library': typeof LibraryRoute
   '/obrigado': typeof ObrigadoRoute
-  '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
-  '/book/$id': typeof BookIdRoute
-  '/category/$slug': typeof CategorySlugRoute
-  '/collection/$slug': typeof CollectionSlugRoute
-  '/read/$id': typeof ReadIdRoute
+  '/categories': typeof AuthenticatedCategoriesRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
+  '/library': typeof AuthenticatedLibraryRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/book/$id': typeof AuthenticatedBookIdRoute
+  '/category/$slug': typeof AuthenticatedCategorySlugRoute
+  '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
+  '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/categories': typeof CategoriesRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
-  '/favorites': typeof FavoritesRoute
-  '/library': typeof LibraryRoute
   '/obrigado': typeof ObrigadoRoute
-  '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
-  '/book/$id': typeof BookIdRoute
-  '/category/$slug': typeof CategorySlugRoute
-  '/collection/$slug': typeof CollectionSlugRoute
-  '/read/$id': typeof ReadIdRoute
+  '/_authenticated/categories': typeof AuthenticatedCategoriesRoute
+  '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
+  '/_authenticated/library': typeof AuthenticatedLibraryRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/book/$id': typeof AuthenticatedBookIdRoute
+  '/_authenticated/category/$slug': typeof AuthenticatedCategorySlugRoute
+  '/_authenticated/collection/$slug': typeof AuthenticatedCollectionSlugRoute
+  '/_authenticated/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
+  '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
+  '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/categories'
+    | '/auth'
     | '/downsell'
-    | '/favorites'
-    | '/library'
     | '/obrigado'
-    | '/profile'
     | '/upsell'
     | '/vendas'
+    | '/categories'
+    | '/favorites'
+    | '/library'
+    | '/profile'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
+    | '/api/public/webhooks/hotmart'
+    | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/categories'
+    | '/auth'
     | '/downsell'
-    | '/favorites'
-    | '/library'
     | '/obrigado'
-    | '/profile'
     | '/upsell'
     | '/vendas'
+    | '/categories'
+    | '/favorites'
+    | '/library'
+    | '/profile'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
+    | '/api/public/webhooks/hotmart'
+    | '/api/public/webhooks/kiwify'
   id:
     | '__root__'
     | '/'
-    | '/categories'
+    | '/_authenticated'
+    | '/auth'
     | '/downsell'
-    | '/favorites'
-    | '/library'
     | '/obrigado'
-    | '/profile'
     | '/upsell'
     | '/vendas'
-    | '/book/$id'
-    | '/category/$slug'
-    | '/collection/$slug'
-    | '/read/$id'
+    | '/_authenticated/categories'
+    | '/_authenticated/favorites'
+    | '/_authenticated/library'
+    | '/_authenticated/profile'
+    | '/_authenticated/book/$id'
+    | '/_authenticated/category/$slug'
+    | '/_authenticated/collection/$slug'
+    | '/_authenticated/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
+    | '/api/public/webhooks/hotmart'
+    | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CategoriesRoute: typeof CategoriesRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   DownsellRoute: typeof DownsellRoute
-  FavoritesRoute: typeof FavoritesRoute
-  LibraryRoute: typeof LibraryRoute
   ObrigadoRoute: typeof ObrigadoRoute
-  ProfileRoute: typeof ProfileRoute
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
-  BookIdRoute: typeof BookIdRoute
-  CategorySlugRoute: typeof CategorySlugRoute
-  CollectionSlugRoute: typeof CollectionSlugRoute
-  ReadIdRoute: typeof ReadIdRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
+  ApiPublicWebhooksCaktoRoute: typeof ApiPublicWebhooksCaktoRoute
+  ApiPublicWebhooksHotmartRoute: typeof ApiPublicWebhooksHotmartRoute
+  ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -240,32 +295,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UpsellRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/obrigado': {
       id: '/obrigado'
       path: '/obrigado'
       fullPath: '/obrigado'
       preLoaderRoute: typeof ObrigadoRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/library': {
-      id: '/library'
-      path: '/library'
-      fullPath: '/library'
-      preLoaderRoute: typeof LibraryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/downsell': {
@@ -275,11 +309,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DownsellRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/categories': {
-      id: '/categories'
-      path: '/categories'
-      fullPath: '/categories'
-      preLoaderRoute: typeof CategoriesRouteImport
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -289,39 +330,88 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/read/$id': {
-      id: '/read/$id'
-      path: '/read/$id'
-      fullPath: '/read/$id'
-      preLoaderRoute: typeof ReadIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/collection/$slug': {
-      id: '/collection/$slug'
-      path: '/collection/$slug'
-      fullPath: '/collection/$slug'
-      preLoaderRoute: typeof CollectionSlugRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/library': {
+      id: '/_authenticated/library'
+      path: '/library'
+      fullPath: '/library'
+      preLoaderRoute: typeof AuthenticatedLibraryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/category/$slug': {
-      id: '/category/$slug'
-      path: '/category/$slug'
-      fullPath: '/category/$slug'
-      preLoaderRoute: typeof CategorySlugRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/book/$id': {
-      id: '/book/$id'
-      path: '/book/$id'
-      fullPath: '/book/$id'
-      preLoaderRoute: typeof BookIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_authenticated/categories': {
+      id: '/_authenticated/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof AuthenticatedCategoriesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/api/drive/$id': {
       id: '/api/drive/$id'
       path: '/api/drive/$id'
       fullPath: '/api/drive/$id'
       preLoaderRoute: typeof ApiDriveIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/read/$id': {
+      id: '/_authenticated/read/$id'
+      path: '/read/$id'
+      fullPath: '/read/$id'
+      preLoaderRoute: typeof AuthenticatedReadIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/collection/$slug': {
+      id: '/_authenticated/collection/$slug'
+      path: '/collection/$slug'
+      fullPath: '/collection/$slug'
+      preLoaderRoute: typeof AuthenticatedCollectionSlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/category/$slug': {
+      id: '/_authenticated/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/category/$slug'
+      preLoaderRoute: typeof AuthenticatedCategorySlugRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/book/$id': {
+      id: '/_authenticated/book/$id'
+      path: '/book/$id'
+      fullPath: '/book/$id'
+      preLoaderRoute: typeof AuthenticatedBookIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/webhooks/kiwify': {
+      id: '/api/public/webhooks/kiwify'
+      path: '/api/public/webhooks/kiwify'
+      fullPath: '/api/public/webhooks/kiwify'
+      preLoaderRoute: typeof ApiPublicWebhooksKiwifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhooks/hotmart': {
+      id: '/api/public/webhooks/hotmart'
+      path: '/api/public/webhooks/hotmart'
+      fullPath: '/api/public/webhooks/hotmart'
+      preLoaderRoute: typeof ApiPublicWebhooksHotmartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/webhooks/cakto': {
+      id: '/api/public/webhooks/cakto'
+      path: '/api/public/webhooks/cakto'
+      fullPath: '/api/public/webhooks/cakto'
+      preLoaderRoute: typeof ApiPublicWebhooksCaktoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/drive/$id/epub': {
@@ -333,6 +423,31 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCategoriesRoute: typeof AuthenticatedCategoriesRoute
+  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
+  AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedBookIdRoute: typeof AuthenticatedBookIdRoute
+  AuthenticatedCategorySlugRoute: typeof AuthenticatedCategorySlugRoute
+  AuthenticatedCollectionSlugRoute: typeof AuthenticatedCollectionSlugRoute
+  AuthenticatedReadIdRoute: typeof AuthenticatedReadIdRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCategoriesRoute: AuthenticatedCategoriesRoute,
+  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
+  AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedBookIdRoute: AuthenticatedBookIdRoute,
+  AuthenticatedCategorySlugRoute: AuthenticatedCategorySlugRoute,
+  AuthenticatedCollectionSlugRoute: AuthenticatedCollectionSlugRoute,
+  AuthenticatedReadIdRoute: AuthenticatedReadIdRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface ApiDriveIdRouteChildren {
   ApiDriveIdEpubRoute: typeof ApiDriveIdEpubRoute
@@ -348,19 +463,16 @@ const ApiDriveIdRouteWithChildren = ApiDriveIdRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CategoriesRoute: CategoriesRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   DownsellRoute: DownsellRoute,
-  FavoritesRoute: FavoritesRoute,
-  LibraryRoute: LibraryRoute,
   ObrigadoRoute: ObrigadoRoute,
-  ProfileRoute: ProfileRoute,
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
-  BookIdRoute: BookIdRoute,
-  CategorySlugRoute: CategorySlugRoute,
-  CollectionSlugRoute: CollectionSlugRoute,
-  ReadIdRoute: ReadIdRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
+  ApiPublicWebhooksCaktoRoute: ApiPublicWebhooksCaktoRoute,
+  ApiPublicWebhooksHotmartRoute: ApiPublicWebhooksHotmartRoute,
+  ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

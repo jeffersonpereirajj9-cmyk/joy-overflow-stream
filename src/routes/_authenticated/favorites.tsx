@@ -6,7 +6,7 @@ import { books } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
 import { Heart } from "lucide-react";
 
-export const Route = createFileRoute("/favorites")({
+export const Route = createFileRoute("/_authenticated/favorites")({
   component: FavoritesPage,
   head: () => ({ meta: [{ title: "Favoritos — Bookfy" }] }),
 });
