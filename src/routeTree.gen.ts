@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as UpsellRouteImport } from './routes/upsell'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as LibraryRouteImport } from './routes/library'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as DownsellRouteImport } from './routes/downsell'
@@ -31,6 +32,11 @@ const UpsellRoute = UpsellRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ObrigadoRoute = ObrigadoRouteImport.update({
+  id: '/obrigado',
+  path: '/obrigado',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LibraryRoute = LibraryRouteImport.update({
@@ -95,6 +101,7 @@ export interface FileRoutesByFullPath {
   '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
+  '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/book/$id': typeof BookIdRoute
@@ -110,6 +117,7 @@ export interface FileRoutesByTo {
   '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
+  '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/book/$id': typeof BookIdRoute
@@ -126,6 +134,7 @@ export interface FileRoutesById {
   '/downsell': typeof DownsellRoute
   '/favorites': typeof FavoritesRoute
   '/library': typeof LibraryRoute
+  '/obrigado': typeof ObrigadoRoute
   '/profile': typeof ProfileRoute
   '/upsell': typeof UpsellRoute
   '/book/$id': typeof BookIdRoute
@@ -143,6 +152,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/favorites'
     | '/library'
+    | '/obrigado'
     | '/profile'
     | '/upsell'
     | '/book/$id'
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/favorites'
     | '/library'
+    | '/obrigado'
     | '/profile'
     | '/upsell'
     | '/book/$id'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/favorites'
     | '/library'
+    | '/obrigado'
     | '/profile'
     | '/upsell'
     | '/book/$id'
@@ -189,6 +201,7 @@ export interface RootRouteChildren {
   DownsellRoute: typeof DownsellRoute
   FavoritesRoute: typeof FavoritesRoute
   LibraryRoute: typeof LibraryRoute
+  ObrigadoRoute: typeof ObrigadoRoute
   ProfileRoute: typeof ProfileRoute
   UpsellRoute: typeof UpsellRoute
   BookIdRoute: typeof BookIdRoute
@@ -212,6 +225,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/obrigado': {
+      id: '/obrigado'
+      path: '/obrigado'
+      fullPath: '/obrigado'
+      preLoaderRoute: typeof ObrigadoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/library': {
@@ -312,6 +332,7 @@ const rootRouteChildren: RootRouteChildren = {
   DownsellRoute: DownsellRoute,
   FavoritesRoute: FavoritesRoute,
   LibraryRoute: LibraryRoute,
+  ObrigadoRoute: ObrigadoRoute,
   ProfileRoute: ProfileRoute,
   UpsellRoute: UpsellRoute,
   BookIdRoute: BookIdRoute,

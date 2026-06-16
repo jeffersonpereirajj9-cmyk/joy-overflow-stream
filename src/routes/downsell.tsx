@@ -37,7 +37,7 @@ function WiapyDownsellButton({ containerId = "wiapy_downsell" }: { containerId?:
             fontSize: "17px",
             borderRadius: "10px",
           },
-          refusalLinkUrl: "/",
+          refusalLinkUrl: "/obrigado",
           refusalLinkText: "Não, vou perder essa oferta",
           refusalLinkColor: "#ffffff",
         });
@@ -137,7 +137,7 @@ function DownsellPage() {
 
         <div className="mt-10 mb-4 text-center">
           <a
-            href="/"
+            href="/obrigado"
             className="inline-block text-sm text-white/50 underline underline-offset-4 transition hover:text-white/80"
           >
             Não, prefiro perder esta oferta.
