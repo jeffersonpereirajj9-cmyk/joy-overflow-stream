@@ -52,7 +52,7 @@ function WiapyUpsellButton({ containerId = "wiapy_upsell" }: { containerId?: str
             fontSize: "17px",
             borderRadius: "10px",
           },
-          refusalLinkUrl: "/",
+          refusalLinkUrl: "/downsell",
           refusalLinkText: "Recusar está oferta",
           refusalLinkColor: "#ffffff",
         });
