@@ -44,7 +44,7 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
             {book.author ?? "—"} • {formatSize(book.size)}
           </p>
           {book.synopsis ? (
-            <p className="mt-1 line-clamp-3 text-xs leading-relaxed text-muted-foreground">
+            <p className="mt-1 line-clamp-6 text-xs leading-relaxed text-muted-foreground">
               {book.synopsis}
             </p>
           ) : book.enriching ? (
