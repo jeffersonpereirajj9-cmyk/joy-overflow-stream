@@ -27,6 +27,7 @@ import { Route as AuthenticatedCategorySlugRouteImport } from './routes/_authent
 import { Route as AuthenticatedBookIdRouteImport } from './routes/_authenticated/book.$id'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
 import { Route as ApiPublicWebhooksHotmartRouteImport } from './routes/api/public/webhooks/hotmart'
+import { Route as ApiPublicWebhooksCaktoRouteImport } from './routes/api/public/webhooks/cakto'
 import { Route as ApiDriveIdEpubRouteImport } from './routes/api/drive.$id.epub'
 
 const VendasRoute = VendasRouteImport.update({
@@ -121,6 +122,11 @@ const ApiPublicWebhooksHotmartRoute =
     path: '/api/public/webhooks/hotmart',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicWebhooksCaktoRoute = ApiPublicWebhooksCaktoRouteImport.update({
+  id: '/api/public/webhooks/cakto',
+  path: '/api/public/webhooks/cakto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDriveIdEpubRoute = ApiDriveIdEpubRouteImport.update({
   id: '/epub',
   path: '/epub',
@@ -144,6 +150,7 @@ export interface FileRoutesByFullPath {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
@@ -164,6 +171,7 @@ export interface FileRoutesByTo {
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
@@ -186,6 +194,7 @@ export interface FileRoutesById {
   '/_authenticated/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
+  '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
 }
@@ -208,6 +217,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   fileRoutesByTo: FileRoutesByTo
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   id:
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/_authenticated/read/$id'
     | '/api/drive/$id'
     | '/api/drive/$id/epub'
+    | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
   fileRoutesById: FileRoutesById
@@ -262,6 +274,7 @@ export interface RootRouteChildren {
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
+  ApiPublicWebhooksCaktoRoute: typeof ApiPublicWebhooksCaktoRoute
   ApiPublicWebhooksHotmartRoute: typeof ApiPublicWebhooksHotmartRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
 }
@@ -394,6 +407,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicWebhooksHotmartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/webhooks/cakto': {
+      id: '/api/public/webhooks/cakto'
+      path: '/api/public/webhooks/cakto'
+      fullPath: '/api/public/webhooks/cakto'
+      preLoaderRoute: typeof ApiPublicWebhooksCaktoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/drive/$id/epub': {
       id: '/api/drive/$id/epub'
       path: '/epub'
@@ -450,6 +470,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
+  ApiPublicWebhooksCaktoRoute: ApiPublicWebhooksCaktoRoute,
   ApiPublicWebhooksHotmartRoute: ApiPublicWebhooksHotmartRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
 }
