@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
+import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as DownsellRouteImport } from './routes/downsell'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -38,6 +39,11 @@ const VendasRoute = VendasRouteImport.update({
 const UpsellRoute = UpsellRouteImport.update({
   id: '/upsell',
   path: '/upsell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ObrigadoRoute = ObrigadoRouteImport.update({
@@ -138,6 +144,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
+  '/quiz': typeof QuizRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/categories': typeof AuthenticatedCategoriesRoute
@@ -159,6 +166,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
+  '/quiz': typeof QuizRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/categories': typeof AuthenticatedCategoriesRoute
@@ -182,6 +190,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
+  '/quiz': typeof QuizRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRoute
@@ -205,6 +214,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/downsell'
     | '/obrigado'
+    | '/quiz'
     | '/upsell'
     | '/vendas'
     | '/categories'
@@ -226,6 +236,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/downsell'
     | '/obrigado'
+    | '/quiz'
     | '/upsell'
     | '/vendas'
     | '/categories'
@@ -248,6 +259,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/downsell'
     | '/obrigado'
+    | '/quiz'
     | '/upsell'
     | '/vendas'
     | '/_authenticated/categories'
@@ -271,6 +283,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   DownsellRoute: typeof DownsellRoute
   ObrigadoRoute: typeof ObrigadoRoute
+  QuizRoute: typeof QuizRoute
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       path: '/upsell'
       fullPath: '/upsell'
       preLoaderRoute: typeof UpsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/obrigado': {
@@ -467,6 +487,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   DownsellRoute: DownsellRoute,
   ObrigadoRoute: ObrigadoRoute,
+  QuizRoute: QuizRoute,
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
@@ -477,13 +498,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
