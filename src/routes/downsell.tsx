@@ -18,7 +18,7 @@ export const Route = createFileRoute("/downsell")({
   }),
 });
 
-function WiapyDownsellButton({ containerId = "wiapy_downsell" }: { containerId?: string }) {
+function WiapyDownsellButton({ containerId = "wiapy_upsell" }: { containerId?: string }) {
   useEffect(() => {
     let cancelled = false;
     const tryInit = () => {
@@ -109,7 +109,7 @@ function DownsellPage() {
           </ul>
 
           <div className="mt-7">
-            <WiapyDownsellButton containerId="wiapy_downsell" />
+            <WiapyDownsellButton containerId="wiapy_upsell" />
           </div>
           <p className="mt-3 text-xs text-white/60">Pagamento único anual • Acesso imediato</p>
         </section>
