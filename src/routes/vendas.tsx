@@ -127,9 +127,34 @@ function VendasPage() {
         </section>
 
         {/* SCREENSHOTS */}
-        <section className="mt-12 grid grid-cols-2 gap-4">
-          <img src={categoriesPreview.url} alt="Categorias do Bookfy" className="rounded-2xl border border-white/10" />
-          <img src={collectionsPreview.url} alt="Coleções do Bookfy" className="rounded-2xl border border-white/10" />
+        <section className="mt-12 space-y-10">
+          <div className="text-center">
+            <h3 className="text-xl font-bold">Navegue por categorias</h3>
+            <p className="mt-2 text-sm text-white/70">
+              Encontre rapidinho o estilo de romance que você quer ler.
+            </p>
+            <div className="mt-5 flex justify-center">
+              <img
+                src={categoriesPreview.url}
+                alt="Tela de categorias do Bookfy"
+                className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
+              />
+            </div>
+          </div>
+
+          <div className="text-center">
+            <h3 className="text-xl font-bold">Coleções pra te inspirar</h3>
+            <p className="mt-2 text-sm text-white/70">
+              Listas prontas com os romances mais comentados do momento.
+            </p>
+            <div className="mt-5 flex justify-center">
+              <img
+                src={collectionsPreview.url}
+                alt="Tela de coleções do Bookfy"
+                className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
+              />
+            </div>
+          </div>
         </section>
 
         {/* BENEFITS */}
