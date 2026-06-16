@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Check, Flame, Crown, Gem, Sparkles, Heart, Skull, Clock, Smartphone, BookHeart } from "lucide-react";
+import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 
 export const Route = createFileRoute("/upsell")({
   component: UpsellPage,
@@ -64,6 +65,19 @@ function UpsellPage() {
         <p className="mt-5 text-center text-lg text-white/80">
           Você acabou de entrar para o <strong>Clube Secreto das Leituras</strong>. Mas existe um problema que toda leitora apaixonada conhece…
         </p>
+
+        {/* App preview */}
+        <div className="mt-10 flex justify-center">
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-pink-500/30 via-fuchsia-500/20 to-transparent blur-2xl" />
+            <img
+              src={appPreview.url}
+              alt="Tela inicial do app Bookfy com biblioteca de romances"
+              className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
+              loading="lazy"
+            />
+          </div>
+        </div>
 
         {/* Problem */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
