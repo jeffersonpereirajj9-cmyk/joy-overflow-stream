@@ -125,7 +125,8 @@ function VendasPage() {
               height={1213}
               fetchPriority="high"
               decoding="async"
-              className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
+              style={{ aspectRatio: "560 / 1213" }}
+              className="relative block h-auto w-[280px] max-w-full rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
             />
           </div>
         </div>
@@ -177,7 +178,7 @@ function VendasPage() {
               { src: bilionarios.url, name: "Bilionários" },
               { src: fantasia.url, name: "Fantasia Romântica" },
             ].map((c) => (
-              <div key={c.name} className="relative overflow-hidden rounded-2xl border border-white/10">
+              <div key={c.name} className="relative h-32 overflow-hidden rounded-2xl border border-white/10">
                 <img src={c.src} alt={c.name} loading="lazy" decoding="async" width={400} height={300} className="h-32 w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <p className="absolute bottom-2 left-3 text-sm font-bold">{c.name}</p>
@@ -201,7 +202,8 @@ function VendasPage() {
                 height={1213}
                 loading="lazy"
                 decoding="async"
-                className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
+                style={{ aspectRatio: "560 / 1213" }}
+                className="block h-auto w-[320px] max-w-full rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
               />
             </div>
           </div>
@@ -219,7 +221,8 @@ function VendasPage() {
                 height={1213}
                 loading="lazy"
                 decoding="async"
-                className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
+                style={{ aspectRatio: "560 / 1213" }}
+                className="block h-auto w-[320px] max-w-full rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
               />
             </div>
           </div>
