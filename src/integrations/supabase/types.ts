@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      allowed_buyers: {
+        Row: {
+          created_at: string
+          email: string
+          external_order_id: string | null
+          id: string
+          purchased_at: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          external_order_id?: string | null
+          id?: string
+          purchased_at?: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          external_order_id?: string | null
+          id?: string
+          purchased_at?: string
+          source?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
