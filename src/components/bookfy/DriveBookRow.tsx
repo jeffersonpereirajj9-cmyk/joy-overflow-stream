@@ -11,8 +11,6 @@ function formatSize(bytes: number) {
 
 export function DriveBookRow({ book }: { book: DriveItem }) {
   const [busy, setBusy] = useState(false);
-  const [downloadedFile, setDownloadedFile] = useState<File | null>(null);
-  const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const fallback = book.name.replace(/\.mobi$/i, "");
   const mobiDl = `/api/drive/${book.id}?name=${encodeURIComponent(book.name)}`;
   const epubDl = `/api/drive/${book.id}/epub?name=${encodeURIComponent(book.name)}`;
@@ -22,14 +20,10 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
     if (busy) return;
     setBusy(true);
     try {
-      const file = await downloadFileFromUrl(epubDl, `${fallback}.epub`, "application/epub+zip");
-      setDownloadedFile(file);
-      setDownloadedUrl(epubDl);
+      await downloadFileFromUrl(epubDl, `${fallback}.epub`, "application/epub+zip");
     } catch (err) {
       try {
-        const file = await downloadFileFromUrl(mobiDl, `${fallback}.mobi`, "application/x-mobipocket-ebook");
-        setDownloadedFile(file);
-        setDownloadedUrl(mobiDl);
+        await downloadFileFromUrl(mobiDl, `${fallback}.mobi`, "application/x-mobipocket-ebook");
       } catch {
         window.alert(`Falha ao baixar arquivo completo: ${(err as Error).message}`);
       }
@@ -70,21 +64,6 @@ export function DriveBookRow({ book }: { book: DriveItem }) {
           </button>
         </div>
       </div>
-      {downloadedFile && downloadedUrl && (
-        <div className="mt-3 rounded-2xl border border-border bg-card p-3">
-          <p className="text-xs font-medium text-foreground">Arquivo pronto: {downloadedFile.name}</p>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-            Toque no arquivo baixado na barra de downloads ou baixe novamente e escolha o app Kindle para abrir.
-          </p>
-          <a
-            href={downloadedUrl}
-            download={downloadedFile.name}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 text-sm font-semibold text-accent-foreground shadow-md shadow-accent/30 active:scale-95"
-          >
-            <Download className="h-4 w-4" /> Abrir arquivo para o Kindle
-          </a>
-        </div>
-      )}
     </li>
   );
 }
