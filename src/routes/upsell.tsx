@@ -69,26 +69,20 @@ function UpsellPage() {
         </p>
 
         {/* App preview */}
-        <div className="mt-10 flex justify-center">
-          <div className="relative flex flex-wrap items-end justify-center gap-4">
+        <div className="mt-10 flex flex-col items-center">
+          <div className="relative">
             <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-pink-500/30 via-fuchsia-500/20 to-transparent blur-2xl" />
             <img
               src={appPreview.url}
               alt="Tela inicial do app Bookfy com biblioteca de romances"
-              className="relative w-[45%] max-w-[240px] rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
-              loading="lazy"
-            />
-            <img
-              src={collectionsPreview.url}
-              alt="Coleções famosas do Bookfy disponíveis para baixar em EPUB"
-              className="relative w-[45%] max-w-[240px] rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(217,70,239,0.5)]"
+              className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
               loading="lazy"
             />
           </div>
+          <p className="mt-4 text-center text-sm text-white/60">
+            A tela inicial do Bookfy — sua próxima leitura a um toque de distância.
+          </p>
         </div>
-        <p className="mt-4 text-center text-sm text-white/60">
-          Coleções famosas prontas para baixar em EPUB direto no app.
-        </p>
 
         {/* Problem */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
@@ -112,6 +106,22 @@ function UpsellPage() {
             Imagine abrir um único aplicativo e encontrar histórias capazes de fazer você se apaixonar, prender a respiração e virar páginas até de madrugada.
           </p>
         </section>
+
+        {/* Collections preview */}
+        <div className="mt-8 flex flex-col items-center">
+          <div className="relative">
+            <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-fuchsia-500/30 via-pink-500/20 to-transparent blur-2xl" />
+            <img
+              src={collectionsPreview.url}
+              alt="Coleções famosas do Bookfy disponíveis para baixar em EPUB"
+              className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(217,70,239,0.5)]"
+              loading="lazy"
+            />
+          </div>
+          <p className="mt-4 text-center text-sm text-white/60">
+            Coleções famosas prontas para baixar em EPUB direto no app.
+          </p>
+        </div>
 
         {/* Emotion bullets */}
         <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
