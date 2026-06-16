@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Check, Flame, Crown, Gem, Sparkles, Heart, Skull, Clock, Smartphone, BookHeart } from "lucide-react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 import collectionsPreview from "@/assets/bookfy-collections-preview.png.asset.json";
+import categoriesPreview from "@/assets/bookfy-categories-preview.png.asset.json";
 
 export const Route = createFileRoute("/upsell")({
   component: UpsellPage,
@@ -142,6 +143,20 @@ function UpsellPage() {
                 <p className="mt-1 text-sm text-white/80">{c.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-8 flex flex-col items-center">
+            <div className="relative">
+              <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-fuchsia-500/25 via-pink-500/20 to-transparent blur-2xl" />
+              <img
+                src={categoriesPreview.url}
+                alt="Tela de Categorias do Bookfy com quantidade de livros por categoria"
+                className="relative w-full max-w-[280px] rounded-[1.75rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(217,70,239,0.5)]"
+                loading="lazy"
+              />
+            </div>
+            <p className="mt-4 text-center text-sm text-white/60">
+              Milhares de livros organizados por categoria — escolha o seu próximo vício literário.
+            </p>
           </div>
         </section>
 
