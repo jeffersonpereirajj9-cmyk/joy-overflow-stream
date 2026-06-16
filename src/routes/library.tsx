@@ -4,9 +4,6 @@ import { AppShell } from "@/components/bookfy/AppShell";
 import { PageHeader } from "@/components/bookfy/PageHeader";
 import { DriveBookRow } from "@/components/bookfy/DriveBookRow";
 import { categories } from "@/data/books";
-import { BookCard } from "@/components/bookfy/BookCard";
-import { HorizontalScroller } from "@/components/bookfy/HorizontalScroller";
-import { findCollection } from "@/data/collections";
 import { CATEGORIES, type DriveCategory } from "@/lib/drive.functions";
 import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 import { useDriveLibrary } from "@/hooks/useDriveLibrary";
@@ -16,8 +13,6 @@ export const Route = createFileRoute("/library")({
   component: LibraryPage,
   head: () => ({ meta: [{ title: "Biblioteca completa — Bookfy" }] }),
 });
-
-const OFF_CAMPUS = findCollection("off-campus")?.books ?? [];
 
 function LibraryPage() {
   const [search, setSearch] = useState("");
@@ -34,16 +29,6 @@ function LibraryPage() {
         title="Biblioteca completa"
         description="Milhares de títulos disponíveis sob demanda — busque e baixe em MOBI."
       />
-
-      <HorizontalScroller
-        title="Série Off-Campus — Elle Kennedy"
-        action={<span className="text-xs text-muted-foreground">4 livros</span>}
-        className="mt-6"
-      >
-        {OFF_CAMPUS.map((b, i) => (
-          <BookCard key={b.id} book={b} size="md" priority={i < 2} />
-        ))}
-      </HorizontalScroller>
 
       <div className="sticky top-0 z-20 mt-4 bg-background/85 px-4 py-3 backdrop-blur-xl">
         <div className="flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5">
