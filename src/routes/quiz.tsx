@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Flame, Heart, Lock, BookHeart, Sparkles } from "lucide-react";
+import { Check, Lock, ArrowLeft, Sparkles } from "lucide-react";
 import appPreview from "@/assets/bookfy-app-preview.png.asset.json";
 import darkRomance from "@/assets/categories/dark-romance.png.asset.json";
 import mafiaRomance from "@/assets/categories/mafia-romance.png.asset.json";
@@ -20,6 +20,9 @@ export const Route = createFileRoute("/quiz")({
     links: [{ rel: "canonical", href: "https://app.clubedeleitoras.online/quiz" }],
   }),
 });
+
+const FONT_HEADING = '"Instrument Serif", ui-serif, Georgia, serif';
+const FONT_BODY = '"Work Sans", ui-sans-serif, system-ui, sans-serif';
 
 type Step = {
   title: string;
@@ -109,103 +112,192 @@ function QuizPage() {
     }
   }
 
+  function back() {
+    if (step === 0) return;
+    setAnswers(answers.slice(0, -1));
+    setStep(step - 1);
+  }
+
   const current = STEPS[step];
 
   return (
-    <main className="min-h-screen bg-[#1a0b2e] text-white">
-      <div className="mx-auto flex min-h-screen max-w-md flex-col px-5 pb-10 pt-6">
-        {/* progress */}
-        <div className="mb-8 h-2 w-full overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-emerald-400 to-emerald-500 transition-all duration-500"
-            style={{ width: `${Math.max(progress, 6)}%` }}
-          />
+    <main
+      className="relative min-h-screen overflow-hidden text-white antialiased"
+      style={{
+        fontFamily: FONT_BODY,
+        backgroundColor: "#0a0a1a",
+        backgroundImage:
+          "radial-gradient(1200px 600px at 10% -10%, rgba(79,70,229,0.35), transparent 60%), radial-gradient(900px 500px at 110% 10%, rgba(236,72,153,0.28), transparent 60%), radial-gradient(700px 500px at 50% 110%, rgba(79,70,229,0.25), transparent 60%)",
+      }}
+    >
+      {/* grain overlay */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.06] mix-blend-overlay"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
+        }}
+      />
+
+      <div className="relative mx-auto flex min-h-screen w-full max-w-md flex-col px-5 pb-10 pt-6">
+        {/* top bar */}
+        <div className="mb-6 flex items-center gap-3">
+          <button
+            onClick={back}
+            disabled={step === 0 || loading || done}
+            aria-label="Voltar"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/5 text-white/80 transition hover:bg-white/10 disabled:opacity-30"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <div className="flex min-w-0 flex-1 items-center gap-2">
+            <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-white/10">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-fuchsia-500 to-pink-500 shadow-[0_0_12px_rgba(236,72,153,0.6)] transition-all duration-500 ease-out"
+                style={{ width: `${Math.max(progress, 4)}%` }}
+              />
+            </div>
+            <span className="shrink-0 text-[11px] font-semibold tabular-nums tracking-wide text-white/50">
+              {done ? total : Math.min(step + 1, total)}/{total}
+            </span>
+          </div>
         </div>
 
         {!done && !loading && (
-          <section key={step} className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <h1 className="text-center text-2xl font-extrabold leading-tight">
+          <section
+            key={step}
+            className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-3 duration-400"
+          >
+            <span className="mb-3 inline-flex w-fit items-center gap-1.5 self-center rounded-full border border-pink-400/30 bg-pink-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-pink-200">
+              <Sparkles className="h-3 w-3" /> Pergunta {step + 1}
+            </span>
+
+            <h1
+              className="text-center text-[34px] leading-[1.05] tracking-tight text-white"
+              style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
+            >
               {current.title}
             </h1>
             {current.subtitle && (
-              <p className="mt-2 text-center text-sm text-white/70">{current.subtitle}</p>
+              <p className="mx-auto mt-3 max-w-xs text-center text-[13px] leading-relaxed text-white/60">
+                {current.subtitle}
+              </p>
             )}
 
-            <div className={`mt-8 grid gap-3 ${current.options[0].image ? "grid-cols-2" : "grid-cols-1"}`}>
-              {current.options.map((opt) => (
+            <div
+              className={`mt-8 grid gap-3 ${
+                current.options[0].image ? "grid-cols-2" : "grid-cols-1"
+              }`}
+            >
+              {current.options.map((opt, i) => (
                 <button
                   key={opt.label}
                   onClick={() => pick(opt.label)}
-                  className="group flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3 text-left transition hover:scale-[1.02] hover:border-pink-400/60 hover:bg-white/10 active:scale-100"
+                  style={{ animationDelay: `${i * 50}ms` }}
+                  className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.04] p-3 text-left backdrop-blur-sm transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 hover:-translate-y-0.5 hover:border-pink-400/50 hover:bg-white/[0.07] hover:shadow-[0_10px_30px_-12px_rgba(236,72,153,0.55)] active:translate-y-0 active:scale-[0.98]"
                 >
                   {opt.image ? (
                     <img
                       src={opt.image}
                       alt=""
                       loading="lazy"
-                      className="h-24 w-16 flex-shrink-0 rounded-lg object-cover"
+                      className="h-24 w-16 shrink-0 rounded-xl object-cover ring-1 ring-white/10 transition group-hover:ring-pink-400/40"
                     />
                   ) : (
-                    <span className="text-2xl">{opt.emoji}</span>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-xl ring-1 ring-white/10">
+                      {opt.emoji}
+                    </span>
                   )}
-                  <span className="text-sm font-semibold">{opt.label}</span>
+                  <span className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-white/95">
+                    {opt.label}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="ml-auto hidden h-6 w-6 shrink-0 place-items-center rounded-full bg-white/10 text-white/60 transition group-hover:grid group-hover:bg-pink-500/80 group-hover:text-white"
+                  >
+                    →
+                  </span>
                 </button>
               ))}
             </div>
 
-            <p className="mt-auto pt-8 text-center text-xs text-white/40">
-              Pergunta {step + 1} de {total}
+            <p className="mt-auto pt-10 text-center text-[11px] tracking-wide text-white/35">
+              Suas respostas ajudam a montar sua biblioteca ideal
             </p>
           </section>
         )}
 
         {loading && (
-          <section className="flex flex-1 flex-col items-center justify-center text-center">
-            <div className="mb-6 h-14 w-14 animate-spin rounded-full border-4 border-white/20 border-t-pink-400" />
-            <h2 className="text-xl font-bold">Montando sua biblioteca ideal…</h2>
-            <p className="mt-2 text-sm text-white/60">Analisando seus gostos 🔥</p>
+          <section className="flex flex-1 flex-col items-center justify-center text-center animate-in fade-in duration-300">
+            <div className="relative mb-8 h-16 w-16">
+              <div className="absolute inset-0 animate-ping rounded-full bg-pink-500/30" />
+              <div className="absolute inset-0 animate-spin rounded-full border-[3px] border-white/10 border-t-pink-400 border-r-indigo-400" />
+            </div>
+            <h2
+              className="text-3xl leading-tight text-white"
+              style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
+            >
+              Montando sua <em className="text-pink-300">biblioteca ideal</em>…
+            </h2>
+            <p className="mt-3 text-sm text-white/60">Analisando seus gostos</p>
           </section>
         )}
 
         {done && (
-          <section className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-2 duration-500">
-            <div className="mb-4 inline-flex w-fit items-center gap-2 self-center rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-300">
+          <section className="flex flex-1 flex-col animate-in fade-in slide-in-from-bottom-3 duration-500">
+            <div className="mb-5 inline-flex w-fit items-center gap-2 self-center rounded-full border border-emerald-400/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-300">
               <Check className="h-3.5 w-3.5" /> Resultado pronto
             </div>
-            <h2 className="text-center text-2xl font-extrabold leading-tight">
-              Encontramos <span className="text-pink-400">+1000 romances</span> perfeitos pro seu perfil!
+            <h2
+              className="text-center text-[36px] leading-[1.05] tracking-tight text-white"
+              style={{ fontFamily: FONT_HEADING, fontWeight: 400 }}
+            >
+              Encontramos <em className="bg-gradient-to-r from-pink-300 to-fuchsia-400 bg-clip-text not-italic text-transparent">+1000 romances</em> perfeitos pra você
             </h2>
-            <p className="mt-3 text-center text-sm text-white/70">
-              Esqueça moedas, assinaturas e capítulos bloqueados. Sua biblioteca completa, sem censura, te esperando.
+            <p className="mx-auto mt-3 max-w-xs text-center text-[13px] leading-relaxed text-white/65">
+              Esqueça moedas, assinaturas e capítulos bloqueados. Sua biblioteca completa, sem censura.
             </p>
 
-            <img
-              src={appPreview.url}
-              alt="Prévia do app Bookfy"
-              className="mx-auto mt-6 block h-auto w-[240px]"
-              style={{ aspectRatio: "560 / 1213" }}
-            />
+            <div className="relative mx-auto mt-7 w-[240px]">
+              <div
+                aria-hidden
+                className="absolute -inset-6 -z-10 rounded-full bg-pink-500/25 blur-2xl"
+              />
+              <img
+                src={appPreview.url}
+                alt="Prévia do app Bookfy"
+                className="mx-auto block h-auto w-full rounded-[28px] ring-1 ring-white/10"
+                style={{ aspectRatio: "560 / 1213" }}
+              />
+            </div>
 
-            <ul className="mt-6 space-y-2 text-sm">
+            <ul className="mt-7 space-y-2 text-[13px]">
               {[
                 "Acesso a +1000 livros completos",
                 "Dark Romance, Máfia, Bilionários, Fantasia",
                 "Leitura offline no celular",
                 "Sem anúncios, sem censura",
               ].map((t) => (
-                <li key={t} className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-2">
-                  <Check className="h-4 w-4 flex-shrink-0 text-emerald-400" /> {t}
+                <li
+                  key={t}
+                  className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.04] px-3.5 py-2.5 backdrop-blur-sm"
+                >
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-emerald-500/20 text-emerald-300">
+                    <Check className="h-3 w-3" />
+                  </span>
+                  <span className="text-white/90">{t}</span>
                 </li>
               ))}
             </ul>
 
             <button
               onClick={() => navigate({ to: "/vendas" })}
-              className="mt-8 w-full rounded-2xl bg-gradient-to-r from-emerald-500 to-emerald-400 px-6 py-5 text-base font-extrabold uppercase tracking-wide text-white shadow-[0_15px_40px_-10px_rgba(16,185,129,0.7)] transition hover:scale-[1.02] active:scale-100"
+              className="mt-8 w-full rounded-2xl bg-gradient-to-r from-pink-500 via-fuchsia-500 to-indigo-500 px-6 py-[18px] text-[15px] font-bold uppercase tracking-[0.12em] text-white shadow-[0_20px_50px_-12px_rgba(236,72,153,0.7)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_25px_60px_-12px_rgba(236,72,153,0.85)] active:translate-y-0 active:scale-[0.99]"
             >
               Ver minha biblioteca
             </button>
-            <p className="mt-3 flex items-center justify-center gap-1 text-center text-xs text-white/50">
+            <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] text-white/45">
               <Lock className="h-3 w-3" /> Pagamento 100% seguro
             </p>
           </section>
