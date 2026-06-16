@@ -22,7 +22,10 @@ export const Route = createFileRoute("/vendas")({
       { property: "og:url", content: "https://app.clubedeleitoras.online/vendas" },
       { property: "og:image", content: appPreview.url },
     ],
-    links: [{ rel: "canonical", href: "https://app.clubedeleitoras.online/vendas" }],
+    links: [
+      { rel: "canonical", href: "https://app.clubedeleitoras.online/vendas" },
+      { rel: "preload", as: "image", href: appPreview.url, fetchpriority: "high" },
+    ],
   }),
 });
 
@@ -118,6 +121,10 @@ function VendasPage() {
             <img
               src={appPreview.url}
               alt="Tela inicial do app Bookfy"
+              width={560}
+              height={1213}
+              fetchPriority="high"
+              decoding="async"
               className="relative w-full max-w-[280px] rounded-[2rem] border border-white/10 shadow-[0_30px_80px_-20px_rgba(244,63,94,0.5)]"
             />
           </div>
@@ -171,7 +178,7 @@ function VendasPage() {
               { src: fantasia.url, name: "Fantasia Romântica" },
             ].map((c) => (
               <div key={c.name} className="relative overflow-hidden rounded-2xl border border-white/10">
-                <img src={c.src} alt={c.name} className="h-32 w-full object-cover" />
+                <img src={c.src} alt={c.name} loading="lazy" decoding="async" width={400} height={300} className="h-32 w-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
                 <p className="absolute bottom-2 left-3 text-sm font-bold">{c.name}</p>
               </div>
@@ -190,6 +197,10 @@ function VendasPage() {
               <img
                 src={categoriesPreview.url}
                 alt="Tela de categorias do Bookfy"
+                width={560}
+                height={1213}
+                loading="lazy"
+                decoding="async"
                 className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
               />
             </div>
@@ -204,6 +215,10 @@ function VendasPage() {
               <img
                 src={collectionsPreview.url}
                 alt="Tela de coleções do Bookfy"
+                width={560}
+                height={1213}
+                loading="lazy"
+                decoding="async"
                 className="w-full max-w-[320px] rounded-[2rem] border border-white/10 shadow-[0_20px_60px_-20px_rgba(244,63,94,0.5)]"
               />
             </div>
