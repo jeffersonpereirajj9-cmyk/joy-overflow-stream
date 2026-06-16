@@ -70,6 +70,9 @@ function VendasPage() {
               <span className="text-5xl font-extrabold text-pink-300">R$ 37</span>
             </div>
             <p className="mt-2 text-xs uppercase tracking-widest text-pink-300">12 meses de acesso</p>
+            <p className="mt-4 inline-flex items-center gap-2 rounded-full border border-rose-400/40 bg-rose-500/10 px-3 py-1 text-[11px] font-bold uppercase tracking-widest text-rose-300">
+              <Flame className="h-3 w-3" /> Apenas 10 vagas com esse cupom
+            </p>
             <a
               href={COUPON_CHECKOUT_URL}
               className="mt-6 block w-full rounded-2xl bg-gradient-to-r from-pink-500 to-fuchsia-500 px-6 py-4 text-center text-sm font-extrabold uppercase tracking-wide text-white shadow-[0_15px_40px_-10px_rgba(244,63,94,0.7)]"
