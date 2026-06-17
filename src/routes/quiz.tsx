@@ -239,7 +239,10 @@ function QuizPage() {
                     style={{ animationDelay: `${i * 60}ms` }}
                     className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3.5 text-left backdrop-blur-sm transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 hover:-translate-y-0.5 hover:border-pink-400/50 hover:from-pink-500/[0.10] hover:to-indigo-500/[0.06] hover:shadow-[0_12px_30px_-12px_rgba(236,72,153,0.55)] active:translate-y-0 active:scale-[0.98]"
                   >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-xl ring-1 ring-white/10 transition group-hover:scale-110">
+                    <span
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-2xl leading-none ring-1 ring-white/10 transition group-hover:scale-110 group-hover:rotate-[-4deg]"
+                      style={{ fontFamily: '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif' }}
+                    >
                       {opt.emoji}
                     </span>
                     <span className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-white/95">
