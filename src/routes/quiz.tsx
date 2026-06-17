@@ -36,43 +36,43 @@ const STEPS: Step[] = [
     subtitle: "Pode escolher o que mais te atrai agora.",
     options: [
       { label: "Dark Romance", emoji: "🖤", image: darkRomance.url },
-      { label: "Máfia & Poder", emoji: "🔥", image: mafiaRomance.url },
+      { label: "Máfia & Poder", emoji: "🕴️", image: mafiaRomance.url },
       { label: "Bilionários", emoji: "💎", image: bilionarios.url },
-      { label: "Fantasia Romântica", emoji: "🐺", image: fantasia.url },
-      { label: "Romance clássico", emoji: "💕", image: romance.url },
+      { label: "Fantasia Romântica", emoji: "🧚‍♀️", image: fantasia.url },
+      { label: "Romance clássico", emoji: "🌹", image: romance.url },
     ],
   },
   {
     title: "Qual nível de 'pimenta' você curte? 🌶️",
     options: [
-      { label: "Suave — só tensão e química", emoji: "🌶️" },
-      { label: "Médio — cenas quentes na medida", emoji: "🌶️🌶️" },
-      { label: "Quente — sem censura, por favor", emoji: "🌶️🌶️🌶️" },
-      { label: "Tudo! Eu varío de acordo com o humor", emoji: "🔥" },
+      { label: "Suave — só tensão e química", emoji: "💗" },
+      { label: "Médio — cenas quentes na medida", emoji: "💋" },
+      { label: "Quente — sem censura, por favor", emoji: "🔥" },
+      { label: "Tudo! Eu varío de acordo com o humor", emoji: "🌈" },
     ],
   },
   {
     title: "Qual desses casais te conquista mais?",
     options: [
       { label: "Mocinha doce x vilão obcecado", emoji: "😈" },
-      { label: "CEO frio x funcionária teimosa", emoji: "💼" },
-      { label: "Alfa lobisomem x sua fada destinada", emoji: "🌙" },
+      { label: "CEO frio x funcionária teimosa", emoji: "🕶️" },
+      { label: "Alfa lobisomem x sua fada destinada", emoji: "🐺" },
       { label: "Inimigos que viram amantes", emoji: "⚔️" },
     ],
   },
   {
     title: "Quanto tempo por dia você costuma ler?",
     options: [
-      { label: "Menos de 30 min", emoji: "⏱️" },
+      { label: "Menos de 30 min", emoji: "⏳" },
       { label: "30 min a 1 hora", emoji: "📖" },
-      { label: "1 a 2 horas", emoji: "🛋️" },
-      { label: "Viro a noite quando engata", emoji: "🌚" },
+      { label: "1 a 2 horas", emoji: "☕" },
+      { label: "Viro a noite quando engata", emoji: "🌙" },
     ],
   },
   {
     title: "Já gastou com app de leitura por capítulo (moedas, assinatura)?",
     options: [
-      { label: "Sim, e acho um absurdo 😤", emoji: "💸" },
+      { label: "Sim, e acho um absurdo", emoji: "💸" },
       { label: "Sim, mas paro quando vejo o valor", emoji: "😬" },
       { label: "Nunca, justamente por isso", emoji: "🙅‍♀️" },
       { label: "Só leio pirata mesmo", emoji: "🏴‍☠️" },
@@ -81,9 +81,9 @@ const STEPS: Step[] = [
   {
     title: "Se eu te entregasse +1000 romances completos, sem capítulos bloqueados, você leria?",
     options: [
-      { label: "AGORA! Tô precisando 😍", emoji: "🔥" },
+      { label: "AGORA! Tô precisando", emoji: "😍" },
       { label: "Com certeza, amo descobrir histórias novas", emoji: "✨" },
-      { label: "Sim, principalmente os hot", emoji: "🌶️" },
+      { label: "Sim, principalmente os hot", emoji: "🔥" },
     ],
   },
 ];
@@ -239,7 +239,10 @@ function QuizPage() {
                     style={{ animationDelay: `${i * 60}ms` }}
                     className="group relative flex items-center gap-3 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-3.5 text-left backdrop-blur-sm transition-all duration-200 animate-in fade-in slide-in-from-bottom-2 hover:-translate-y-0.5 hover:border-pink-400/50 hover:from-pink-500/[0.10] hover:to-indigo-500/[0.06] hover:shadow-[0_12px_30px_-12px_rgba(236,72,153,0.55)] active:translate-y-0 active:scale-[0.98]"
                   >
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-xl ring-1 ring-white/10 transition group-hover:scale-110">
+                    <span
+                      className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-pink-500/30 text-2xl leading-none ring-1 ring-white/10 transition group-hover:scale-110 group-hover:rotate-[-4deg]"
+                      style={{ fontFamily: '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif' }}
+                    >
                       {opt.emoji}
                     </span>
                     <span className="min-w-0 flex-1 text-[14px] font-semibold leading-snug text-white/95">
