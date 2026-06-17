@@ -36,43 +36,43 @@ const STEPS: Step[] = [
     subtitle: "Pode escolher o que mais te atrai agora.",
     options: [
       { label: "Dark Romance", emoji: "🖤", image: darkRomance.url },
-      { label: "Máfia & Poder", emoji: "🔥", image: mafiaRomance.url },
+      { label: "Máfia & Poder", emoji: "🕴️", image: mafiaRomance.url },
       { label: "Bilionários", emoji: "💎", image: bilionarios.url },
-      { label: "Fantasia Romântica", emoji: "🐺", image: fantasia.url },
-      { label: "Romance clássico", emoji: "💕", image: romance.url },
+      { label: "Fantasia Romântica", emoji: "🧚‍♀️", image: fantasia.url },
+      { label: "Romance clássico", emoji: "🌹", image: romance.url },
     ],
   },
   {
     title: "Qual nível de 'pimenta' você curte? 🌶️",
     options: [
-      { label: "Suave — só tensão e química", emoji: "🌶️" },
-      { label: "Médio — cenas quentes na medida", emoji: "🌶️🌶️" },
-      { label: "Quente — sem censura, por favor", emoji: "🌶️🌶️🌶️" },
-      { label: "Tudo! Eu varío de acordo com o humor", emoji: "🔥" },
+      { label: "Suave — só tensão e química", emoji: "💗" },
+      { label: "Médio — cenas quentes na medida", emoji: "💋" },
+      { label: "Quente — sem censura, por favor", emoji: "🔥" },
+      { label: "Tudo! Eu varío de acordo com o humor", emoji: "🌈" },
     ],
   },
   {
     title: "Qual desses casais te conquista mais?",
     options: [
       { label: "Mocinha doce x vilão obcecado", emoji: "😈" },
-      { label: "CEO frio x funcionária teimosa", emoji: "💼" },
-      { label: "Alfa lobisomem x sua fada destinada", emoji: "🌙" },
+      { label: "CEO frio x funcionária teimosa", emoji: "🕶️" },
+      { label: "Alfa lobisomem x sua fada destinada", emoji: "🐺" },
       { label: "Inimigos que viram amantes", emoji: "⚔️" },
     ],
   },
   {
     title: "Quanto tempo por dia você costuma ler?",
     options: [
-      { label: "Menos de 30 min", emoji: "⏱️" },
+      { label: "Menos de 30 min", emoji: "⏳" },
       { label: "30 min a 1 hora", emoji: "📖" },
-      { label: "1 a 2 horas", emoji: "🛋️" },
-      { label: "Viro a noite quando engata", emoji: "🌚" },
+      { label: "1 a 2 horas", emoji: "☕" },
+      { label: "Viro a noite quando engata", emoji: "🌙" },
     ],
   },
   {
     title: "Já gastou com app de leitura por capítulo (moedas, assinatura)?",
     options: [
-      { label: "Sim, e acho um absurdo 😤", emoji: "💸" },
+      { label: "Sim, e acho um absurdo", emoji: "💸" },
       { label: "Sim, mas paro quando vejo o valor", emoji: "😬" },
       { label: "Nunca, justamente por isso", emoji: "🙅‍♀️" },
       { label: "Só leio pirata mesmo", emoji: "🏴‍☠️" },
@@ -81,9 +81,9 @@ const STEPS: Step[] = [
   {
     title: "Se eu te entregasse +1000 romances completos, sem capítulos bloqueados, você leria?",
     options: [
-      { label: "AGORA! Tô precisando 😍", emoji: "🔥" },
+      { label: "AGORA! Tô precisando", emoji: "😍" },
       { label: "Com certeza, amo descobrir histórias novas", emoji: "✨" },
-      { label: "Sim, principalmente os hot", emoji: "🌶️" },
+      { label: "Sim, principalmente os hot", emoji: "🔥" },
     ],
   },
 ];
