@@ -27,7 +27,6 @@ function LibraryPage() {
   return (
     <AppShell>
       <PageHeader
-        eyebrow="Drive"
         title="Biblioteca completa"
         description="Milhares de títulos disponíveis sob demanda — busque e baixe em EPUB."
       />

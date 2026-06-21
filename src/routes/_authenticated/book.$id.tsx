@@ -15,7 +15,6 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
 import { downloadFileFromUrl } from "@/lib/epub";
 import { getBookDownloadOption } from "@/lib/book-downloads";
-import { expandSynopsis } from "@/lib/synopsis.functions";
 
 const findBook = (id: string) =>
   books.find((b) => b.id === id) ??
@@ -52,38 +51,7 @@ function BookPage() {
   const downloadOption = getBookDownloadOption(book);
   const downloadFormat = downloadOption?.formatLabel ?? "Livro";
   const [fileSize, setFileSize] = useState<string | null>(null);
-  const [synopsis, setSynopsis] = useState<string>(book.synopsis);
-  const [synopsisLoading, setSynopsisLoading] = useState(false);
-
-  useEffect(() => {
-    const cacheKey = `synopsis:v1:${book.id}`;
-    try {
-      const cached = localStorage.getItem(cacheKey);
-      if (cached && cached.length > 200) {
-        setSynopsis(cached);
-        return;
-      }
-    } catch {}
-    let cancelled = false;
-    setSynopsisLoading(true);
-    expandSynopsis({
-      data: { title: book.title, author: book.author, category: category?.name, current: book.synopsis },
-    })
-      .then(({ synopsis: text }) => {
-        if (cancelled || !text) return;
-        setSynopsis(text);
-        try {
-          localStorage.setItem(cacheKey, text);
-        } catch {}
-      })
-      .catch(() => {})
-      .finally(() => {
-        if (!cancelled) setSynopsisLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [book.id, book.title, book.author, book.synopsis, category?.name]);
+  const synopsis = book.synopsis;
 
   useEffect(() => {
     if (!downloadOption) return;
@@ -109,7 +77,7 @@ function BookPage() {
     setDownloading(true);
     try {
       if (!downloadOption) {
-        window.alert("Arquivo completo não encontrado no Drive para este título.");
+        window.alert("Arquivo completo não encontrado para este título.");
         setDownloadedFile(null);
         setDownloadedUrl(null);
         return;
@@ -192,9 +160,6 @@ function BookPage() {
               .map((paragraph, idx) => (
                 <p key={idx}>{paragraph.trim()}</p>
               ))}
-            {synopsisLoading && (
-              <p className="text-xs italic opacity-60">Expandindo sinopse…</p>
-            )}
           </div>
         </section>
 
