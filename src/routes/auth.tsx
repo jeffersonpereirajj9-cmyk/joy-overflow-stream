@@ -31,7 +31,7 @@ function AuthPage() {
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage.getItem("bookfy_email")) {
-      navigate({ to: redirect ?? "/library" });
+      navigate({ to: redirect ?? "/" });
     }
   }, [navigate, redirect]);
 
@@ -52,7 +52,7 @@ function AuthPage() {
         return;
       }
       window.localStorage.setItem("bookfy_email", clean);
-      navigate({ to: redirect ?? "/library" });
+      navigate({ to: redirect ?? "/" });
     } catch (err) {
       setError((err as Error).message);
     } finally {
