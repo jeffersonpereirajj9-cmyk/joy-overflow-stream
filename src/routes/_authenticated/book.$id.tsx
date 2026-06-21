@@ -160,9 +160,6 @@ function BookPage() {
               .map((paragraph, idx) => (
                 <p key={idx}>{paragraph.trim()}</p>
               ))}
-            {synopsisLoading && (
-              <p className="text-xs italic opacity-60">Expandindo sinopse…</p>
-            )}
           </div>
         </section>
 
