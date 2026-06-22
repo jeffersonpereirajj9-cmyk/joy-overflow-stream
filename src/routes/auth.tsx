@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate, useSearch, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { z } from "zod";
 import { Loader2, Mail, ArrowRight } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
@@ -10,6 +10,25 @@ import { supabase } from "@/integrations/supabase/client";
 const searchSchema = z.object({
   redirect: z.string().optional(),
 });
+
+const OAUTH_TIMEOUT_MS = 30000;
+const VERIFY_TIMEOUT_MS = 20000;
+
+function withTimeout<T>(promise: Promise<T>, ms: number, message: string): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeout = window.setTimeout(() => reject(new Error(message)), ms);
+    promise.then(
+      (value) => {
+        window.clearTimeout(timeout);
+        resolve(value);
+      },
+      (error) => {
+        window.clearTimeout(timeout);
+        reject(error);
+      },
+    );
+  });
+}
 
 export const Route = createFileRoute("/auth")({
   validateSearch: searchSchema,
@@ -31,6 +50,7 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const verifyingGoogleEmailRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage.getItem("bookfy_email")) {
@@ -38,33 +58,52 @@ function AuthPage() {
     }
   }, [navigate, redirect]);
 
-  // After Google OAuth, verify buyer email
-  useEffect(() => {
-    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session?.user?.email) {
-        setGoogleLoading(true);
-        try {
-          const result = await checkEmail({ data: { email: session.user.email } });
-          if (!result.allowed) {
-            const blocked = session.user.email;
-            await supabase.auth.signOut();
-            navigate({ to: "/sem-acesso", search: { email: blocked } });
-          } else {
-            window.localStorage.setItem("bookfy_email", session.user.email);
-            navigate({ to: redirect ?? "/" });
-          }
-        } catch (err) {
-          setError((err as Error).message);
-          await supabase.auth.signOut();
-        } finally {
-          setGoogleLoading(false);
+  const finishGoogleAccess = useCallback(
+    async (rawEmail: string) => {
+      const clean = rawEmail.trim().toLowerCase();
+      if (verifyingGoogleEmailRef.current === clean) return;
+
+      verifyingGoogleEmailRef.current = clean;
+      setGoogleLoading(true);
+      setError(null);
+
+      try {
+        const result = await withTimeout(
+          checkEmail({ data: { email: clean } }),
+          VERIFY_TIMEOUT_MS,
+          "Não consegui validar seu acesso agora. Tente novamente em alguns segundos.",
+        );
+
+        if (!result.allowed) {
+          await supabase.auth.signOut().catch(() => undefined);
+          navigate({ to: "/sem-acesso", search: { email: clean } });
+          return;
         }
+
+        window.localStorage.setItem("bookfy_email", clean);
+        navigate({ to: redirect ?? "/" });
+      } catch (err) {
+        setError((err as Error).message || "Erro ao validar seu acesso.");
+        await supabase.auth.signOut().catch(() => undefined);
+      } finally {
+        verifyingGoogleEmailRef.current = null;
+        setGoogleLoading(false);
+      }
+    },
+    [checkEmail, navigate, redirect],
+  );
+
+  // After Google OAuth, verify buyer email outside the auth callback to avoid a stuck loading state.
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
+      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session?.user?.email) {
+        window.setTimeout(() => void finishGoogleAccess(session.user.email!), 0);
       }
     });
     return () => {
       listener.subscription.unsubscribe();
     };
-  }, [checkEmail, navigate, redirect]);
+  }, [finishGoogleAccess]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,17 +134,37 @@ function AuthPage() {
     setError(null);
     setGoogleLoading(true);
     try {
-      const result = await lovable.auth.signInWithOAuth("google", {
-        redirect_uri: window.location.origin,
-      });
+      const result = await withTimeout(
+        lovable.auth.signInWithOAuth("google", {
+          redirect_uri: window.location.origin,
+        }),
+        OAUTH_TIMEOUT_MS,
+        "O login com Google demorou demais. Feche a janela do Google e tente novamente.",
+      );
       if (result.error) {
         setError(result.error.message || "Erro ao entrar com Google.");
+        return;
       }
-      // If successful and not redirected, onAuthStateChange will handle the rest
+      if (result.redirected) {
+        return;
+      }
+
+      const { data } = await withTimeout(
+        supabase.auth.getUser(),
+        VERIFY_TIMEOUT_MS,
+        "Não consegui confirmar seu login. Tente novamente.",
+      );
+      if (data.user?.email) {
+        await finishGoogleAccess(data.user.email);
+        return;
+      }
+      setError("Login concluído, mas não recebi o email da conta Google. Tente novamente.");
     } catch (err) {
       setError((err as Error).message);
     } finally {
-      setGoogleLoading(false);
+      if (!verifyingGoogleEmailRef.current) {
+        setGoogleLoading(false);
+      }
     }
   };
 
