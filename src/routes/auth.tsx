@@ -41,7 +41,7 @@ function AuthPage() {
   // After Google OAuth, verify buyer email
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === "SIGNED_IN" && session?.user?.email) {
+      if ((event === "SIGNED_IN" || event === "INITIAL_SESSION") && session?.user?.email) {
         setGoogleLoading(true);
         try {
           const result = await checkEmail({ data: { email: session.user.email } });
