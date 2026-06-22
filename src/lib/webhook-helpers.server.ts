@@ -28,3 +28,26 @@ export async function upsertBuyer(email: string, source: string, externalOrderId
   if (error) throw error;
   return { email: clean };
 }
+
+export async function revokeBuyer(email: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const clean = email.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean)) {
+    throw new Error("invalid email");
+  }
+  const { error } = await supabaseAdmin
+    .from("allowed_buyers")
+    .delete()
+    .eq("email", clean);
+  if (error) throw error;
+  return { email: clean };
+}
+
+export function verifyBearerToken(headerValue: string | null, expected: string): boolean {
+  if (!headerValue || !expected) return false;
+  const token = headerValue.replace(/^Bearer\s+/i, "").trim();
+  const a = Buffer.from(token);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
