@@ -26,6 +26,7 @@ import { Route as AuthenticatedReadIdRouteImport } from './routes/_authenticated
 import { Route as AuthenticatedCollectionSlugRouteImport } from './routes/_authenticated/collection.$slug'
 import { Route as AuthenticatedCategorySlugRouteImport } from './routes/_authenticated/category.$slug'
 import { Route as AuthenticatedBookIdRouteImport } from './routes/_authenticated/book.$id'
+import { Route as ApiPublicWebhooksWiapayRouteImport } from './routes/api/public/webhooks/wiapay'
 import { Route as ApiPublicWebhooksKiwifyRouteImport } from './routes/api/public/webhooks/kiwify'
 import { Route as ApiPublicWebhooksHotmartRouteImport } from './routes/api/public/webhooks/hotmart'
 import { Route as ApiPublicWebhooksCaktoRouteImport } from './routes/api/public/webhooks/cakto'
@@ -117,6 +118,11 @@ const AuthenticatedBookIdRoute = AuthenticatedBookIdRouteImport.update({
   path: '/book/$id',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicWebhooksWiapayRoute = ApiPublicWebhooksWiapayRouteImport.update({
+  id: '/api/public/webhooks/wiapay',
+  path: '/api/public/webhooks/wiapay',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicWebhooksKiwifyRoute = ApiPublicWebhooksKiwifyRouteImport.update({
   id: '/api/public/webhooks/kiwify',
   path: '/api/public/webhooks/kiwify',
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/webhooks/wiapay': typeof ApiPublicWebhooksWiapayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/webhooks/wiapay': typeof ApiPublicWebhooksWiapayRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -206,6 +214,7 @@ export interface FileRoutesById {
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
   '/api/public/webhooks/kiwify': typeof ApiPublicWebhooksKiwifyRoute
+  '/api/public/webhooks/wiapay': typeof ApiPublicWebhooksWiapayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -230,6 +239,7 @@ export interface FileRouteTypes {
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/webhooks/wiapay'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -252,6 +262,7 @@ export interface FileRouteTypes {
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/webhooks/wiapay'
   id:
     | '__root__'
     | '/'
@@ -275,6 +286,7 @@ export interface FileRouteTypes {
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
     | '/api/public/webhooks/kiwify'
+    | '/api/public/webhooks/wiapay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -290,6 +302,7 @@ export interface RootRouteChildren {
   ApiPublicWebhooksCaktoRoute: typeof ApiPublicWebhooksCaktoRoute
   ApiPublicWebhooksHotmartRoute: typeof ApiPublicWebhooksHotmartRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
+  ApiPublicWebhooksWiapayRoute: typeof ApiPublicWebhooksWiapayRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -413,6 +426,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedBookIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/webhooks/wiapay': {
+      id: '/api/public/webhooks/wiapay'
+      path: '/api/public/webhooks/wiapay'
+      fullPath: '/api/public/webhooks/wiapay'
+      preLoaderRoute: typeof ApiPublicWebhooksWiapayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/webhooks/kiwify': {
       id: '/api/public/webhooks/kiwify'
       path: '/api/public/webhooks/kiwify'
@@ -494,17 +514,8 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicWebhooksCaktoRoute: ApiPublicWebhooksCaktoRoute,
   ApiPublicWebhooksHotmartRoute: ApiPublicWebhooksHotmartRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
+  ApiPublicWebhooksWiapayRoute: ApiPublicWebhooksWiapayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
