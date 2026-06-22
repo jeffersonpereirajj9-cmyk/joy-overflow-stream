@@ -1,6 +1,7 @@
-import { createFileRoute, Link, useSearch } from "@tanstack/react-router";
+import { createFileRoute, useNavigate, useSearch, Link } from "@tanstack/react-router";
 import { z } from "zod";
 import { Lock, ShoppingBag, ArrowLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const searchSchema = z.object({
   email: z.string().optional(),
@@ -20,6 +21,19 @@ export const Route = createFileRoute("/sem-acesso")({
 
 function NoAccessPage() {
   const { email } = useSearch({ from: "/sem-acesso" });
+  const navigate = useNavigate();
+
+  const tryAnother = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch {
+      // ignore
+    }
+    if (typeof window !== "undefined") {
+      window.localStorage.removeItem("bookfy_email");
+    }
+    navigate({ to: "/auth" });
+  };
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-12">
@@ -47,13 +61,14 @@ function NoAccessPage() {
           Adquirir acesso
         </Link>
 
-        <Link
-          to="/auth"
+        <button
+          type="button"
+          onClick={tryAnother}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-border bg-card py-3.5 text-sm font-semibold text-foreground transition active:scale-95"
         >
           <ArrowLeft className="h-4 w-4" />
           Tentar com outro email
-        </Link>
+        </button>
 
         <p className="mt-6 text-xs text-muted-foreground">
           Já comprou e ainda assim aparece esta mensagem? Verifique se está usando o mesmo email da compra.
