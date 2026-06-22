@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VendasRouteImport } from './routes/vendas'
 import { Route as UpsellRouteImport } from './routes/upsell'
+import { Route as SemAcessoRouteImport } from './routes/sem-acesso'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
 import { Route as DownsellRouteImport } from './routes/downsell'
@@ -40,6 +41,11 @@ const VendasRoute = VendasRouteImport.update({
 const UpsellRoute = UpsellRouteImport.update({
   id: '/upsell',
   path: '/upsell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SemAcessoRoute = SemAcessoRouteImport.update({
+  id: '/sem-acesso',
+  path: '/sem-acesso',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -151,6 +157,7 @@ export interface FileRoutesByFullPath {
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/quiz': typeof QuizRoute
+  '/sem-acesso': typeof SemAcessoRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/categories': typeof AuthenticatedCategoriesRoute
@@ -174,6 +181,7 @@ export interface FileRoutesByTo {
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/quiz': typeof QuizRoute
+  '/sem-acesso': typeof SemAcessoRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/categories': typeof AuthenticatedCategoriesRoute
@@ -199,6 +207,7 @@ export interface FileRoutesById {
   '/downsell': typeof DownsellRoute
   '/obrigado': typeof ObrigadoRoute
   '/quiz': typeof QuizRoute
+  '/sem-acesso': typeof SemAcessoRoute
   '/upsell': typeof UpsellRoute
   '/vendas': typeof VendasRoute
   '/_authenticated/categories': typeof AuthenticatedCategoriesRoute
@@ -224,6 +233,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/obrigado'
     | '/quiz'
+    | '/sem-acesso'
     | '/upsell'
     | '/vendas'
     | '/categories'
@@ -247,6 +257,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/obrigado'
     | '/quiz'
+    | '/sem-acesso'
     | '/upsell'
     | '/vendas'
     | '/categories'
@@ -271,6 +282,7 @@ export interface FileRouteTypes {
     | '/downsell'
     | '/obrigado'
     | '/quiz'
+    | '/sem-acesso'
     | '/upsell'
     | '/vendas'
     | '/_authenticated/categories'
@@ -296,6 +308,7 @@ export interface RootRouteChildren {
   DownsellRoute: typeof DownsellRoute
   ObrigadoRoute: typeof ObrigadoRoute
   QuizRoute: typeof QuizRoute
+  SemAcessoRoute: typeof SemAcessoRoute
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/upsell'
       fullPath: '/upsell'
       preLoaderRoute: typeof UpsellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sem-acesso': {
+      id: '/sem-acesso'
+      path: '/sem-acesso'
+      fullPath: '/sem-acesso'
+      preLoaderRoute: typeof SemAcessoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -508,6 +528,7 @@ const rootRouteChildren: RootRouteChildren = {
   DownsellRoute: DownsellRoute,
   ObrigadoRoute: ObrigadoRoute,
   QuizRoute: QuizRoute,
+  SemAcessoRoute: SemAcessoRoute,
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,

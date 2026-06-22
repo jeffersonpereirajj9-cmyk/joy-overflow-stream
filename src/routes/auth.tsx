@@ -46,8 +46,9 @@ function AuthPage() {
         try {
           const result = await checkEmail({ data: { email: session.user.email } });
           if (!result.allowed) {
-            setError("Esse email não consta como comprador. Compre o acesso primeiro.");
+            const blocked = session.user.email;
             await supabase.auth.signOut();
+            navigate({ to: "/sem-acesso", search: { email: blocked } });
           } else {
             window.localStorage.setItem("bookfy_email", session.user.email);
             navigate({ to: redirect ?? "/" });
