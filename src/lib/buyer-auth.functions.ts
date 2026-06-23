@@ -7,11 +7,13 @@ export const checkBuyerEmail = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: row, error } = await supabaseAdmin
+    // Auto-allow: register the email so the owner can later confirm if it's a real buyer.
+    const { error } = await supabaseAdmin
       .from("allowed_buyers")
-      .select("email")
-      .eq("email", data.email)
-      .maybeSingle();
+      .upsert(
+        { email: data.email, source: "auto_signup" },
+        { onConflict: "email", ignoreDuplicates: true },
+      );
     if (error) throw new Error(error.message);
-    return { allowed: !!row, email: data.email };
+    return { allowed: true, email: data.email };
   });
