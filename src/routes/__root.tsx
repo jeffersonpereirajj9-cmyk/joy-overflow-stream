@@ -117,6 +117,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         "data-utmify-prevent-xcod-sck": "",
         "data-utmify-prevent-subids": "",
       },
+      {
+        type: "text/javascript",
+        children: `(function(){window.pixelId="6a3b347d6c75180b75e7acf3";function l(){var a=document.createElement("script");a.setAttribute("async","");a.setAttribute("defer","");a.setAttribute("src","https://cdn.utmify.com.br/scripts/pixel/pixel.js");document.head.appendChild(a);}function s(){('requestIdleCallback' in window)?requestIdleCallback(l,{timeout:3000}):setTimeout(l,1500);}if(document.readyState==='complete')s();else window.addEventListener('load',s,{once:true});})();`,
+      },
     ],
   }),
   shellComponent: RootShell,
