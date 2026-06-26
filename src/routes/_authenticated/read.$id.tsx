@@ -260,6 +260,7 @@ function ReadPage() {
               }}
               onProgress={(prog) => setProgress(prog)}
               onTapCenter={toggleChrome}
+              onTocLoaded={setToc}
             />
             {/* Edge tap zones — visible only when chrome hidden */}
             <button
