@@ -97,7 +97,7 @@ function UpsellPage() {
         </div>
 
         {/* Headline */}
-        <h1 className="text-center text-4xl font-extrabold leading-tight sm:text-5xl">
+        <h1 className="font-serif text-center text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
           ESPERE! Sua experiência de leitura{" "}
           <span className="bg-gradient-to-r from-pink-400 to-fuchsia-400 bg-clip-text text-transparent">
             ainda não está completa…

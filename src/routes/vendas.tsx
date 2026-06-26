@@ -50,7 +50,7 @@ function VendasPage() {
           </span>
         </div>
 
-        <h1 className="text-center text-4xl font-extrabold leading-tight sm:text-5xl">
+        <h1 className="font-serif text-center text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
           Sua biblioteca infinita de{" "}
           <span className="bg-gradient-to-r from-pink-400 to-fuchsia-400 bg-clip-text text-transparent">
             romances proibidos
