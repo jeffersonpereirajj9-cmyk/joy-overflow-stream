@@ -187,8 +187,8 @@ function SearchPage() {
                     onClick={() => saveRecent(q)}
                     className="flex items-center gap-3 py-2.5 active:bg-card/60"
                   >
-                    <div className="h-16 w-12 shrink-0 overflow-hidden rounded-md bg-card">
-                      <BookCover book={b} className="!h-16 !w-12" />
+                    <div className="h-16 w-12 shrink-0">
+                      <BookCover book={b} className="h-full w-full" />
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="truncate text-sm font-medium text-foreground">{b.title}</div>
