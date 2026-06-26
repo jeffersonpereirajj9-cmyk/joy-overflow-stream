@@ -42,7 +42,7 @@ function CTA({ label = "QUERO MEU ACESSO AGORA" }: { label?: string }) {
 function VendasPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#1a0a1f] via-[#0f0712] to-black text-white">
-      <div className="mx-auto max-w-2xl px-5 py-10">
+      <div className="mx-auto max-w-2xl px-5 py-10 pb-32">
         {/* HERO */}
         <div className="mb-5 flex justify-center">
           <span className="rounded-full border border-pink-400/40 bg-pink-500/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-pink-300">
