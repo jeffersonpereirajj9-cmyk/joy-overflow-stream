@@ -1,5 +1,5 @@
 ---
-name: Accessibility (WCAG)
+name: accessibility-wcag
 description: Conformidade WCAG 2.1 AA, HTML semântico, ARIA, navegação por teclado, contraste e compliance BFSG.
 ---
 
