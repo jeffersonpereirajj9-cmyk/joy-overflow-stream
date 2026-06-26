@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState, useCallback } from "react";
 import { books, sampleChapter } from "@/data/books";
 import { COLLECTIONS } from "@/data/collections";
@@ -51,6 +51,7 @@ export const Route = createFileRoute("/_authenticated/read/$id")({
 
 function ReadPage() {
   const { id } = Route.useParams();
+  const router = useRouter();
   const book = findBook(id)!;
 
   const [fontSize, setFontSize] = useState(18);
@@ -310,15 +311,21 @@ function ReadPage() {
         className={`relative z-30 flex items-center justify-between px-3 py-3 ${chromeOpen ? "" : "hidden"}`}
         style={{ background: p.chrome, borderBottom: `1px solid ${p.border}` }}
       >
-        <Link
-          to="/book/$id"
-          params={{ id }}
+        <button
+          type="button"
+          onClick={() => {
+            if (typeof window !== "undefined" && window.history.length > 1) {
+              router.history.back();
+            } else {
+              router.navigate({ to: "/book/$id", params: { id } });
+            }
+          }}
           className="flex min-w-0 items-center gap-1.5 rounded-full px-2 py-1 text-xs"
           style={{ background: isDark ? "#ffffff14" : "#00000008" }}
         >
           <ChevronLeft className="h-4 w-4 shrink-0" />
           <span className="truncate max-w-[140px]">{book.title}</span>
-        </Link>
+        </button>
         <div className="flex items-center gap-1">
           <button
             onClick={() => setPanel("toc")}
