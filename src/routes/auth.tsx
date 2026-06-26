@@ -50,7 +50,9 @@ function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [emailTouched, setEmailTouched] = useState(false);
   const verifyingGoogleEmailRef = useRef<string | null>(null);
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage.getItem("bookfy_email")) {
@@ -170,6 +172,13 @@ function AuthPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center px-6 py-12">
+      {googleLoading && (
+        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-3 bg-background/90 backdrop-blur">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm font-medium text-foreground">Confirmando seu acesso…</p>
+          <p className="text-xs text-muted-foreground">Isso leva só alguns segundos.</p>
+        </div>
+      )}
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="font-serif text-3xl text-foreground">Bookfy</h1>
@@ -217,22 +226,37 @@ function AuthPage() {
         </div>
 
         <form onSubmit={submit} className="space-y-3">
-          <div className="relative">
+          <div>
+            <label htmlFor="auth-email" className="mb-1.5 block text-xs font-medium text-foreground">
+              Seu email
+            </label>
+            <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <input
+              id="auth-email"
               type="email"
               inputMode="email"
               autoComplete="email"
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onBlur={() => setEmailTouched(true)}
               disabled={loading}
-              className="w-full rounded-full border border-border bg-card pl-10 pr-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+              aria-invalid={emailTouched && !emailValid}
+              className={`w-full rounded-full border bg-card pl-10 pr-4 py-3.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none ${
+                emailTouched && !emailValid
+                  ? "border-destructive focus:border-destructive"
+                  : "border-border focus:border-primary"
+              }`}
             />
+            </div>
+            {emailTouched && !emailValid && email.length > 0 && (
+              <p className="mt-1.5 pl-3 text-xs text-destructive">Digite um email válido.</p>
+            )}
           </div>
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !emailValid}
             className="flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition active:scale-95 disabled:opacity-60"
           >
             {loading ? (

@@ -62,6 +62,18 @@ function VendasPage() {
           Centenas de livros pra você devorar quando quiser — Dark Romance, Máfia, Bilionários, Fantasia e muito mais. Sem precisar baixar nada na pirataria, sem propaganda, sem dor de cabeça.
         </p>
 
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-white/80">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="text-white/50 line-through">R$ 97</span>
+            <span className="text-lg font-extrabold text-pink-300">R$ 47</span>
+            <span className="text-white/60">/ano</span>
+          </span>
+          <span className="hidden h-3 w-px bg-white/20 sm:block" />
+          <span className="inline-flex items-center gap-1.5">
+            <ShieldCheck className="h-4 w-4 text-emerald-400" /> 7 dias de garantia
+          </span>
+        </div>
+
         <div className="mt-8 flex justify-center">
           <div className="relative">
             <div className="absolute -inset-6 rounded-[3rem] bg-gradient-to-br from-pink-500/30 via-fuchsia-500/20 to-transparent blur-2xl" />
@@ -265,6 +277,21 @@ function VendasPage() {
           © Clube das Leitoras • Bookfy
         </p>
       </div>
+
+      {/* STICKY MOBILE CTA */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-pink-400/30 bg-black/85 px-4 py-3 backdrop-blur md:hidden">
+        <a
+          href={COUPON_CHECKOUT_URL}
+          className="flex w-full items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-pink-500 to-fuchsia-500 px-4 py-3 text-sm font-extrabold uppercase tracking-wide text-white shadow-lg shadow-pink-500/30"
+        >
+          <span className="flex flex-col items-start leading-tight">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-white/80">12 meses</span>
+            <span>R$ 47 — Quero acesso</span>
+          </span>
+          <Flame className="h-5 w-5" />
+        </a>
+      </div>
+      <div className="h-20 md:hidden" aria-hidden />
     </div>
   );
 }
