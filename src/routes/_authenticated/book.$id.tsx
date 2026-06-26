@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useRouter } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { BookCover } from "@/components/bookfy/BookCover";
@@ -12,7 +12,7 @@ import {
   favoritesCurated,
 } from "@/data/curated";
 import { useFavorites } from "@/hooks/useFavorites";
-import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
+import { ChevronLeft, Heart, Download, Star, Loader2, BookOpen } from "lucide-react";
 import { downloadFileFromUrl } from "@/lib/epub";
 import { getBookDownloadOption } from "@/lib/book-downloads";
 import { trackDownload } from "@/hooks/useReadingActivity";
@@ -43,6 +43,7 @@ export const Route = createFileRoute("/_authenticated/book/$id")({
 
 function BookPage() {
   const { id } = Route.useParams();
+  const router = useRouter();
   const book = findBook(id)!;
   const category = categories.find((c) => c.slug === book.category);
   const { isFavorite, toggle } = useFavorites();
@@ -124,12 +125,16 @@ function BookPage() {
     <AppShell>
       <div className={`relative h-72 overflow-hidden bg-gradient-to-br ${book.cover}`}>
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-background/20 to-background" />
-        <Link
-          to="/"
-          className="relative z-10 m-4 inline-flex items-center gap-1 rounded-full bg-black/40 px-3 py-1.5 text-xs text-white backdrop-blur"
+        <button
+          type="button"
+          onClick={() => {
+            if (window.history.length > 1) router.history.back();
+            else router.navigate({ to: "/" });
+          }}
+          className="relative z-10 m-4 inline-flex items-center gap-1 rounded-full bg-black/40 px-3 py-1.5 text-xs text-white backdrop-blur active:scale-95"
         >
           <ChevronLeft className="h-4 w-4" /> Voltar
-        </Link>
+        </button>
       </div>
 
       <div className="-mt-32 px-4">
@@ -187,6 +192,13 @@ function BookPage() {
         </details>
 
         <div className="mt-8 flex gap-3">
+          <Link
+            to="/read/$id"
+            params={{ id: book.id }}
+            className="flex flex-1 items-center justify-center gap-2 rounded-full border border-primary/40 bg-card/60 py-3.5 text-sm font-semibold text-foreground transition active:scale-95"
+          >
+            <BookOpen className="h-4 w-4" /> Ler agora
+          </Link>
           <button
             type="button"
             onClick={handleDownload}
@@ -199,7 +211,7 @@ function BookPage() {
               </>
             ) : (
               <>
-                <Download className="h-4 w-4" /> Baixar {downloadFormat}
+                <Download className="h-4 w-4" /> Baixar
               </>
             )}
           </button>
