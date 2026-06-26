@@ -53,11 +53,18 @@ function BookPage() {
   const [downloadedUrl, setDownloadedUrl] = useState<string | null>(null);
   const downloadOption = getBookDownloadOption(book);
   const downloadFormat = downloadOption?.formatLabel ?? "Livro";
-  const [fileSize, setFileSize] = useState<string | null>(null);
+  const [fileSize, setFileSize] = useState<string | null>(() => {
+    if (downloadOption?.sizeBytes) {
+      const b = downloadOption.sizeBytes;
+      const mb = b / (1024 * 1024);
+      return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`;
+    }
+    return null;
+  });
   const synopsis = book.synopsis;
 
   useEffect(() => {
-    if (!downloadOption) return;
+    if (!downloadOption || fileSize) return;
     let cancelled = false;
     const url = downloadOption.fallbackUrl ?? downloadOption.primaryUrl;
     fetch(url, { method: "HEAD" })
