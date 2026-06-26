@@ -1,14 +1,33 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { books, sampleChapter } from "@/data/books";
+import { COLLECTIONS } from "@/data/collections";
+import {
+  mostWantedCurated,
+  mostReadCurated,
+  newestCurated,
+  trendingCurated,
+  favoritesCurated,
+} from "@/data/curated";
 import { ChevronLeft, Minus, Plus, Sun, Moon, Bookmark, BookmarkCheck, ChevronRight } from "lucide-react";
 import { EpubReader } from "@/components/bookfy/EpubReader";
 import { getBookDownloadOption } from "@/lib/book-downloads";
 
+const findBook = (id: string) =>
+  books.find((b) => b.id === id) ??
+  COLLECTIONS.flatMap((c) => c.books).find((b) => b.id === id) ??
+  [
+    ...mostWantedCurated,
+    ...mostReadCurated,
+    ...newestCurated,
+    ...trendingCurated,
+    ...favoritesCurated,
+  ].find((b) => b.id === id);
+
 export const Route = createFileRoute("/_authenticated/read/$id")({
   component: ReadPage,
   loader: ({ params }) => {
-    const book = books.find((b) => b.id === params.id);
+    const book = findBook(params.id);
     if (!book) throw notFound();
     return { book };
   },
@@ -19,7 +38,7 @@ export const Route = createFileRoute("/_authenticated/read/$id")({
 
 function ReadPage() {
   const { id } = Route.useParams();
-  const book = books.find((b) => b.id === id)!;
+  const book = findBook(id)!;
 
   const [fontSize, setFontSize] = useState(17);
   const [dark, setDark] = useState(true);
