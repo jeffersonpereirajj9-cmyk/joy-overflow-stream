@@ -15,6 +15,7 @@ import {
 import type { Book } from "@/data/books";
 import { ChevronRight, Search, Sparkles } from "lucide-react";
 import { LazyMount } from "@/components/bookfy/LazyMount";
+import { ContinueReading } from "@/components/bookfy/ContinueReading";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -94,6 +95,8 @@ function Home() {
           <CategoryChip key={c.slug} category={c} />
         ))}
       </HorizontalScroller>
+
+      <ContinueReading />
 
       {/* Coleções em destaque */}
       {COLLECTIONS.map((col, idx) => {
