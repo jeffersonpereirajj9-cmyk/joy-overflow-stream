@@ -166,6 +166,36 @@ export function EpubReader({
           }
         });
 
+        // Forward keyboard events fired *inside* the rendered iframe so that
+        // arrow keys, Space, PageUp/PageDown work even when focus is in the
+        // EPUB document (which is the default after a click).
+        rendition.on("keydown", (e: KeyboardEvent) => {
+          if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") {
+            e.preventDefault();
+            renditionRef.current?.next();
+          } else if (e.key === "ArrowLeft" || e.key === "PageUp") {
+            e.preventDefault();
+            renditionRef.current?.prev();
+          } else {
+            // Re-dispatch other keys to the host window so global hotkeys
+            // (TOC, bookmarks, settings, font size, etc.) keep working.
+            try {
+              window.dispatchEvent(
+                new KeyboardEvent("keydown", {
+                  key: e.key,
+                  code: e.code,
+                  shiftKey: e.shiftKey,
+                  ctrlKey: e.ctrlKey,
+                  altKey: e.altKey,
+                  metaKey: e.metaKey,
+                }),
+              );
+            } catch {
+              /* noop */
+            }
+          }
+        });
+
         try {
           await book.locations.generate(1600);
         } catch {
