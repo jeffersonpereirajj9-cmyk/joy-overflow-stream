@@ -23,7 +23,7 @@ export const Route = createFileRoute("/vendas")({
     ],
     links: [
       { rel: "canonical", href: "https://app.clubedeleitoras.online/vendas" },
-      { rel: "preload", as: "image", href: appPreview.url, fetchpriority: "high" },
+      { rel: "preload", as: "image", href: appPreview.url, fetchPriority: "high" },
     ],
   }),
 });
