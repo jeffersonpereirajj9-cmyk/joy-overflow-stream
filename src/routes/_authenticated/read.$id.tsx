@@ -315,7 +315,7 @@ function ReadPage() {
 
   return (
     <div
-      className="flex h-[100dvh] flex-col transition-colors"
+      className="reader-root flex h-[100dvh] flex-col transition-colors [&_button:focus-visible]:outline [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-primary [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-primary"
       style={{ background: p.bg, color: p.fg }}
     >
       {/* Top chrome */}
