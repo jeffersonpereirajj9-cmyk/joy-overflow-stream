@@ -45,10 +45,23 @@ function Home() {
             <div className="text-[10px] uppercase tracking-[0.3em] text-accent">Bookfy</div>
             <div className="text-xs text-muted-foreground">Olá, leitora ✨</div>
           </div>
-          <button className="grid h-9 w-9 place-items-center rounded-full bg-card/80 backdrop-blur">
-            <Search className="h-4 w-4 text-foreground" />
-          </button>
+          <Link
+            to="/profile"
+            aria-label="Perfil"
+            className="grid h-9 w-9 place-items-center rounded-full bg-card/80 text-foreground backdrop-blur active:scale-95"
+          >
+            <span className="text-xs font-semibold">EU</span>
+          </Link>
         </div>
+
+        {/* Quick search shortcut — meta: encontrar livro em <10s */}
+        <Link
+          to="/search"
+          className="mt-4 flex items-center gap-3 rounded-full border border-border/60 bg-card/70 px-4 py-3 text-sm text-muted-foreground shadow-sm backdrop-blur active:scale-[0.99]"
+        >
+          <Search className="h-4 w-4 text-foreground" />
+          <span>Buscar título, autora ou categoria...</span>
+        </Link>
 
         <div className="relative mt-6 overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary via-rose-800 to-black p-5 shadow-xl shadow-primary/20">
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/30 blur-3xl" />
