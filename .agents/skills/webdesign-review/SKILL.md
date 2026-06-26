@@ -1,5 +1,5 @@
 ---
-name: Webdesign Review
+name: webdesign-review
 description: "Meta-skill: revisão completa orquestrando as 20 skills de design em sequência de prioridade."
 ---
 
