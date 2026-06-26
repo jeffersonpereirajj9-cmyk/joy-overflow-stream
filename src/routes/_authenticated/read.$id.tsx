@@ -307,7 +307,7 @@ function ReadPage() {
     >
       {/* Top chrome */}
       <header
-        className={`absolute inset-x-0 top-0 z-30 flex items-center justify-between px-3 py-3 backdrop-blur transition-all duration-300 ${chromeOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"}`}
+        className={`relative z-30 flex items-center justify-between px-3 py-3 ${chromeOpen ? "" : "hidden"}`}
         style={{ background: p.chrome, borderBottom: `1px solid ${p.border}` }}
       >
         <Link
@@ -413,7 +413,7 @@ function ReadPage() {
       {/* Bottom chrome — progress + chapter */}
       {epubUrl && (
         <footer
-          className={`absolute inset-x-0 bottom-0 z-30 flex flex-col gap-1 px-4 py-2.5 backdrop-blur transition-all duration-300 ${chromeOpen ? "translate-y-0 opacity-100" : "translate-y-full opacity-0 pointer-events-none"}`}
+          className={`relative z-30 flex flex-col gap-1 px-4 py-2.5 ${chromeOpen ? "" : "hidden"}`}
           style={{ background: p.chrome, borderTop: `1px solid ${p.border}` }}
         >
           <div className="flex items-center justify-between gap-3 text-[10px] opacity-70">
