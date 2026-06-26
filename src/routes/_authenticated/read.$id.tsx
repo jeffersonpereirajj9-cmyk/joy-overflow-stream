@@ -40,7 +40,7 @@ function ReadPage() {
   useEffect(() => {
     localStorage.setItem(
       `bookfy:reader:${id}`,
-      JSON.stringify({ fontSize, dark, bookmarked }),
+      JSON.stringify({ fontSize, dark, bookmarked, updatedAt: Date.now() }),
     );
   }, [id, fontSize, dark, bookmarked]);
 
