@@ -81,6 +81,7 @@ export function EpubReader({
   onProgress,
   onReady,
   onTapCenter,
+  onTocLoaded,
 }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const bookRef = useRef<any>(null);
