@@ -1,5 +1,6 @@
 import type { Book } from "@/data/books";
 import driveCatalogJson from "@/data/drive-catalog.json";
+import driveSizesJson from "@/data/drive-sizes.json";
 
 type DriveCatalogEntry = {
   i: string;
@@ -16,9 +17,23 @@ export type BookDownloadOption = {
   fallbackFilename?: string;
   fallbackMime?: string;
   formatLabel: "EPUB" | "MOBI";
+  driveId?: string;
+  sizeBytes?: number;
 };
 
 const DRIVE_PREFIX = "/api/drive/";
+const DRIVE_SIZES = driveSizesJson as Record<string, number>;
+
+export function getDriveFileSize(driveId: string | undefined | null): number | undefined {
+  if (!driveId) return undefined;
+  const v = DRIVE_SIZES[driveId];
+  return typeof v === "number" ? v : undefined;
+}
+
+export function formatFileSize(bytes: number): string {
+  const mb = bytes / (1024 * 1024);
+  return mb >= 1 ? `${mb.toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}
 
 export function safeBookFilename(value: string) {
   return value.replace(/[/\\?%*:|"<>]/g, "-").replace(/\s+/g, " ").trim() || "livro";
@@ -97,6 +112,7 @@ export function getBookDownloadOption(book: Book): BookDownloadOption | null {
   if (!mobiUrl) return null;
 
   if (mobiUrl.startsWith(DRIVE_PREFIX)) {
+    const driveId = matchedDrive?.i;
     return {
       primaryUrl: driveEpubUrl(mobiUrl),
       primaryFilename: `${base}.epub`,
@@ -105,6 +121,8 @@ export function getBookDownloadOption(book: Book): BookDownloadOption | null {
       fallbackFilename: `${base}.mobi`,
       fallbackMime: "application/x-mobipocket-ebook",
       formatLabel: "EPUB",
+      driveId,
+      sizeBytes: getDriveFileSize(driveId),
     };
   }
 
