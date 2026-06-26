@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { EpubReader, type ReaderApi, type ReaderProgress, type ReaderTheme, type ReaderFont } from "@/components/bookfy/EpubReader";
 import { getBookDownloadOption } from "@/lib/book-downloads";
+import { toast } from "sonner";
 
 const findBook = (id: string) =>
   books.find((b) => b.id === id) ??
@@ -66,6 +67,7 @@ function ReadPage() {
   const [bookmarks, setBookmarks] = useState<{ cfi: string; label: string; ts: number }[]>([]);
   const [chromeOpen, setChromeOpen] = useState(true);
   const [panel, setPanel] = useState<null | "settings" | "toc" | "bookmarks">(null);
+  const [toc, setToc] = useState<Array<{ label: string; href: string }>>([]);
   const apiRef = useRef<ReaderApi | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wakeLockRef = useRef<any>(null);
@@ -107,23 +109,28 @@ function ReadPage() {
     localStorage.setItem(`bookfy:bookmarks:${id}`, JSON.stringify(bookmarks));
   }, [id, bookmarks]);
 
-  // Keep screen awake while reading
+  // Keep screen awake while reading; re-acquire after tab returns
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    const acquire = async () => {
       try {
         const wl = (navigator as any).wakeLock;
-        if (wl?.request) {
-          const lock = await wl.request("screen");
-          if (cancelled) lock.release?.();
-          else wakeLockRef.current = lock;
-        }
+        if (!wl?.request || document.visibilityState !== "visible") return;
+        const lock = await wl.request("screen");
+        if (cancelled) lock.release?.();
+        else wakeLockRef.current = lock;
       } catch {
         /* noop */
       }
-    })();
+    };
+    acquire();
+    const onVis = () => {
+      if (document.visibilityState === "visible" && !wakeLockRef.current) acquire();
+    };
+    document.addEventListener("visibilitychange", onVis);
     return () => {
       cancelled = true;
+      document.removeEventListener("visibilitychange", onVis);
       try {
         wakeLockRef.current?.release?.();
       } catch {
@@ -156,10 +163,17 @@ function ReadPage() {
     [bookmarks, progress.location],
   );
   const toggleBookmark = () => {
-    if (!progress.location) return;
+    if (!progress.location) {
+      toast("Aguarde o livro carregar para marcar a página.");
+      return;
+    }
     setBookmarks((curr) => {
       const exists = curr.find((b) => b.cfi === progress.location);
-      if (exists) return curr.filter((b) => b.cfi !== progress.location);
+      if (exists) {
+        toast("Marcador removido.");
+        return curr.filter((b) => b.cfi !== progress.location);
+      }
+      toast.success("Página marcada!");
       return [
         ...curr,
         { cfi: progress.location, label: progress.chapter ?? "Sem capítulo", ts: Date.now() },
@@ -174,7 +188,6 @@ function ReadPage() {
   } as const;
   const p = PALETTE[theme];
   const isDark = theme === "dark";
-  const toc = apiRef.current?.toc?.() ?? [];
 
   return (
     <div
