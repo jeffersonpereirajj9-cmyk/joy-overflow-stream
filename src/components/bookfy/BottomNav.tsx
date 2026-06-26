@@ -1,8 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, LayoutGrid, Library, Heart, User } from "lucide-react";
+import { Home, LayoutGrid, Library, Heart, User, Search } from "lucide-react";
 
 const items = [
   { to: "/", label: "Início", Icon: Home },
+  { to: "/search", label: "Buscar", Icon: Search },
   { to: "/categories", label: "Categorias", Icon: LayoutGrid },
   { to: "/library", label: "Biblioteca", Icon: Library },
   { to: "/favorites", label: "Favoritos", Icon: Heart },
@@ -14,7 +15,7 @@ export function BottomNav() {
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/60 bg-background/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
-      <ul className="mx-auto flex w-full max-w-md md:max-w-xl items-stretch justify-around px-2 py-2">
+      <ul className="mx-auto flex w-full max-w-md md:max-w-xl items-stretch justify-around px-1 py-2">
         {items.map(({ to, label, Icon }) => {
           const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
           return (
