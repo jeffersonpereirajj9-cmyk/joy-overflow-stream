@@ -85,7 +85,7 @@ function ReadPage() {
         </div>
       </header>
 
-      <article className="mx-auto max-w-md px-6 py-8" style={{ fontSize, lineHeight: 1.75 }}>
+      <article className="mx-auto w-full max-w-md md:max-w-2xl px-5 sm:px-6 py-8" style={{ fontSize, lineHeight: 1.75 }}>
         <h1 className="mb-2 font-serif text-2xl">{book.title}</h1>
         <p className={`mb-8 text-xs ${dark ? "text-white/60" : "text-black/60"}`}>por {book.author}</p>
         <div className="whitespace-pre-line font-serif">{sampleChapter}</div>

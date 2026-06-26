@@ -33,7 +33,7 @@ export function BookGrid({ books }: { books: Book[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-4 px-4 pt-6">
+      <div className="grid grid-cols-2 gap-4 px-4 pt-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {visible.map((b, i) => (
           <BookCard key={b.id} book={b} size="lg" priority={i < 2} />
         ))}
