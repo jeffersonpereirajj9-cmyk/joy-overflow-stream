@@ -18,6 +18,7 @@ import { Route as DownsellRouteImport } from './routes/downsell'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
@@ -77,6 +78,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
@@ -170,6 +176,7 @@ export interface FileRoutesByFullPath {
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/book/$id': typeof AuthenticatedBookIdRoute
   '/category/$slug': typeof AuthenticatedCategorySlugRoute
   '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
@@ -195,6 +202,7 @@ export interface FileRoutesByTo {
   '/favorites': typeof AuthenticatedFavoritesRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/search': typeof AuthenticatedSearchRoute
   '/book/$id': typeof AuthenticatedBookIdRoute
   '/category/$slug': typeof AuthenticatedCategorySlugRoute
   '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
@@ -222,6 +230,7 @@ export interface FileRoutesById {
   '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/book/$id': typeof AuthenticatedBookIdRoute
   '/_authenticated/category/$slug': typeof AuthenticatedCategorySlugRoute
   '/_authenticated/collection/$slug': typeof AuthenticatedCollectionSlugRoute
@@ -249,6 +258,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/library'
     | '/profile'
+    | '/search'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
@@ -274,6 +284,7 @@ export interface FileRouteTypes {
     | '/favorites'
     | '/library'
     | '/profile'
+    | '/search'
     | '/book/$id'
     | '/category/$slug'
     | '/collection/$slug'
@@ -300,6 +311,7 @@ export interface FileRouteTypes {
     | '/_authenticated/favorites'
     | '/_authenticated/library'
     | '/_authenticated/profile'
+    | '/_authenticated/search'
     | '/_authenticated/book/$id'
     | '/_authenticated/category/$slug'
     | '/_authenticated/collection/$slug'
@@ -395,6 +407,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/search': {
+      id: '/_authenticated/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof AuthenticatedSearchRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/profile': {
       id: '/_authenticated/profile'
@@ -509,6 +528,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedBookIdRoute: typeof AuthenticatedBookIdRoute
   AuthenticatedCategorySlugRoute: typeof AuthenticatedCategorySlugRoute
   AuthenticatedCollectionSlugRoute: typeof AuthenticatedCollectionSlugRoute
@@ -520,6 +540,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedBookIdRoute: AuthenticatedBookIdRoute,
   AuthenticatedCategorySlugRoute: AuthenticatedCategorySlugRoute,
   AuthenticatedCollectionSlugRoute: AuthenticatedCollectionSlugRoute,
