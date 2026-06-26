@@ -71,6 +71,8 @@ function ReadPage() {
   const apiRef = useRef<ReaderApi | null>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const wakeLockRef = useRef<any>(null);
+  const panelRef = useRef<HTMLElement | null>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   const download = useMemo(() => getBookDownloadOption(book), [book]);
   const epubUrl =
@@ -162,7 +164,7 @@ function ReadPage() {
     () => bookmarks.some((b) => b.cfi === progress.location),
     [bookmarks, progress.location],
   );
-  const toggleBookmark = () => {
+  const toggleBookmark = useCallback(() => {
     if (!progress.location) {
       toast("Aguarde o livro carregar para marcar a página.");
       return;
@@ -179,6 +181,128 @@ function ReadPage() {
         { cfi: progress.location, label: progress.chapter ?? "Sem capítulo", ts: Date.now() },
       ];
     });
+  }, [progress.location, progress.chapter]);
+
+  const cycleTheme = useCallback(() => {
+    setTheme((t) => (t === "light" ? "sepia" : t === "sepia" ? "dark" : "light"));
+  }, []);
+
+  // Global keyboard shortcuts (work even when EpubReader forwards keys).
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      const tag = target?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA" || target?.isContentEditable) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+
+      // Esc: close panel; if none, hide chrome.
+      if (e.key === "Escape") {
+        if (panel) {
+          e.preventDefault();
+          setPanel(null);
+        } else if (chromeOpen) {
+          e.preventDefault();
+          setChromeOpen(false);
+        }
+        return;
+      }
+
+      // Don't run other shortcuts while a panel is open.
+      if (panel) return;
+
+      switch (e.key) {
+        case "t":
+        case "T":
+          e.preventDefault();
+          setChromeOpen(true);
+          setPanel("toc");
+          break;
+        case "m":
+        case "M":
+          e.preventDefault();
+          setChromeOpen(true);
+          setPanel("bookmarks");
+          break;
+        case "s":
+        case "S":
+          e.preventDefault();
+          setChromeOpen(true);
+          setPanel("settings");
+          break;
+        case "b":
+        case "B":
+          e.preventDefault();
+          toggleBookmark();
+          break;
+        case "d":
+        case "D":
+          e.preventDefault();
+          cycleTheme();
+          break;
+        case "h":
+        case "H":
+        case "?":
+          e.preventDefault();
+          setChromeOpen((v) => !v);
+          break;
+        case "+":
+        case "=":
+          e.preventDefault();
+          setFontSize((s) => Math.min(28, s + 1));
+          break;
+        case "-":
+        case "_":
+          e.preventDefault();
+          setFontSize((s) => Math.max(13, s - 1));
+          break;
+        case "Enter":
+          // Enter on the reader surface toggles chrome (mirrors center tap).
+          if (target === document.body) {
+            e.preventDefault();
+            toggleChrome();
+          }
+          break;
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [panel, chromeOpen, toggleBookmark, cycleTheme, toggleChrome]);
+
+  // Focus management for the side panel: trap focus and restore on close.
+  useEffect(() => {
+    if (panel) {
+      lastFocusedRef.current = (document.activeElement as HTMLElement) ?? null;
+      // Defer to allow the panel to render.
+      const t = setTimeout(() => {
+        const first = panelRef.current?.querySelector<HTMLElement>(
+          'button, [href], input, [tabindex]:not([tabindex="-1"])',
+        );
+        first?.focus();
+      }, 30);
+      return () => clearTimeout(t);
+    }
+    lastFocusedRef.current?.focus?.();
+  }, [panel]);
+
+  const onPanelKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== "Tab") return;
+    const root = panelRef.current;
+    if (!root) return;
+    const items = Array.from(
+      root.querySelectorAll<HTMLElement>(
+        'button, [href], input, [tabindex]:not([tabindex="-1"])',
+      ),
+    ).filter((el) => !el.hasAttribute("disabled"));
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   };
 
   const PALETTE = {
@@ -191,7 +315,7 @@ function ReadPage() {
 
   return (
     <div
-      className="flex h-[100dvh] flex-col transition-colors"
+      className="reader-root flex h-[100dvh] flex-col transition-colors [&_button:focus-visible]:outline [&_button:focus-visible]:outline-2 [&_button:focus-visible]:outline-offset-2 [&_button:focus-visible]:outline-primary [&_a:focus-visible]:outline [&_a:focus-visible]:outline-2 [&_a:focus-visible]:outline-offset-2 [&_a:focus-visible]:outline-primary"
       style={{ background: p.bg, color: p.fg }}
     >
       {/* Top chrome */}
@@ -245,7 +369,11 @@ function ReadPage() {
       </header>
 
       {/* Reader area */}
-      <main className="relative flex-1 overflow-hidden" onClick={toggleChrome}>
+      <main
+        className="relative flex-1 overflow-hidden focus:outline-none"
+        onClick={toggleChrome}
+        aria-label="Área de leitura. Use as setas para virar a página."
+      >
         {epubUrl ? (
           <>
             <EpubReader
@@ -330,6 +458,13 @@ function ReadPage() {
         >
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
           <aside
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label={
+              panel === "settings" ? "Ajustes do leitor" : panel === "toc" ? "Sumário do livro" : "Seus marcadores"
+            }
+            onKeyDown={onPanelKeyDown}
             onClick={(e) => e.stopPropagation()}
             className="relative ml-auto flex h-full w-[88%] max-w-md flex-col"
             style={{ background: p.bg, color: p.fg, borderLeft: `1px solid ${p.border}` }}
