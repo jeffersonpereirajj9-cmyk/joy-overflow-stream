@@ -51,6 +51,7 @@ export const Route = createFileRoute("/_authenticated/read/$id")({
 
 function ReadPage() {
   const { id } = Route.useParams();
+  const router = useRouter();
   const book = findBook(id)!;
 
   const [fontSize, setFontSize] = useState(18);
