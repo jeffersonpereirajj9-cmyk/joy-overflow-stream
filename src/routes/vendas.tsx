@@ -103,7 +103,7 @@ function VendasPage() {
           </ul>
 
           <div className="mt-7">
-            <CTA onClick={() => setShowCoupon(true)} />
+            <CTA />
           </div>
           <p className="mt-3 flex items-center justify-center gap-2 text-xs text-white/60">
             <Lock className="h-3 w-3" /> Pagamento 100% seguro • Acesso imediato
@@ -256,7 +256,7 @@ function VendasPage() {
             12 meses de leitura por R$ 47. Acesso liberado na hora.
           </p>
           <div className="mt-6">
-            <CTA label="QUERO ENTRAR NO BOOKFY" onClick={() => setShowCoupon(true)} />
+            <CTA label="QUERO ENTRAR NO BOOKFY" />
           </div>
           <p className="mt-3 text-xs text-white/60">7 dias de garantia • pagamento seguro</p>
         </section>
