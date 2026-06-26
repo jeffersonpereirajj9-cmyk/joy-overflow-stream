@@ -147,9 +147,25 @@ export function EpubReader({
             label: String(t.label ?? "").trim(),
             href: t.href,
           }));
+          onTocLoaded?.(tocRef.current);
         } catch {
           /* noop */
         }
+        // Desktop click inside the iframe → treat center as tap-to-toggle chrome
+        rendition.on("click", (_e: MouseEvent, contents: any) => {
+          try {
+            const win = contents?.window as Window | undefined;
+            const x = (_e as any).clientX as number | undefined;
+            const w = win?.innerWidth ?? container.clientWidth;
+            if (typeof x !== "number") return;
+            if (x < w * 0.3) rendition.prev();
+            else if (x > w * 0.7) rendition.next();
+            else onTapCenter?.();
+          } catch {
+            /* noop */
+          }
+        });
+
         try {
           await book.locations.generate(1600);
         } catch {
