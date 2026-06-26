@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { AppShell } from "@/components/bookfy/AppShell";
 import { books, categories } from "@/data/books";
 import { useFavorites } from "@/hooks/useFavorites";
-import { BookOpen, Heart, LayoutGrid, Sparkles, LogOut, Camera, Check, Pencil } from "lucide-react";
+import { BookOpen, Heart, LayoutGrid, Sparkles, LogOut, Camera, Check, Pencil, Download, Flame } from "lucide-react";
+import { useReadingStats } from "@/hooks/useReadingActivity";
 import type { LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/profile")({
@@ -47,6 +48,7 @@ async function fileToCompressedDataUrl(file: File, max = 320): Promise<string> {
 
 function ProfilePage() {
   const { favorites } = useFavorites();
+  const stats = useReadingStats();
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(null);
   const [name, setName] = useState("");
@@ -146,6 +148,34 @@ function ProfilePage() {
         <Stat icon={BookOpen} label="Livros" value={books.length} />
         <Stat icon={LayoutGrid} label="Categorias" value={categories.length} />
         <Stat icon={Heart} label="Favoritos" value={favorites.length} />
+      </section>
+
+      <section className="mt-3 grid grid-cols-3 gap-3 px-4">
+        <Stat icon={Download} label="Baixados" value={stats.downloads} />
+        <Stat icon={BookOpen} label="Lendo" value={stats.reading} />
+        <Stat icon={Flame} label="Dias seguidos" value={stats.streak} />
+      </section>
+
+      <section className="mx-4 mt-6 rounded-3xl border border-border bg-card p-5 animate-fade-in">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="flex items-center gap-2 text-accent">
+              <Sparkles className="h-4 w-4" />
+              <span className="text-[10px] uppercase tracking-[0.25em]">Meta semanal</span>
+            </div>
+            <h3 className="mt-2 font-serif text-lg text-foreground">3 livros nesta semana</h3>
+            <p className="text-xs text-muted-foreground">Continue lendo para manter sua sequência.</p>
+          </div>
+          <div className="grid h-14 w-14 place-items-center rounded-full bg-primary/15 text-primary font-serif text-lg">
+            {Math.min(stats.reading, 3)}/3
+          </div>
+        </div>
+        <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className="h-full rounded-full gradient-primary transition-all"
+            style={{ width: `${Math.min(100, (stats.reading / 3) * 100)}%` }}
+          />
+        </div>
       </section>
 
       <section className="mx-4 mt-6 rounded-3xl border border-border bg-card p-5">
