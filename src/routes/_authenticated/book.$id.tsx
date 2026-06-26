@@ -15,6 +15,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
 import { downloadFileFromUrl } from "@/lib/epub";
 import { getBookDownloadOption } from "@/lib/book-downloads";
+import { toast } from "sonner";
 
 const findBook = (id: string) =>
   books.find((b) => b.id === id) ??
@@ -77,7 +78,9 @@ function BookPage() {
     setDownloading(true);
     try {
       if (!downloadOption) {
-        window.alert("Arquivo completo não encontrado para este título.");
+        toast.error("Arquivo não disponível", {
+          description: "Não encontramos o arquivo completo para este título.",
+        });
         setDownloadedFile(null);
         setDownloadedUrl(null);
         return;
@@ -102,8 +105,14 @@ function BookPage() {
         setDownloadedFile(file);
         setDownloadedUrl(downloadOption.fallbackUrl);
       }
+      toast.success("Download concluído", {
+        description: "Veja abaixo como enviar para o Kindle.",
+      });
     } catch (err) {
-      window.alert(`Falha ao baixar arquivo completo: ${(err as Error).message}`);
+      toast.error("Falha no download", {
+        description: "Não conseguimos baixar agora. Tente novamente em alguns segundos.",
+        action: { label: "Tentar de novo", onClick: () => void handleDownload() },
+      });
     } finally {
       setDownloading(false);
     }
@@ -162,6 +171,18 @@ function BookPage() {
               ))}
           </div>
         </section>
+
+        <details className="mt-4 rounded-2xl border border-border/60 bg-card/40 p-4 text-sm">
+          <summary className="cursor-pointer font-medium text-foreground">
+            Como enviar para o Kindle?
+          </summary>
+          <ol className="mt-3 space-y-1.5 list-decimal pl-4 text-xs leading-relaxed text-muted-foreground">
+            <li>Baixe o arquivo no botão abaixo.</li>
+            <li>Abra a pasta <span className="font-medium text-foreground">Downloads</span> do celular.</li>
+            <li>Toque nos <span className="font-medium text-foreground">3 pontinhos</span> (⋮) ao lado do arquivo e selecione <span className="font-medium text-foreground">Compartilhar</span>.</li>
+            <li>Escolha o app <span className="font-medium text-foreground">Kindle</span> — pronto! 📚</li>
+          </ol>
+        </details>
 
         <div className="mt-8 flex gap-3">
           <button

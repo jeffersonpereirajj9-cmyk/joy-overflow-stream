@@ -10,6 +10,7 @@ import {
 
 import appCss from "../styles.css?url";
 import { initSentry, Sentry } from "@/lib/sentry";
+import { Toaster } from "@/components/ui/sonner";
 
 initSentry();
 
@@ -162,6 +163,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
