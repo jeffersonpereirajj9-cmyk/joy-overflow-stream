@@ -1,5 +1,5 @@
 ---
-name: Navigation Design
+name: navigation-design
 description: Arquitetura da navegação com no máximo 5–7 itens no menu principal, meta-navegação, breadcrumbs, links no rodapé e busca integrada. Prioriza clareza sobre criatividade, acessibilidade por teclado e orienta o usuário pelo site sem que ele precise pensar. Inclui padrões para mobile (hamburger, bottom nav) e desktop (mega menu, tabs).
 ---
 
