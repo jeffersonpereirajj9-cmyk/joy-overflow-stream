@@ -37,7 +37,7 @@ function BookCardImpl({
           <BookCover
             book={book}
             priority={priority}
-            className={`${HEIGHTS[size]} transition-transform duration-200 group-hover:scale-[1.03] group-hover:shadow-xl group-hover:shadow-primary/20 group-active:scale-95`}
+            className={`${HEIGHTS[size]} rounded-xl soft-shadow transition-all duration-300 ease-out group-hover:-translate-y-1 group-hover:shadow-[0_20px_40px_-12px_oklch(0.6_0.22_350/0.45)] group-active:scale-[0.97]`}
           />
           <button
             type="button"
@@ -47,7 +47,7 @@ function BookCardImpl({
               e.stopPropagation();
               toggle(book.id);
             }}
-            className="absolute right-1.5 bottom-1.5 grid h-8 w-8 place-items-center rounded-full bg-black/50 backdrop-blur transition active:scale-90"
+            className="absolute right-2 bottom-2 grid h-8 w-8 place-items-center rounded-full bg-black/55 backdrop-blur-md ring-1 ring-white/10 transition-all duration-200 hover:scale-110 active:scale-90"
           >
             <Heart
               className={`h-4 w-4 transition ${
@@ -56,9 +56,9 @@ function BookCardImpl({
             />
           </button>
         </div>
-        <div className="mt-2 px-0.5">
-          <div className="truncate text-sm font-medium text-foreground">{book.title}</div>
-          <div className="truncate text-xs text-muted-foreground">{book.author}</div>
+        <div className="mt-2.5 px-0.5">
+          <div className="truncate text-[13px] font-medium leading-snug text-foreground">{book.title}</div>
+          <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{book.author}</div>
         </div>
       </Link>
     </div>

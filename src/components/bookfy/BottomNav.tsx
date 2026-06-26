@@ -14,28 +14,35 @@ export function BottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 border-t border-border/60 bg-background/85 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl">
-      <ul className="mx-auto flex w-full max-w-md md:max-w-xl items-stretch justify-around px-1 py-2">
-        {items.map(({ to, label, Icon }) => {
-          const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
-          return (
-            <li key={to} className="flex-1">
-              <Link
-                to={to}
-                className={`flex flex-col items-center gap-0.5 rounded-xl py-1.5 text-[10px] transition ${
-                  active ? "text-primary" : "text-muted-foreground"
-                }`}
-              >
-                <Icon
-                  className={`h-5 w-5 transition ${active ? "fill-primary/20" : ""}`}
-                  strokeWidth={active ? 2.4 : 1.8}
-                />
-                <span className={active ? "font-semibold" : ""}>{label}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+    <div className="pointer-events-none fixed bottom-0 left-0 right-0 z-40 pb-[max(env(safe-area-inset-bottom),0.75rem)] px-3">
+      <nav className="pointer-events-auto mx-auto w-full max-w-md md:max-w-xl">
+        <ul className="glass-strong relative flex items-stretch justify-around gap-1 rounded-3xl px-2 py-2 shadow-[0_24px_48px_-16px_rgba(0,0,0,0.6)]">
+          {items.map(({ to, label, Icon }) => {
+            const active = to === "/" ? pathname === "/" : pathname.startsWith(to);
+            return (
+              <li key={to} className="flex-1">
+                <Link
+                  to={to}
+                  className={`group relative flex flex-col items-center justify-center gap-0.5 rounded-2xl py-2 text-[10px] transition-all duration-300 ${
+                    active
+                      ? "text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {active && (
+                    <span className="absolute inset-0 -z-10 rounded-2xl gradient-primary shadow-[0_8px_24px_-6px_oklch(0.6_0.22_350/0.6)]" />
+                  )}
+                  <Icon
+                    className="h-5 w-5 transition-transform duration-300 group-active:scale-90"
+                    strokeWidth={active ? 2.4 : 1.7}
+                  />
+                  <span className={active ? "font-semibold" : "font-medium"}>{label}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </div>
   );
 }
