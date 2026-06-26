@@ -22,6 +22,7 @@ import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedCategoriesRouteImport } from './routes/_authenticated/categories'
+import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiDriveIdRouteImport } from './routes/api/drive.$id'
 import { Route as AuthenticatedReadIdRouteImport } from './routes/_authenticated/read.$id'
 import { Route as AuthenticatedCollectionSlugRouteImport } from './routes/_authenticated/collection.$slug'
@@ -97,6 +98,11 @@ const AuthenticatedCategoriesRoute = AuthenticatedCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDriveIdRoute = ApiDriveIdRouteImport.update({
   id: '/api/drive/$id',
   path: '/api/drive/$id',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/collection/$slug': typeof AuthenticatedCollectionSlugRoute
   '/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/_authenticated/collection/$slug': typeof AuthenticatedCollectionSlugRoute
   '/_authenticated/read/$id': typeof AuthenticatedReadIdRoute
   '/api/drive/$id': typeof ApiDriveIdRouteWithChildren
+  '/api/public/health': typeof ApiPublicHealthRoute
   '/api/drive/$id/epub': typeof ApiDriveIdEpubRoute
   '/api/public/webhooks/cakto': typeof ApiPublicWebhooksCaktoRoute
   '/api/public/webhooks/hotmart': typeof ApiPublicWebhooksHotmartRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/collection/$slug'
     | '/read/$id'
     | '/api/drive/$id'
+    | '/api/public/health'
     | '/api/drive/$id/epub'
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
@@ -269,6 +279,7 @@ export interface FileRouteTypes {
     | '/collection/$slug'
     | '/read/$id'
     | '/api/drive/$id'
+    | '/api/public/health'
     | '/api/drive/$id/epub'
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
@@ -294,6 +305,7 @@ export interface FileRouteTypes {
     | '/_authenticated/collection/$slug'
     | '/_authenticated/read/$id'
     | '/api/drive/$id'
+    | '/api/public/health'
     | '/api/drive/$id/epub'
     | '/api/public/webhooks/cakto'
     | '/api/public/webhooks/hotmart'
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   UpsellRoute: typeof UpsellRoute
   VendasRoute: typeof VendasRoute
   ApiDriveIdRoute: typeof ApiDriveIdRouteWithChildren
+  ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicWebhooksCaktoRoute: typeof ApiPublicWebhooksCaktoRoute
   ApiPublicWebhooksHotmartRoute: typeof ApiPublicWebhooksHotmartRoute
   ApiPublicWebhooksKiwifyRoute: typeof ApiPublicWebhooksKiwifyRoute
@@ -410,6 +423,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/categories'
       preLoaderRoute: typeof AuthenticatedCategoriesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/drive/$id': {
       id: '/api/drive/$id'
@@ -532,6 +552,7 @@ const rootRouteChildren: RootRouteChildren = {
   UpsellRoute: UpsellRoute,
   VendasRoute: VendasRoute,
   ApiDriveIdRoute: ApiDriveIdRouteWithChildren,
+  ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicWebhooksCaktoRoute: ApiPublicWebhooksCaktoRoute,
   ApiPublicWebhooksHotmartRoute: ApiPublicWebhooksHotmartRoute,
   ApiPublicWebhooksKiwifyRoute: ApiPublicWebhooksKiwifyRoute,
