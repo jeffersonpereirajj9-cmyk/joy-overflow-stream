@@ -37,7 +37,7 @@ function BookCardImpl({
           <BookCover
             book={book}
             priority={priority}
-            className={`${HEIGHTS[size]} transition-transform group-active:scale-95`}
+            className={`${HEIGHTS[size]} transition-transform duration-200 group-hover:scale-[1.03] group-hover:shadow-xl group-hover:shadow-primary/20 group-active:scale-95`}
           />
           <button
             type="button"
