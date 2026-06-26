@@ -133,7 +133,7 @@ function ReadPage() {
 
       {epubUrl && (
         <footer className={`flex items-center gap-3 border-t px-4 py-2 text-[10px] ${dark ? "border-white/10 bg-black/40 text-white/60" : "border-black/5 bg-white/70 text-black/60"}`}>
-          <div className="h-1 flex-1 overflow-hidden rounded-full bg-current/20">
+          <div className={`h-1 flex-1 overflow-hidden rounded-full ${dark ? "bg-white/15" : "bg-black/10"}`}>
             <div
               className="h-full rounded-full gradient-primary transition-all"
               style={{ width: `${Math.round(progress * 100)}%` }}
