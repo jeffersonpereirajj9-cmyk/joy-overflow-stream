@@ -15,6 +15,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { ChevronLeft, Heart, Download, Star, Loader2 } from "lucide-react";
 import { downloadFileFromUrl } from "@/lib/epub";
 import { getBookDownloadOption } from "@/lib/book-downloads";
+import { trackDownload } from "@/hooks/useReadingActivity";
 import { toast } from "sonner";
 
 const findBook = (id: string) =>
@@ -108,6 +109,7 @@ function BookPage() {
       toast.success("Download concluído", {
         description: "Veja abaixo como enviar para o Kindle.",
       });
+      trackDownload(book.id);
     } catch (err) {
       toast.error("Falha no download", {
         description: "Não conseguimos baixar agora. Tente novamente em alguns segundos.",
