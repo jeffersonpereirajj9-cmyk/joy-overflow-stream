@@ -23,7 +23,9 @@ export function BottomNav() {
               <li key={to} className="flex-1">
                 <Link
                   to={to}
-                  className={`group relative flex flex-col items-center justify-center gap-0.5 rounded-2xl py-2 text-[10px] transition-all duration-300 ${
+                  aria-label={label}
+                  aria-current={active ? "page" : undefined}
+                  className={`group relative flex min-h-11 flex-col items-center justify-center gap-0.5 rounded-2xl py-2 text-[10px] transition-all duration-300 ${
                     active
                       ? "text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground"
