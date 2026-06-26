@@ -9,6 +9,9 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { initSentry, Sentry } from "@/lib/sentry";
+
+initSentry();
 
 function NotFoundComponent() {
   return (
@@ -34,6 +37,7 @@ function NotFoundComponent() {
 
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
+  Sentry.captureException(error);
   const router = useRouter();
 
   return (
