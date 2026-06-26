@@ -41,13 +41,40 @@ function driveEpubUrl(mobiUrl: string) {
 function findDriveCatalogMatch(book: Book): DriveCatalogEntry | undefined {
   const title = normalize(book.title);
   const author = normalize(book.author);
-  if (!title || !author) return undefined;
+  if (!title) return undefined;
 
-  return (driveCatalogJson as DriveCatalogEntry[]).find((entry) => {
+  const catalog = driveCatalogJson as DriveCatalogEntry[];
+  const authorTokens = author ? author.split(" ").filter((t) => t.length >= 3) : [];
+  const lastName = authorTokens[authorTokens.length - 1];
+
+  // 1) exact title + author contains
+  let match = catalog.find((entry) => {
     const fileText = normalize(`${entry.n} ${entry.t} ${entry.a}`);
-    const exactTitle = normalize(entry.t) === title;
-    return (exactTitle || fileText.includes(title)) && fileText.includes(author);
+    return normalize(entry.t) === title && (!author || fileText.includes(author));
   });
+  if (match) return match;
+
+  // 2) exact title + author last name
+  if (lastName) {
+    match = catalog.find((entry) => {
+      const fileText = normalize(`${entry.n} ${entry.t} ${entry.a}`);
+      return normalize(entry.t) === title && fileText.includes(lastName);
+    });
+    if (match) return match;
+  }
+
+  // 3) title contained anywhere + author (or last name)
+  match = catalog.find((entry) => {
+    const fileText = normalize(`${entry.n} ${entry.t} ${entry.a}`);
+    return (
+      fileText.includes(title) &&
+      (!author || fileText.includes(author) || (lastName && fileText.includes(lastName)))
+    );
+  });
+  if (match) return match;
+
+  // 4) exact title only (last resort)
+  return catalog.find((entry) => normalize(entry.t) === title);
 }
 
 export function getBookDownloadOption(book: Book): BookDownloadOption | null {
