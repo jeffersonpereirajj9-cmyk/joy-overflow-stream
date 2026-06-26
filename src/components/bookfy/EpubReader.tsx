@@ -110,13 +110,11 @@ export function EpubReader({
       try {
         const ePubMod: any = await import("epubjs");
         const ePub = ePubMod.default ?? ePubMod;
-
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const buf = await res.arrayBuffer();
         if (disposed) return;
 
-        const book = ePub(buf);
+        // Let epub.js stream the archive itself — avoids buffering the entire
+        // file before the first page can render.
+        const book = ePub(url);
         bookRef.current = book;
 
         const container = containerRef.current;
@@ -139,18 +137,21 @@ export function EpubReader({
 
         const saved = localStorage.getItem(storageKey);
         await rendition.display(saved || undefined);
+        if (disposed) return;
+        // First page is on screen — hide the loader immediately.
+        setLoading(false);
 
-        await book.ready;
-        try {
-          const nav = await book.loaded.navigation;
-          tocRef.current = (nav?.toc ?? []).map((t: any) => ({
-            label: String(t.label ?? "").trim(),
-            href: t.href,
-          }));
-          onTocLoaded?.(tocRef.current);
-        } catch {
-          /* noop */
-        }
+        // Non-blocking: navigation (TOC) + locations (progress %) load in the
+        // background so the reader is interactive right away.
+        book.loaded.navigation
+          .then((nav: any) => {
+            tocRef.current = (nav?.toc ?? []).map((t: any) => ({
+              label: String(t.label ?? "").trim(),
+              href: t.href,
+            }));
+            onTocLoaded?.(tocRef.current);
+          })
+          .catch(() => {});
         // Desktop click inside the iframe → treat center as tap-to-toggle chrome
         rendition.on("click", (_e: MouseEvent, contents: any) => {
           try {
@@ -196,11 +197,9 @@ export function EpubReader({
           }
         });
 
-        try {
-          await book.locations.generate(1600);
-        } catch {
-          /* noop */
-        }
+        book.ready
+          .then(() => book.locations.generate(1600))
+          .catch(() => {});
 
         rendition.on("relocated", (loc: any) => {
           const cfi = loc?.start?.cfi as string | undefined;
@@ -267,8 +266,6 @@ export function EpubReader({
           goTo: (target: string) => rendition.display(target),
           toc: () => tocRef.current,
         });
-
-        setLoading(false);
       } catch (err: any) {
         if (!disposed) {
           setError(err?.message ?? "Falha ao abrir o livro");
