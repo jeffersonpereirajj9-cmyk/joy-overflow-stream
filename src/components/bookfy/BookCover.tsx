@@ -18,7 +18,6 @@ function BookCoverImpl({
   const isUrl = (s?: string) => !!s && /^(https?:|\/|data:)/.test(s);
   const staticImage = coverFor(book.id) ?? (isUrl(book.cover) ? book.cover : undefined);
   const [remote, setRemote] = useState<string | null>(null);
-  const [remoteTried, setRemoteTried] = useState(false);
   const wrapRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -30,7 +29,6 @@ function BookCoverImpl({
       fetchBookCover(book.title, book.author).then((url) => {
         if (cancelled) return;
         if (url) setRemote(url);
-        setRemoteTried(true);
       });
     };
     if (priority || typeof IntersectionObserver === "undefined") {
