@@ -54,6 +54,7 @@ function ProfilePage() {
   const [name, setName] = useState("");
   const [editingName, setEditingName] = useState(false);
   const [avatar, setAvatar] = useState<string | null>(null);
+  const [memberSince, setMemberSince] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -62,6 +63,22 @@ function ProfilePage() {
     if (e) {
       setName(window.localStorage.getItem(`bookfy_name:${e}`) ?? "");
       setAvatar(window.localStorage.getItem(`bookfy_avatar:${e}`));
+      const joinKey = `bookfy_joined:${e}`;
+      let joined = window.localStorage.getItem(joinKey);
+      if (!joined) {
+        joined = new Date().toISOString();
+        window.localStorage.setItem(joinKey, joined);
+      }
+      try {
+        setMemberSince(
+          new Date(joined).toLocaleDateString("pt-BR", {
+            month: "long",
+            year: "numeric",
+          }),
+        );
+      } catch {
+        setMemberSince(null);
+      }
     }
   }, []);
 
@@ -141,7 +158,15 @@ function ProfilePage() {
             <Pencil className="h-3.5 w-3.5 text-muted-foreground" />
           </button>
         )}
-        <p className="text-center text-xs text-muted-foreground">{email ?? "Membro desde 2026"}</p>
+        <p className="text-center text-xs text-muted-foreground">
+          {email ?? "Sua conta Bookfy"}
+          {memberSince && (
+            <>
+              <span className="mx-1.5 opacity-50">·</span>
+              <span>Desde {memberSince}</span>
+            </>
+          )}
+        </p>
       </header>
 
       <section className="mt-8 grid grid-cols-3 gap-3 px-4">
