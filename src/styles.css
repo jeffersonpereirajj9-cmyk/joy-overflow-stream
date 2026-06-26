@@ -157,6 +157,17 @@
 
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  @keyframes bookfy-fade-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bookfy-scale-in {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .animate-fade-in { animation: bookfy-fade-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+  .animate-scale-in { animation: bookfy-scale-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both; }
   
   .text-glow-wine {
     text-shadow: 0 0 20px oklch(0.45 0.18 15 / 0.5);
@@ -190,6 +201,19 @@
 @layer base {
   * {
     border-color: var(--color-border);
+  }
+
+  *:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px oklch(0.6 0.22 350 / 0.7);
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 
   body {
