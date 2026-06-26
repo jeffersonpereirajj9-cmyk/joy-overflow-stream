@@ -142,20 +142,7 @@ function ReadPage() {
     };
   }, []);
 
-  // Auto-hide chrome
-  const scheduleHide = useCallback(() => {
-    if (hideTimer.current) clearTimeout(hideTimer.current);
-    hideTimer.current = setTimeout(() => {
-      if (!panel) setChromeOpen(false);
-    }, 3500);
-  }, [panel]);
-  useEffect(() => {
-    if (chromeOpen) scheduleHide();
-    return () => {
-      if (hideTimer.current) clearTimeout(hideTimer.current);
-    };
-  }, [chromeOpen, scheduleHide]);
-
+  // Chrome stays visible by default; user can still toggle manually.
   const toggleChrome = useCallback(() => {
     setChromeOpen((v) => !v);
   }, []);
