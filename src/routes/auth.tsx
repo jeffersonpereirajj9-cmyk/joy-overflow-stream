@@ -118,7 +118,7 @@ function AuthPage() {
     try {
       const result = await checkEmail({ data: { email: clean } });
       if (!result.allowed) {
-        setError("Esse email não consta como comprador. Compre o acesso primeiro.");
+        setError("NO_ACCESS");
         return;
       }
       window.localStorage.setItem("bookfy_email", clean);
@@ -245,8 +245,24 @@ function AuthPage() {
               </>
             )}
           </button>
-          {error && (
+          {error && error !== "NO_ACCESS" && (
             <p className="text-xs text-destructive text-center pt-1">{error}</p>
+          )}
+          {error === "NO_ACCESS" && (
+            <div className="mt-2 rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-center">
+              <p className="text-sm font-semibold text-foreground">
+                Esse email ainda não tem acesso.
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Garanta seu acesso ao Bookfy por apenas R$ 47/ano.
+              </p>
+              <Link
+                to="/vendas"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-primary py-3 text-sm font-semibold text-primary-foreground shadow-md shadow-primary/20"
+              >
+                Quero meu acesso agora
+              </Link>
+            </div>
           )}
           <p className="pt-4 text-center text-xs text-muted-foreground">
             Ainda não comprou?{" "}
