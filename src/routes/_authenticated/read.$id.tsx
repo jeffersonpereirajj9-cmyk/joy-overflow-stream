@@ -466,7 +466,16 @@ function ReadPage() {
                           apiRef.current?.goTo(item.href);
                           setPanel(null);
                         }}
-                        className="w-full rounded-xl px-3 py-2.5 text-left text-sm transition hover:bg-black/5"
+                        className="w-full rounded-xl px-3 py-2.5 text-left text-sm transition"
+                        style={{ background: "transparent" }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background = isDark
+                            ? "#ffffff10"
+                            : "#00000008";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLButtonElement).style.background = "transparent";
+                        }}
                       >
                         {item.label || "(sem título)"}
                       </button>
