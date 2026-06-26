@@ -54,7 +54,7 @@ function ReadPage() {
   const book = findBook(id)!;
 
   const [fontSize, setFontSize] = useState(18);
-  const [theme, setTheme] = useState<ReaderTheme>("dark");
+  const [theme, setTheme] = useState<ReaderTheme>("sepia");
   const [fontFamily, setFontFamily] = useState<ReaderFont>("serif");
   const [lineHeight, setLineHeight] = useState(1.7);
   const [progress, setProgress] = useState<ReaderProgress>({
