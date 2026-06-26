@@ -29,6 +29,7 @@ type Props = {
   onProgress?: (p: ReaderProgress) => void;
   onReady?: (api: ReaderApi) => void;
   onTapCenter?: () => void;
+  onTocLoaded?: (toc: Array<{ label: string; href: string }>) => void;
 };
 
 const FONT_STACKS: Record<ReaderFont, string> = {
