@@ -16,6 +16,7 @@ import type { Book } from "@/data/books";
 import { ChevronRight, Search, Sparkles } from "lucide-react";
 import { LazyMount } from "@/components/bookfy/LazyMount";
 import { ContinueReading } from "@/components/bookfy/ContinueReading";
+import { InstallAppButton } from "@/components/bookfy/InstallAppButton";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -63,6 +64,8 @@ function Home() {
           <Search className="h-4 w-4 text-foreground" />
           <span>Buscar título, autora ou categoria...</span>
         </Link>
+
+        <InstallAppButton />
 
         <div className="relative mt-6 overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary via-rose-800 to-black p-5 shadow-xl shadow-primary/20">
           <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-accent/30 blur-3xl" />
